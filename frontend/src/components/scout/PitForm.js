@@ -4,7 +4,7 @@ import {
     Grid, Paper, Typography, AutocompleteRenderInputParams, MenuItem, Rating
 } from "@mui/material";
 import MuiTextField from '@mui/material/TextField';
-import {Field, Formik} from "formik";
+import {Field, FieldArray, Formik} from "formik";
 import * as yup from "yup";
 import {useEffect, useState} from "react";
 import TeamDataService from "../../services/team";
@@ -46,9 +46,8 @@ const PitForm = () => {
         <Formik initialValues={{
             team: '',
             climbHeight: 'none',
-            autoCargoScoredHigh: 0,
-            autoCargoScoredLow: 0,
             autoOffLine: false,
+            autoRoutines: [],
             canShootInLow: false,
             canShootInHigh: false,
             wiringOrganization: 0,
@@ -56,7 +55,7 @@ const PitForm = () => {
             redFlags: "",
             notes: "",
         }}
-                onSubmit={(values, { setSubmitting, resetForm } ) => {
+                onSubmit={(values, {setSubmitting, resetForm}) => {
 
                     console.log(JSON.stringify(values))
                     alert(JSON.stringify(values, null, 2))
@@ -131,46 +130,32 @@ const PitForm = () => {
                             </Field>
 
 
-
                             <FormControlLabel
                                 control={
-                                    <Field component={Checkbox} type="checkbox" name="canShootInLow" />
+                                    <Field component={Checkbox} type="checkbox" name="canShootInLow"/>
                                 }
                                 label="Can Shoot In Low"
                                 disabled={isSubmitting}
                             />
                             <FormControlLabel
                                 control={
-                                    <Field component={Checkbox} type="checkbox" name="canShootInHigh" />
+                                    <Field component={Checkbox}  type="checkbox" name="canShootInHigh"/>
                                 }
                                 label="Can Shoot In High"
                                 disabled={isSubmitting}
                             />
-                            <FormControlLabel
-                                control={
-                                    <Field component={Checkbox} type="checkbox" name="autoOffLine" />
-                                }
-                                label="Moves Off Line In Auto"
-                                disabled={isSubmitting}
-                            />
-                            <Field
-                                component={TextField}
-                                name="autoCargoScoredHigh"
-                                type="number"
-                                label="Cargo Scored In High With Auto"
-                                margin={"normal"}
-                                inputProps={{ min: 0, max: 7 }}
-                            />
-                            <Field
-                                component={TextField}
-                                name="autoCargoScoredLow"
-                                type="number"
-                                label="Cargo Scored In Low With Auto"
-                                margin={"normal"}
-                                inputProps={{ min: 0, max: 7 }}
-                            />
+                            {/*<FieldArray value={{values.autoRoutines}} name={"autoRoutines"}>*/}
+                            {/*    {({push, remove}) => (*/}
+                            {/*        {*/}
+                            {/*            ((_, index) => (*/}
+
+                            {/*            ))*/}
+                            {/*        }*/}
+                            {/*    )}*/}
+                            {/*</FieldArray>*/}
                             <FormLabel disabled={isSubmitting}>Wiring Organization</FormLabel>
-                            <Rating name={"wiringOrganization"} value={values.wiringOrganization} onChange={handleChange} disabled={isSubmitting}/>
+                            <Rating name={"wiringOrganization"} value={values.wiringOrganization}
+                                    onChange={handleChange} disabled={isSubmitting}/>
 
                             <Field
                                 component={TextField}
@@ -178,7 +163,7 @@ const PitForm = () => {
                                 type="number"
                                 label="Experience In Years"
                                 margin={"normal"}
-                                inputProps={{ min: 0, max: 99 }}
+                                inputProps={{min: 0, max: 99}}
                             />
                             <Field
                                 component={TextField}
@@ -200,7 +185,7 @@ const PitForm = () => {
                                 maxRows={4}
                             />
                         </FormGroup>
-                        <Button type={"submit"} >Submit</Button>
+                        <Button type={"submit"}>Submit</Button>
                     </Paper>
 
                 </form>)}

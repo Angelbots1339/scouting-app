@@ -8,11 +8,13 @@ import {
     IconButton, makeStyles,
     Paper,
     Switch,
-    Typography
+    Typography,
+    TextField, MenuItem, Select, FormHelperText, InputLabel, FormControl
 } from "@mui/material";
 import React from "react";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import {Field} from "formik";
 
 
 const GameForm = () => {
@@ -95,7 +97,8 @@ const GameForm = () => {
                     <FormControlLabel control={<Switch/>} label={"Two Shot"} checked={datum.cargoShot === 2}
                                       onChange={onChangeCycleCargoShot(index)}/>
 
-                    <FormControlLabel control={<Switch/>} disabled={datum.cargoShot !== 2} label={"Two Made"} checked={datum.cargoScored === 2}
+                    <FormControlLabel control={<Switch/>} disabled={datum.cargoShot !== 2} label={"Two Made"}
+                                      checked={datum.cargoScored === 2}
                                       onChange={onChangeCycleCargoScored(index)}/>
 
                     <FormControlLabel control={<Switch/>} label={"Upper"} checked={datum.HighGoal}
@@ -105,7 +108,7 @@ const GameForm = () => {
                         Time: {formatTime(datum.cycleTime)}
                     </Typography>
 
-                    <IconButton onClick={onRemoveCycle(index)} >
+                    <IconButton onClick={onRemoveCycle(index)}>
                         <RemoveIcon/>
                     </IconButton>
                 </Grid>
@@ -135,11 +138,10 @@ const GameForm = () => {
     const ScoreCounter = (props) => {
 
         const onAdd = () => {
-            if(!props.maxValue){
+            if (!props.maxValue) {
                 props.setScore(props.value + 1);
-            }
-            else {
-                if(props.value < props.maxValue){
+            } else {
+                if (props.value < props.maxValue) {
                     props.setScore(props.value + 1);
                 }
             }
@@ -154,14 +156,15 @@ const GameForm = () => {
         return (<Grid item>
             <Paper sx={{
                 height: 70,
-                width: 120, p: 0.1, m: 0.3}}>
+                width: 120, p: 0.1, m: 0.3
+            }}>
                 <Typography display={"inline"} variant={"subtitle1"}>{`${props.name}: ${props.value}`}</Typography>
                 <Grid container>
                     <IconButton onClick={onAdd}>
                         <AddIcon/>
                     </IconButton>
                     <IconButton onClick={onMinus}>
-                        <RemoveIcon />
+                        <RemoveIcon/>
                     </IconButton>
                 </Grid>
             </Paper>
@@ -184,13 +187,29 @@ const GameForm = () => {
             setIsTimerStart(true)
         }
     }
+    //------Form------
+    const [isDefultClimb, setIsDefultClimb] = useState(true);
+    const handleSubmit = () => {
+        const values =
+            {
+                cycles: [...cycleList],
+                cargoShotLow,
+                cargoShotHigh,
+                cargoScoredLow,
+                cargoScoredHigh
+            }
+        alert(JSON.stringify(values, null, 2))
+    }
+    const onChangeIsDefaultClimb = (Event) => {
+      setIsDefultClimb(Event.target.checked);
+    }
 
 
     //-----JSX-----
     return (
         <div>
             <Paper sx={{m: 1, p: 1}}>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <FormGroup>
                         <div>
                             <Typography variant={"h4"}> 1339</Typography>
@@ -214,7 +233,8 @@ const GameForm = () => {
                                       cycleValue={cycleList.length ? cycleList.reduce(function (acc, current) {
                                           return acc + (current.HighGoal ? current.cargoShot : 0);
                                       }, 0) : 0}/>
-                        <ScoreCounter maxValue={cargoShotHigh} name={"Scored High"} value={cargoScoredHigh} setScore={setCargoScoredHigh}
+                        <ScoreCounter maxValue={cargoShotHigh} name={"Scored High"} value={cargoScoredHigh}
+                                      setScore={setCargoScoredHigh}
                                       cycleValue={cycleList.length ? cycleList.reduce(function (acc, current) {
                                           return acc + (current.HighGoal ? current.cargoScored : 0);
                                       }, 0) : 0}/>
@@ -222,11 +242,51 @@ const GameForm = () => {
                                       cycleValue={cycleList.length ? cycleList.reduce(function (acc, current) {
                                           return acc + (!current.HighGoal ? current.cargoShot : 0);
                                       }, 0) : 0}/>
-                        <ScoreCounter maxValue={cargoShotLow} name={"Scored low"} value={cargoScoredLow} setScore={setCargoScoredLow}
+                        <ScoreCounter maxValue={cargoShotLow} name={"Scored low"} value={cargoScoredLow}
+                                      setScore={setCargoScoredLow}
                                       cycleValue={cycleList.length ? cycleList.reduce(function (acc, current) {
                                           return acc + (!current.HighGoal ? current.cargoScored : 0);
                                       }, 0) : 0}/>
                     </Grid>
+                    <FormGroup>
+
+                        <FormControlLabel control={<Checkbox  checked={isDefultClimb}/>} label={"Climbed: Loading..."} onChange={onChangeIsDefaultClimb}/>
+                        {!isDefultClimb &&
+                            <FormControl variant={"standard"}>
+                            <InputLabel id="climb-label">Climb</InputLabel>
+                            <Select
+                                labelId="climb-label"
+                                id="Climb"
+                                label="Age"
+                            >
+                                <MenuItem value="None">
+                                    <em>None</em>
+                                </MenuItem>
+                                <MenuItem value={10}>Ten</MenuItem>
+                                <MenuItem value={20}>Twenty</MenuItem>
+                                <MenuItem value={30}>Thirty</MenuItem>
+                            </Select>
+                            <FormHelperText>Select Climb</FormHelperText>
+                        </FormControl>}
+                        <TextField
+                            name="notes"
+                            type="text"
+                            label="Notes"
+                            margin={"normal"}
+                            multiline
+                            maxRows={4}
+                        />
+
+                        <TextField
+                            name="redFlags"
+                            type="text"
+                            label="RedFlags"
+                            margin={"normal"}
+                            multiline
+                            maxRows={4}
+                        />
+                    </FormGroup>
+                    <Button type={"submit"}>Ready</Button>
                 </form>
 
             </Paper>

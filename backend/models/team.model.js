@@ -15,17 +15,7 @@ const pitScout = new mongoose.Schema({
         type: String,
         required: true
     },
-    autoCargoScoredHigh:{
-        type: String,
-        required: true
-    },
-    autoCargoScoredLow:{
-        type: String,
-        required: true
-    },
-    autoOffLine:{
-        type: Boolean
-    },
+
     canShootInLow:{
         type: Boolean
     },
@@ -41,6 +31,12 @@ const pitScout = new mongoose.Schema({
 })
 const gameScout = new mongoose.Schema({
     pointsScored: Number
+})
+const autoRoutine = new mongoose.Schema({
+    position: Number,
+    cargoLow: Number,
+    cargoHigh: Number,
+    offLine: Boolean
 })
 const teamSchema = new mongoose.Schema({
     _id: Number,
