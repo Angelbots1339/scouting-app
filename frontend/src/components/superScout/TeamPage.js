@@ -1,6 +1,6 @@
 import TeamDataService from "../../services/team";
 import { useEffect, useState } from "react";
-import { Rating, Typography } from "@mui/material";
+import { CssBaseline } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { mainTheme } from "../../theme";
 import { ThemeProvider } from "@emotion/react";
@@ -32,6 +32,7 @@ function TeamPage() {
 
     return (
         <ThemeProvider theme={theme}>
+            <CssBaseline/>
             <div>
                 <h1>{teamNumber}</h1>
                 <h2>{`notes: ${team?.notes || ""}`}</h2>

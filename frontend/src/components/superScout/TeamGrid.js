@@ -1,5 +1,5 @@
 import {DataGrid} from "@mui/x-data-grid";
-import {Button, Rating} from "@mui/material";
+import {Button, Rating, CssBaseline} from "@mui/material";
 import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
 import TeamDataService from "../../services/team";
@@ -35,8 +35,9 @@ function TeamGrid(){
     }, [])
     return (
         <ThemeProvider theme={theme}>
-        <div style={{ height: 400, width: "100%" }}>
-            <DataGrid rows={data || []} columns={columns} getRowId={(row) => row._id} pageSize={15}/>
+            <CssBaseline/>
+        <div style={{ height: 400, width: "100%", backgroundColor: "#606060"}}>
+            <DataGrid rows={data || []} columns={columns} getRowId={(row) => row._id} pageSize={15} sx={{marginTop:15}}/>
         </div>
         </ThemeProvider>
     );

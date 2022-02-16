@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { Button, ButtonGroup, CssBaseline } from "@mui/material";
+import { AppBar, Button, ButtonGroup, CssBaseline } from "@mui/material";
 import { color } from "@mui/system";
 import { blue, red, orange } from "@mui/material/colors";
 import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles';
@@ -17,36 +17,36 @@ export default function SuperScoutPage() {
 
     return (
 
-        
+
         <ThemeProvider theme={theme} >
-            <CssBaseline/>
-            
-
-                <div >
+            <CssBaseline />
 
 
+            <div >
 
 
 
-                    <ButtonGroup variant={"contained"} sx={{ m: 2 }} >
-                        <Button component={Link} to={'/superScout/pitForm'}>Scout</Button>
-                        <Button component={Link} to={'/superScout/teamGrid'}>Team Grid</Button>
-                        <Button component={Link} to={'/'}>Home</Button>
+                <div style={{width: "auto", alignItems:"center"}}>
+                    <AppBar style={{display: "flex", alignItems:"center", width:"100"}}>
 
-                    </ButtonGroup>
+                        <img src="../../logo200.png" style={{ width: 60, height: 60, borderRadius: 10 }} sx={{ p: 5 }, { m: 5 }} />
+                        <ButtonGroup variant={"contained"}>
+                            <Button component={Link} to={'/superScout/pitForm'}>Scout</Button>
+                            <Button component={Link} to={'/superScout/teamGrid'}>Team Grid</Button>
+                            <Button component={Link} to={'/'}>Home</Button>
 
-                    <hr style={{
-                        color: '#a80000',
-                        backgroundColor: '#a80000',
-                        height: 10,
-                        borderColor: '#a80000'
-                    }} />
-
-
-
-                    <Outlet />
+                        </ButtonGroup>
+                    </AppBar>
 
                 </div>
+
+               
+
+
+
+                <Outlet/>
+
+            </div>
 
         </ThemeProvider>
     );

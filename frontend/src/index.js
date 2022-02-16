@@ -10,7 +10,8 @@ import TeamPage from "./components/superScout/TeamPage";
 import TeamGrid from "./components/superScout/TeamGrid";
 import GameForm from "./components/scout/GameForm";
 import { mainTheme } from "./theme";
-import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
+import {CssBaseline} from '@mui/material'
 
 
 const theme = mainTheme;
@@ -18,6 +19,7 @@ const theme = mainTheme;
 
 ReactDOM.render(
     <ThemeProvider theme={theme} >
+        <CssBaseline/>
     <BrowserRouter>
         <Routes>
             <Route path="/" element={<App />} />

@@ -1,7 +1,7 @@
 import {
     Button,
     FormControl, FormControlLabel, FormGroup, FormHelperText, FormLabel,
-    Grid, Paper, Typography, AutocompleteRenderInputParams, MenuItem, Rating, ButtonGroup
+    Grid, Paper, Typography, AutocompleteRenderInputParams, MenuItem, Rating, ButtonGroup, CssBaseline
 } from "@mui/material";
 import MuiTextField from '@mui/material/TextField';
 import { Field, FieldArray, Formik } from "formik";
@@ -51,12 +51,7 @@ const PitForm = () => {
 
     return (
         <ThemeProvider theme={theme}>
-
-        <ButtonGroup>
-
-        <Button component={Link} to={'/'}>Home</Button>
-
-        </ButtonGroup>
+            <CssBaseline/>
 
         <Formik initialValues={{
             team: '',
@@ -99,8 +94,8 @@ const PitForm = () => {
                 /* and other goodies */
             }) => (
                 <form onSubmit={handleSubmit}>
-                    <Paper>
-                        <FormGroup>
+                    <Paper sx={{marginTop:5}}>
+                        <FormGroup sx={{p:10}}>
                             <Field
                                 name={"team"}
                                 type={"team"}
@@ -191,7 +186,7 @@ const PitForm = () => {
                         }} />
 
 
-                        <FormGroup>
+                        <FormGroup  sx={{p:10}}>
 
                             {/*<FieldArray value={{values.autoRoutines}} name={"autoRoutines"}>*/}
                             {/*    {({push, remove}) => (*/}
@@ -250,7 +245,7 @@ const PitForm = () => {
 
                             />
                         </FormGroup>
-                        <Button type={"submit"} color="secondary">Submit</Button>
+                        <Button type={"submit"} color="primary" variant="contained" sx={{m:5}}>Submit</Button>
                     </Paper>
 
                 </form>)}
