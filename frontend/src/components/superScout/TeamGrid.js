@@ -3,6 +3,9 @@ import {Button, Rating} from "@mui/material";
 import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
 import TeamDataService from "../../services/team";
+import { ThemeProvider } from "@emotion/react";
+import { mainTheme} from "../../theme";
+
 
 const columns = [
     {field: '_id', headerName: 'Team', width: 150, renderCell: (params) => (<Button component={Link} to={`/superscout/${params.value}`}>{params.value}</Button>)},
@@ -15,6 +18,8 @@ const columns = [
 function renderRating(params) {
     return <Rating readOnly value={params.value} />;
 }
+
+const theme = mainTheme;
 
 
 function TeamGrid(){
@@ -29,9 +34,11 @@ function TeamGrid(){
         updateData();
     }, [])
     return (
+        <ThemeProvider theme={theme}>
         <div style={{ height: 400, width: "100%" }}>
             <DataGrid rows={data || []} columns={columns} getRowId={(row) => row._id} pageSize={15}/>
         </div>
+        </ThemeProvider>
     );
 }
 export default TeamGrid;

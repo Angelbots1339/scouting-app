@@ -16,7 +16,7 @@ try {
     );
 
 } catch (e) {
-    console.log("could not connect");
+    console.log("could not connect" + e);
 }
 finally {
     app.listen(port, () => {

@@ -1,14 +1,21 @@
 import {
     Button,
     FormControl, FormControlLabel, FormGroup, FormHelperText, FormLabel,
-    Grid, Paper, Typography, AutocompleteRenderInputParams, MenuItem, Rating
+    Grid, Paper, Typography, AutocompleteRenderInputParams, MenuItem, Rating, ButtonGroup
 } from "@mui/material";
 import MuiTextField from '@mui/material/TextField';
-import {Field, FieldArray, Formik} from "formik";
+import { Field, FieldArray, Formik } from "formik";
 import * as yup from "yup";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import TeamDataService from "../../services/team";
-import {TextField, Autocomplete, Select, RadioGroup, Checkbox, rating} from 'formik-mui';
+import { TextField, Autocomplete, Select, RadioGroup, Checkbox, rating } from 'formik-mui';
+import { blue } from "@mui/material/colors";
+import { mainTheme} from "../../theme";
+import { ThemeProvider } from "@emotion/react";
+import { Link } from "react-router-dom";
+
+
+const theme = mainTheme;
 
 const validationSchema = yup.object({
     team: yup.string().required("Team Number Required").nullable(),
@@ -43,6 +50,14 @@ const PitForm = () => {
 
 
     return (
+        <ThemeProvider theme={theme}>
+
+        <ButtonGroup>
+
+        <Button component={Link} to={'/'}>Home</Button>
+
+        </ButtonGroup>
+
         <Formik initialValues={{
             team: '',
             climbHeight: 'none',
@@ -50,36 +65,39 @@ const PitForm = () => {
             autoRoutines: [],
             canShootInLow: false,
             canShootInHigh: false,
+            driveTrainType: '',
+            areUsingFalcons: false,
             wiringOrganization: 0,
             experienceInYears: 0,
             redFlags: "",
             notes: "",
+            flagTeam: false
         }}
-                onSubmit={(values, {setSubmitting, resetForm}) => {
+            onSubmit={(values, { setSubmitting, resetForm }) => {
 
-                    console.log(JSON.stringify(values))
-                    alert(JSON.stringify(values, null, 2))
-                    let teamNumber = values.team;
-                    delete values.team
-                    // TeamDataService.updateTeam(teamNumber, {
-                    //     "isPitScouted": true,
-                    //     "pitScout": values
-                    // })
-                    resetForm();
-                }}
+                console.log(JSON.stringify(values))
+                alert(JSON.stringify(values, null, 2))
+                let teamNumber = values.team;
+                delete values.team
+                // TeamDataService.updateTeam(teamNumber, {
+                //     "isPitScouted": true,
+                //     "pitScout": values
+                // })
+                resetForm();
+            }}
 
-                validationSchema={validationSchema}
+            validationSchema={validationSchema}
         >
             {({
-                  values,
-                  errors,
-                  touched,
-                  handleChange,
-                  handleBlur,
-                  handleSubmit,
-                  isSubmitting,
-                  /* and other goodies */
-              }) => (
+                values,
+                errors,
+                touched,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                isSubmitting,
+                /* and other goodies */
+            }) => (
                 <form onSubmit={handleSubmit}>
                     <Paper>
                         <FormGroup>
@@ -90,7 +108,7 @@ const PitForm = () => {
 
                                 options={allTeams || ['...Loading']}
                                 getOptionDisabled={isTeamScouted}
-                                sx={{width: 300}}
+                                sx={{ width: 300 }}
                                 isOptionEqualToValue={(option, value) => {
                                     if (value === "" || value === option || value === `undefined`) {
                                         return true;
@@ -104,6 +122,7 @@ const PitForm = () => {
                                         helperText={touched['team'] && errors['team']}
                                         label="team"
                                         variant="outlined"
+                                        color="secondary"
                                     />
                                 )}
                             />
@@ -116,6 +135,7 @@ const PitForm = () => {
                                 variant="standard"
                                 helperText="Please select Climb"
                                 margin="normal"
+                                color="secondary"
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -132,18 +152,47 @@ const PitForm = () => {
 
                             <FormControlLabel
                                 control={
-                                    <Field component={Checkbox} type="checkbox" name="canShootInLow"/>
+                                    <Field component={Checkbox} type="checkbox" name="canShootInLow" color="secondary"/>
                                 }
                                 label="Can Shoot In Low"
                                 disabled={isSubmitting}
                             />
                             <FormControlLabel
                                 control={
-                                    <Field component={Checkbox}  type="checkbox" name="canShootInHigh"/>
+                                    <Field component={Checkbox} type="checkbox" name="canShootInHigh" color="secondary" />
                                 }
                                 label="Can Shoot In High"
                                 disabled={isSubmitting}
                             />
+
+                            <Field
+                                component={TextField}
+                                name="driveTrainType"
+                                type="text"
+                                label="Drive Train Type"
+                                margin={"normal"}
+                                inputProps={{ min: 0, max: 99 }}
+                                color="secondary"
+                            />
+                            <FormControlLabel
+                                control={
+                                    <Field component={Checkbox} type="checkbox" name="areUsingFalcons" color="secondary"/>
+                                }
+                                label="Are They Using Falcons?"
+                                disabled={isSubmitting}
+                            />
+                        </FormGroup>
+
+                        <hr style={{
+                            color: '#a80000',
+                            backgroundColor: '#a80000',
+                            height: 10,
+                            borderColor: '#a80000'
+                        }} />
+
+
+                        <FormGroup>
+
                             {/*<FieldArray value={{values.autoRoutines}} name={"autoRoutines"}>*/}
                             {/*    {({push, remove}) => (*/}
                             {/*        {*/}
@@ -155,7 +204,7 @@ const PitForm = () => {
                             {/*</FieldArray>*/}
                             <FormLabel disabled={isSubmitting}>Wiring Organization</FormLabel>
                             <Rating name={"wiringOrganization"} value={values.wiringOrganization}
-                                    onChange={handleChange} disabled={isSubmitting}/>
+                                onChange={handleChange} disabled={isSubmitting} />
 
                             <Field
                                 component={TextField}
@@ -163,7 +212,10 @@ const PitForm = () => {
                                 type="number"
                                 label="Experience In Years"
                                 margin={"normal"}
-                                inputProps={{min: 0, max: 99}}
+                                inputProps={{ min: 0, max: 99 }}
+                                disabled={isSubmitting}
+                                color="secondary"
+
                             />
                             <Field
                                 component={TextField}
@@ -173,6 +225,9 @@ const PitForm = () => {
                                 margin={"normal"}
                                 multiline
                                 maxRows={4}
+                                disabled={isSubmitting}
+                                color="secondary"
+
                             />
 
                             <Field
@@ -183,14 +238,26 @@ const PitForm = () => {
                                 margin={"normal"}
                                 multiline
                                 maxRows={4}
+                                disabled={isSubmitting}
+                                color="secondary"
+
+                            />
+                            <FormControlLabel
+                                control={
+                                    <Field component={Checkbox} type="checkbox" name="flagTeam" color="secondary"/>
+                                }
+                                label="Flag Team"
+
                             />
                         </FormGroup>
-                        <Button type={"submit"}>Submit</Button>
+                        <Button type={"submit"} color="secondary">Submit</Button>
                     </Paper>
 
                 </form>)}
 
         </Formik>
+
+        </ThemeProvider>
 
     );
 }

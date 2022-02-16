@@ -22,11 +22,20 @@ const pitScout = new mongoose.Schema({
     canShootInHigh:{
         type: Boolean
     },
+    driveTrainType:{
+        type: String,
+    },
+    areUsingFalcons:{
+        type: Boolean,
+    },
     redFlags:{
         type: String,
     },
     notes:{
         type: String
+    },
+    flagTeam:{
+        type: Boolean
     }
 })
 const gameScout = new mongoose.Schema({

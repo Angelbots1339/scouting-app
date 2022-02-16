@@ -9,8 +9,15 @@ import PitForm from "./components/scout/PitForm";
 import TeamPage from "./components/superScout/TeamPage";
 import TeamGrid from "./components/superScout/TeamGrid";
 import GameForm from "./components/scout/GameForm";
+import { mainTheme } from "./theme";
+import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles';
+
+
+const theme = mainTheme;
+
 
 ReactDOM.render(
+    <ThemeProvider theme={theme} >
     <BrowserRouter>
         <Routes>
             <Route path="/" element={<App />} />
@@ -21,9 +28,11 @@ ReactDOM.render(
             <Route path="superscout" element={<SuperScoutPage />}>
                 <Route path={":teamNumber"} element={<TeamPage/>}/>
                 <Route path={"teamGrid"} element={<TeamGrid/>}/>
+                <Route path={"pitform"} element={<PitForm/>}/>
             </Route>
         </Routes>
-    </BrowserRouter>,
+    </BrowserRouter>
+    </ThemeProvider>,
   document.getElementById('root')
 );
 
