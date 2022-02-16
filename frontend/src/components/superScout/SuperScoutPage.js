@@ -1,10 +1,11 @@
 import { Outlet } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { Button, ButtonGroup } from "@mui/material";
+import { Button, ButtonGroup, CssBaseline } from "@mui/material";
 import { color } from "@mui/system";
 import { blue, red, orange } from "@mui/material/colors";
 import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles';
 import { mainTheme } from "../../theme";
+
 
 export default function SuperScoutPage() {
 
@@ -18,7 +19,7 @@ export default function SuperScoutPage() {
 
         
         <ThemeProvider theme={theme} >
-
+            <CssBaseline/>
             
 
                 <div >
