@@ -1,14 +1,16 @@
 import {
     Button,
     FormControl, FormControlLabel, FormGroup, FormHelperText, FormLabel,
-    Grid, Paper, Typography, AutocompleteRenderInputParams, MenuItem, Rating
+    Grid, Paper, Typography, AutocompleteRenderInputParams, MenuItem, Rating, IconButton
 } from "@mui/material";
 import MuiTextField from '@mui/material/TextField';
+import MuiCheckBox from '@mui/material/Checkbox';
 import {Field, FieldArray, Formik} from "formik";
 import * as yup from "yup";
 import {useEffect, useState} from "react";
 import TeamDataService from "../../services/team";
 import {TextField, Autocomplete, Select, RadioGroup, Checkbox, rating} from 'formik-mui';
+import {Add, Remove} from "@mui/icons-material";
 
 const validationSchema = yup.object({
     team: yup.string().required("Team Number Required").nullable(),
@@ -139,23 +141,60 @@ const PitForm = () => {
                             />
                             <FormControlLabel
                                 control={
-                                    <Field component={Checkbox}  type="checkbox" name="canShootInHigh"/>
+                                    <Field component={Checkbox} type="checkbox" name="canShootInHigh"/>
                                 }
                                 label="Can Shoot In High"
                                 disabled={isSubmitting}
                             />
-                            {/*<FieldArray value={{values.autoRoutines}} name={"autoRoutines"}>*/}
-                            {/*    {({push, remove}) => (*/}
-                            {/*        {*/}
-                            {/*            ((_, index) => (*/}
+                            <Typography variant={"h6"}>Auto Routes</Typography>
+                            <FieldArray name={"autoRoutines"} render={
+                                arrayHelpers => (
+                                    <div>
+                                        {values.autoRoutines.map((auto, index) => (
 
-                            {/*            ))*/}
-                            {/*        }*/}
-                            {/*    )}*/}
-                            {/*</FieldArray>*/}
+                                            <Paper key={index} sx={{m:0.2}}>
+                                                <Grid container>
+                                                    <Field name={`autoRoutines[${index}].position`} component={TextField} type="number"
+                                                           label="Position"
+                                                           margin={"normal"}
+                                                           inputProps={{min: 1, max: 4}}/>
+                                                    <Field name={`autoRoutines[${index}].cargoLow`} component={TextField} type="number"
+                                                           label="Cargo Low"
+                                                           margin={"normal"}
+                                                           inputProps={{min: 0, max: 5}}/>
+                                                    <Field name={`autoRoutines[${index}].cargoHigh`} component={TextField} type="number"
+                                                           label="Cargo High"
+                                                           margin={"normal"}
+                                                           inputProps={{min: 0, max: 5}}/>
+                                                    <FormControlLabel
+                                                        control={
+                                                            <Field component={Checkbox}  type="checkbox" name={`autoRoutines[${index}].offLine`}/>
+                                                        }
+                                                        label="Off Start Line"
+                                                    />
+
+
+                                                <IconButton type={"button"} onClick={() => arrayHelpers.remove(index)} ><Remove /></IconButton>
+                                                </Grid>
+                                            </Paper>
+
+                                        ))}
+                                        <Button type={"button"} variant={"outlined"} onClick={() => arrayHelpers.push({
+                                            position: 1,
+                                            cargoLow: 0,
+                                            cargoHigh: 0,
+                                            offLine: false
+                                        }
+                                        )}>
+                                            Add
+                                        </Button>
+                                    </div>
+                                )
+                            }/>
                             <FormLabel disabled={isSubmitting}>Wiring Organization</FormLabel>
                             <Rating name={"wiringOrganization"} value={values.wiringOrganization}
                                     onChange={handleChange} disabled={isSubmitting}/>
+
 
                             <Field
                                 component={TextField}

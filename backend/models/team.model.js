@@ -1,5 +1,11 @@
 import mongoose from "mongoose";
 
+const autoRoutine = new mongoose.Schema({
+    position: Number,
+    cargoLow: Number,
+    cargoHigh: Number,
+    offLine: Boolean
+})
 const pitScout = new mongoose.Schema({
     experienceInYears: {
         type: Number,
@@ -14,6 +20,9 @@ const pitScout = new mongoose.Schema({
     climbHeight:{
         type: String,
         required: true
+    },
+    autoRoutines:{
+        type:[autoRoutine]
     },
 
     canShootInLow:{
@@ -32,12 +41,7 @@ const pitScout = new mongoose.Schema({
 const gameScout = new mongoose.Schema({
     pointsScored: Number
 })
-const autoRoutine = new mongoose.Schema({
-    position: Number,
-    cargoLow: Number,
-    cargoHigh: Number,
-    offLine: Boolean
-})
+
 const teamSchema = new mongoose.Schema({
     _id: Number,
     isPitScouted: {
