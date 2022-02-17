@@ -15,7 +15,6 @@ import { ThemeProvider } from "@emotion/react";
 import { Link } from "react-router-dom";
 
 
-const theme = mainTheme;
 
 const validationSchema = yup.object({
     team: yup.string().required("Team Number Required").nullable(),
@@ -50,8 +49,7 @@ const PitForm = () => {
 
 
     return (
-        <ThemeProvider theme={theme}>
-            <CssBaseline/>
+       
 
         <Formik initialValues={{
             team: '',
@@ -94,7 +92,7 @@ const PitForm = () => {
                 /* and other goodies */
             }) => (
                 <form onSubmit={handleSubmit}>
-                    <Paper sx={{marginTop:5}}>
+                    <Paper sx={{marginTop:15}}>
                         <FormGroup sx={{p:10}}>
                             <Field
                                 name={"team"}
@@ -176,6 +174,7 @@ const PitForm = () => {
                                 label="Are They Using Falcons?"
                                 disabled={isSubmitting}
                             />
+                            
                         </FormGroup>
 
                         <hr style={{
@@ -252,7 +251,7 @@ const PitForm = () => {
 
         </Formik>
 
-        </ThemeProvider>
+       
 
     );
 }
