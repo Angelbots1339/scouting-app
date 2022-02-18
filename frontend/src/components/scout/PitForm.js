@@ -145,7 +145,7 @@ const PitForm = () => {
                             />
 
                             {/*--------General Robot Info---------*/}
-                            <Typography variant={"h6"}>General Robot Info</Typography>
+                            <Typography variant={"h6"} sx={{marginTop:5}}>General Robot Info</Typography>
 
 
 
