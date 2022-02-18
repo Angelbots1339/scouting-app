@@ -115,8 +115,8 @@ const PitForm = () => {
                 /* and other goodies */
             }) => (
                 <form onSubmit={handleSubmit}>
-                    <Paper sx={{marginTop:15}}>
-                        <FormGroup sx={{p:10}}>
+                    <Paper sx={{marginTop:14}}>
+                        <FormGroup sx={{p:1, m:2}}>
                             <Field
                                 name={"team"}
                                 type={"team"}
@@ -259,7 +259,7 @@ const PitForm = () => {
                                             </Paper>
 
                                         ))}
-                                        <Button type={"button"} variant={"outlined"} onClick={() => arrayHelpers.push({
+                                        <Button type={"button"} variant={"contained"} onClick={() => arrayHelpers.push({
                                             position: 1,
                                             cargoLow: 0,
                                             cargoHigh: 0,
@@ -344,17 +344,7 @@ const PitForm = () => {
 
                             />}
 
-                                disabled={isSubmitting}
-                                color="secondary"
 
-                            />
-                            <FormControlLabel
-                                control={
-                                    <Field component={Checkbox} type="checkbox" name="flagTeam" color="secondary"/>
-                                }
-                                label="Flag Team"
-
-                            />
 
                         </FormGroup>
                         <Button type={"submit"} color="primary" variant="contained" sx={{m:5}}>Submit</Button>

@@ -30,7 +30,6 @@ ReactDOM.render(
             <Route path="superscout" element={<SuperScoutPage />}>
                 <Route path={":teamNumber"} element={<TeamPage/>}/>
                 <Route path={"teamGrid"} element={<TeamGrid/>}/>
-                <Route path={"pitform"} element={<PitForm/>}/>
             </Route>
         </Routes>
     </BrowserRouter>

@@ -1,8 +1,6 @@
 import mongoose from "mongoose";
 
-const gameScout = new mongoose.Schema({
-    pointsScored: Number
-})
+
 const autoRoutine = new mongoose.Schema({
     position: Number,
     cargoLow: Number,
