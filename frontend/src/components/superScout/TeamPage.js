@@ -50,13 +50,15 @@ function TeamPage() {
                     <Grid item xs={10} sx={{ mx: "auto", textAlign: "center" }}>
                         <Item>
                             <Typography variant="h3" sx={{ mx: 1, alignSelf: "center" }} color="primary"> Team {teamNumber}</Typography>
-                            <Typography variant="h5" sx={{ mx: 1 }} color="secondary">{"Has Been Scouted: " + rawData?.isPitScouted || "loading..."}</Typography>
+                            {rawData?.isPitScouted && <Typography variant="h5" sx={{ mx: 1 }} color="lightGreen">{"Has Been Scouted"}</Typography>}
+                            {!rawData?.isPitScouted && <Typography variant="h5" sx={{ mx: 1 }} color="red">{"Has Been Scouted"}</Typography>}
                         </Item>
                     </Grid>
                     <Grid item xs={4} sx={{ mx: "auto", textAlign: "center" }}>
                         <Item sx={{ height: 300 }}>
                             <Typography sx={{ marginTop: 5, p: 1 }} variant="h5" color="secondary">{`Notes: ${team?.notes || "loading..."}`}</Typography>
-                            <Typography sx={{ marginTop: 5, p: 1 }} variant="h5" color="secondary">{`Red Flags: ${team?.redFlags || "loading..."}`}</Typography>
+                            {!team?.hasRedFlags && <Typography sx={{ marginTop: 5, p: 1 }} variant="h5" color="secondary">{`Red Flags: ${team?.hasRedFlags || "loading..."}`}</Typography>}
+                            {team?.hasRedFlags && <Typography sx={{ marginTop: 5, p: 1 }} variant="h5" color="secondary">{`Red Flags: ${team?.redFlags || "loading..."}`}</Typography>}
                         </Item>
                     </Grid>
                     <Grid item xs={4} sx={{ mx: "auto", textAlign: "center" }}>
@@ -68,7 +70,15 @@ function TeamPage() {
                     <Grid item xs={4} sx={{ mx: "auto", textAlign: "center" }}>
                         <Item sx={{ height: 300 }}>
                             <Typography sx={{ marginTop: 5, p: 1 }} variant="h5" color="secondary">{`DriveTrain: ${team?.driveTrainType || "loading..."}`}</Typography>
-                            <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Loctited Falcons: ${team?.areFalconsLoctited || "loading..."}`}</Typography>
+                            
+                            {team?.usingFalcons && <Typography sx={{ p: 1 }} variant="h5" color="lightGreen">{`Using Falcons`}</Typography>}
+                            {!team?.usingFalcons && <Typography sx={{ p: 1 }} variant="h5" color="red">{`Using Falcons`}</Typography>}
+
+                            {team?.usingFalcons && team?.areFalconsLoctited && <Typography sx={{ p: 1 }} variant="h5" color="lightGreen">{`Loctited Falcons`}</Typography>}
+                            {team?.usingFalcons && !team?.areFalconsLoctited && <Typography sx={{ p: 1 }} variant="h5" color="red">{`Loctited Falcons`}</Typography>}
+
+                            {team?.adultOnDriveTeam && <Typography sx={{ p: 1 }} variant="h5" color="red">{`Adult On Drive Team`}</Typography>}
+                            {!team?.adultOnDriveTeam && <Typography sx={{ p: 1 }} variant="h5" color="lightGreen">{`Adult On Drive Team`}</Typography>}
 
                         </Item>
                     </Grid>
@@ -80,8 +90,17 @@ function TeamPage() {
                     </Grid>
                     <Grid item xs={4} sx={{ mx: "auto", textAlign: "center" }}>
                         <Item sx={{ height: 300 }}>
-                        <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Can Shoot In High: ${team?.canShootInHigh || "loading..."}`}</Typography>
-                        <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Can Shoot In Low: ${team?.canShootInLow || "loading..."}`}</Typography>
+                        {team?.canShootInHigh && <Typography sx={{ p: 1 }} variant="h5" color="lightGreen">{`Can Shoot In High`}</Typography>}
+                        {!team?.canShootInHigh && <Typography sx={{ p: 1 }} variant="h5" color="red">{`Can Shoot In High`}</Typography>}
+
+                        {team?.canShootInLow && <Typography sx={{ p: 1 }} variant="h5" color="lightGreen">{`Can Shoot In Low`}</Typography>}
+                        {!team?.canShootInLow && <Typography sx={{ p: 1 }} variant="h5" color="red">{`Can Shoot In Low`}</Typography>}
+
+                        {team?.groundPickUp && <Typography sx={{ p: 1 }} variant="h5" color="lightGreen">{`Can Pick Up From Ground`}</Typography>}
+                        {!team?.groundPickUp && <Typography sx={{ p: 1 }} variant="h5" color="red">{`Can Pick Up From Ground`}</Typography>}
+
+                        {team?.terminalPickUp && <Typography sx={{ p: 1 }} variant="h5" color="lightGreen">{`Can Pick Up From Terminal`}</Typography>}
+                        {!team?.terminalPickUp && <Typography sx={{ p: 1 }} variant="h5" color="red">{`Can Pick Up From Terminal`}</Typography>}
 
                         </Item>
                     </Grid>

@@ -12,6 +12,7 @@ const autoRoutine = new mongoose.Schema({
 const pitScout = new mongoose.Schema({
     //-----GeneralRobotInfo------
     driveTrainType: String,
+    usingFalcons: Boolean,
     areFalconsLoctited: Boolean,
     robotLength: Number,
     robotWidth: Number,
