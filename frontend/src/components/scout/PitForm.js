@@ -5,17 +5,17 @@ import {
 } from "@mui/material";
 import MuiTextField from '@mui/material/TextField';
 import MuiCheckBox from '@mui/material/Checkbox';
-import {Field, FieldArray, Formik} from "formik";
+import { Field, FieldArray, Formik } from "formik";
 
 import * as yup from "yup";
 import { useEffect, useState } from "react";
 import TeamDataService from "../../services/team";
 
-import {Add, Remove} from "@mui/icons-material";
+import { Add, Remove } from "@mui/icons-material";
 
 import { TextField, Autocomplete, Select, RadioGroup, Checkbox, rating } from 'formik-mui';
 import { blue } from "@mui/material/colors";
-import { mainTheme} from "../../theme";
+import { mainTheme } from "../../theme";
 import { ThemeProvider } from "@emotion/react";
 import { Link } from "react-router-dom";
 
@@ -54,11 +54,12 @@ const PitForm = () => {
 
 
     return (
-       
+
 
         <Formik initialValues={{
             team: '',
             driveTrainType: "",
+            usingFalcons: false,
             areFalconsLoctited: false,
             adultOnDriveTeam: false,
             robotLength: 0,
@@ -81,12 +82,12 @@ const PitForm = () => {
             climbConfidence: 0,
 
             hasRedFlags: false,
-            redFlags:"",
+            redFlags: "",
 
             notes: "",
             flagTeam: false
         }}
-                
+
 
             onSubmit={(values, { setSubmitting, resetForm }) => {
 
@@ -115,8 +116,8 @@ const PitForm = () => {
                 /* and other goodies */
             }) => (
                 <form onSubmit={handleSubmit}>
-                    <Paper sx={{marginTop:15}}>
-                        <FormGroup sx={{p:10}}>
+                    <Paper sx={{ marginTop: 15 }}>
+                        <FormGroup sx={{ p: 10 }}>
                             <Field
                                 name={"team"}
                                 type={"team"}
@@ -156,20 +157,26 @@ const PitForm = () => {
                                 select
                                 variant="standard"
                                 margin="normal"
-                                InputLabelProps={{shrink: true,}}>
+                                InputLabelProps={{ shrink: true, }}>
                                 <MenuItem value={"swerve"}>Swerve</MenuItem>
                                 <MenuItem value={"westCoast"}>West Coast</MenuItem>
                                 <MenuItem value={"mecanum"}>Mecanum</MenuItem>
-                                <MenuItem value={"custom"}>High Rung</MenuItem>
+                                <MenuItem value={"custom"}>Custom</MenuItem>
                             </Field>
 
+
+                            <FormControlLabel control={<Field component={Checkbox} type="checkbox" name="usingFalcons" />} label="Using Any Falcons" disabled={isSubmitting} />
+
+
+                            {values.usingFalcons &&
+                                <FormControlLabel control={<Field component={Checkbox} type="checkbox" name="areFalconsLoctited" />} label="Are Falcons Loctited" disabled={isSubmitting} />
+
+
+                            }
+
+
                             <FormControlLabel
-                                control={<Field component={Checkbox} type="checkbox" name="areFalconsLoctited"/>}
-                                label="Falcons Loctited"
-                                disabled={isSubmitting}
-                                helperText={"Yes if no falcons"}
-                            /><FormControlLabel
-                                control={<Field component={Checkbox} type="checkbox" name="adultOnDriveTeam"/>}
+                                control={<Field component={Checkbox} type="checkbox" name="adultOnDriveTeam" />}
                                 label="Adult On Drive Team"
                                 disabled={isSubmitting}
                             />
@@ -179,7 +186,7 @@ const PitForm = () => {
                                 type="number"
                                 label="Motor Count"
                                 margin={"normal"}
-                                inputProps={{min: 0, max: 99}}
+                                inputProps={{ min: 0, max: 99 }}
                             />
                             <Field
                                 component={TextField}
@@ -187,7 +194,7 @@ const PitForm = () => {
                                 type="number"
                                 label="Robot Length in Inches"
                                 margin={"normal"}
-                                inputProps={{min: 0, max: 99, step: 0.1}}
+                                inputProps={{ min: 0, max: 99, step: 0.1 }}
                             />
                             <Field
                                 component={TextField}
@@ -195,7 +202,7 @@ const PitForm = () => {
                                 type="number"
                                 label="Robot Width in Inches"
                                 margin={"normal"}
-                                inputProps={{min: 0, max: 99,step: 0.1}}
+                                inputProps={{ min: 0, max: 99, step: 0.1 }}
                             />
 
                             <Field
@@ -204,57 +211,70 @@ const PitForm = () => {
                                 type="number"
                                 label="Battery Count"
                                 margin={"normal"}
-                                inputProps={{min: 0, max: 99}}
+                                inputProps={{ min: 0, max: 99 }}
                             />
                             <FormLabel disabled={isSubmitting}>Wiring Organization</FormLabel>
                             <Rating name={"wiringOrganization"} value={values.wiringOrganization}
-                                    onChange={handleChange} disabled={isSubmitting}/>
+                                onChange={handleChange} disabled={isSubmitting} />
 
 
                             {/*---------Shooter----------*/}
-                            <Typography variant={"h6"}>Cargo Manipulator</Typography>
+                            <div>
+                            <hr style={{width:'auto', height:1, borderWidth:5}} color="grey"></hr>
+                            </div>
+
+
+
+
+
+                            <Typography variant={"h6"}  sx={{marginTop:5}}>Cargo Manipulator</Typography>
                             <Field
                                 component={TextField}
                                 name="cargoHold"
                                 type="number"
                                 label="Amount of cargo robot can hold"
                                 margin={"normal"}
-                                inputProps={{min: 0, max: 2}}
+                                inputProps={{ min: 0, max: 2 }}
                             />
-                            <FormControlLabel control={<Field component={Checkbox} type="checkbox" name="canShootInLow"/>} label="Can put cargo In Low" disabled={isSubmitting}/>
-                            <FormControlLabel control={<Field component={Checkbox} type="checkbox" name="canShootInHigh"/>} label="Can Shoot cargo to High" disabled={isSubmitting}/>
-                            <FormControlLabel control={<Field component={Checkbox} type="checkbox" name="groundPickUp"/>} label="Can pick up from ground" disabled={isSubmitting}/>
-                            <FormControlLabel control={<Field component={Checkbox} type="checkbox" name="terminalPickUp"/>} label="Can pick up from terminal" disabled={isSubmitting}/>
+                            <FormControlLabel control={<Field component={Checkbox} type="checkbox" name="canShootInLow" />} label="Can put cargo In Low" disabled={isSubmitting} />
+                            <FormControlLabel control={<Field component={Checkbox} type="checkbox" name="canShootInHigh" />} label="Can Shoot cargo to High" disabled={isSubmitting} />
+                            <FormControlLabel control={<Field component={Checkbox} type="checkbox" name="groundPickUp" />} label="Can pick up from ground" disabled={isSubmitting} />
+                            <FormControlLabel control={<Field component={Checkbox} type="checkbox" name="terminalPickUp" />} label="Can pick up from terminal" disabled={isSubmitting} />
 
                             {/*-------Auto------*/}
 
-                            <Typography variant={"h6"}>Auto</Typography>
+                            <div>
+                            <hr style={{width:'auto', height:1, borderWidth:5}} color="grey"></hr>
+                            </div>
+
+
+                            <Typography variant={"h6"} sx={{marginTop:5}}>Auto</Typography>
                             <FieldArray name={"autoRoutines"} render={
                                 arrayHelpers => (
                                     <div>
                                         {values.autoRoutines.map((auto, index) => (
 
-                                            <Paper key={index} sx={{m:0.2}}>
+                                            <Paper key={index} sx={{ m: 0.2 }}>
                                                 <Grid container>
                                                     <Field name={`autoRoutines[${index}].position`} component={TextField} type="number"
-                                                           label="Position"
-                                                           margin={"normal"}
-                                                           inputProps={{min: 1, max: 4}}/>
+                                                        label="Position"
+                                                        margin={"normal"}
+                                                        inputProps={{ min: 1, max: 4 }} />
                                                     <Field name={`autoRoutines[${index}].cargoLow`} component={TextField} type="number"
-                                                           label="Cargo Low"
-                                                           margin={"normal"}
-                                                           inputProps={{min: 0, max: 5}}/>
+                                                        label="Cargo Low"
+                                                        margin={"normal"}
+                                                        inputProps={{ min: 0, max: 5 }} />
                                                     <Field name={`autoRoutines[${index}].cargoHigh`} component={TextField} type="number"
-                                                           label="Cargo High"
-                                                           margin={"normal"}
-                                                           inputProps={{min: 0, max: 5}}/>
+                                                        label="Cargo High"
+                                                        margin={"normal"}
+                                                        inputProps={{ min: 0, max: 5 }} />
                                                     <FormControlLabel
                                                         control={
-                                                            <Field component={Checkbox}  type="checkbox" name={`autoRoutines[${index}].offLine`}/>
+                                                            <Field component={Checkbox} type="checkbox" name={`autoRoutines[${index}].offLine`} />
                                                         }
                                                         label="Off Start Line"
                                                     />
-                                                <IconButton type={"button"} onClick={() => arrayHelpers.remove(index)} ><Remove /></IconButton>
+                                                    <IconButton type={"button"} onClick={() => arrayHelpers.remove(index)} ><Remove /></IconButton>
                                                 </Grid>
                                             </Paper>
 
@@ -270,12 +290,16 @@ const PitForm = () => {
                                         </Button>
                                     </div>
                                 )
-                            }/>
+                            } />
 
                             {/*------Climb---------*/}
 
+                            <div>
+                            <hr style={{width:'auto', height:1, borderWidth:5}} color="grey"></hr>
+                            </div>
 
-                            <Typography variant={"h6"}>Climb</Typography>
+
+                            <Typography variant={"h6"} sx={{marginTop:5}}>Climb</Typography>
                             <Field
                                 component={TextField}
                                 type="text"
@@ -302,19 +326,23 @@ const PitForm = () => {
 
                             <FormLabel disabled={isSubmitting}>Climb Confidence</FormLabel>
                             <Rating name={"climbConfidence"} value={values.climbConfidence}
-                                    onChange={handleChange} disabled={isSubmitting}/>
+                                onChange={handleChange} disabled={isSubmitting} />
 
 
 
 
                             {/*------Extra------*/}
 
+                            <div>
+                            <hr style={{width:'auto', height:1, borderWidth:5}} color="grey"></hr>
+                            </div>
 
 
-                            <Typography variant={"h6"}>Misc</Typography>
+
+                            <Typography variant={"h6"} sx={{marginTop:5}}>Misc</Typography>
 
 
-                          
+
 
                             <Field
                                 component={TextField}
@@ -329,42 +357,39 @@ const PitForm = () => {
 
                             />
 
-                            <FormControlLabel control={<Field component={Checkbox} type="checkbox" name="hasRedFlags"/>} label="Has Any Red Flags" disabled={isSubmitting}/>
+                            <FormControlLabel control={<Field component={Checkbox} type="checkbox" name="hasRedFlags" />} label="Has Any Red Flags" disabled={isSubmitting} />
 
 
                             {values.hasRedFlags &&
-                            <Field
-                                component={TextField}
-                                name="redFlags"
-                                type="text"
-                                label="RedFlags"
-                                margin={"normal"}
-                                multiline
-                                maxRows={4}
+                                <Field
+                                    component={TextField}
+                                    name="redFlags"
+                                    type="text"
+                                    label="RedFlags"
+                                    margin={"normal"}
+                                    multiline
+                                    maxRows={4}
 
-                            />}
+                                />}
 
-                                disabled={isSubmitting}
-                                color="secondary"
 
-                            />
                             <FormControlLabel
                                 control={
-                                    <Field component={Checkbox} type="checkbox" name="flagTeam" color="secondary"/>
+                                    <Field component={Checkbox} type="checkbox" name="flagTeam" color="secondary" />
                                 }
                                 label="Flag Team"
 
                             />
 
                         </FormGroup>
-                        <Button type={"submit"} color="primary" variant="contained" sx={{m:5}}>Submit</Button>
+                        <Button type={"submit"} color="primary" variant="contained" sx={{ m: 5 }}>Submit</Button>
                     </Paper>
 
                 </form>)}
 
         </Formik>
 
-       
+
 
     );
 }

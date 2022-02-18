@@ -28,7 +28,7 @@ export default function SuperScoutPage() {
 
                         <img src="../../logo200.png" style={{ width: 60, height: 60, borderRadius: 10 }} sx={{ p: 5 }, { m: 5 }} />
                         <ButtonGroup variant="contained" sx={{ m: 2 }}>
-                            <Button component={Link} to={'/superScout/pitForm'}>Scout</Button>
+                            <Button component={Link} to={'/superScout/pitForm'}>Pit Scout</Button>
                             <Button component={Link} to={'/superScout/teamGrid'}>Team Grid</Button>
                             <Button component={Link} to={'/'}>Home</Button>
 

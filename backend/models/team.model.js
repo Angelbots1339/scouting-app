@@ -37,9 +37,7 @@ const pitScout = new mongoose.Schema({
     redFlags: String,
     notes: String,
 })
-const gameScout = new mongoose.Schema({
-    pointsScored: Number
-})
+
 
 const teamSchema = new mongoose.Schema({
     _id: Number,
