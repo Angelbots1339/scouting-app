@@ -6,11 +6,20 @@ import {
 import MuiTextField from '@mui/material/TextField';
 import MuiCheckBox from '@mui/material/Checkbox';
 import {Field, FieldArray, Formik} from "formik";
+
 import * as yup from "yup";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import TeamDataService from "../../services/team";
-import {TextField, Autocomplete, Select, RadioGroup, Checkbox, rating} from 'formik-mui';
+
 import {Add, Remove} from "@mui/icons-material";
+
+import { TextField, Autocomplete, Select, RadioGroup, Checkbox, rating } from 'formik-mui';
+import { blue } from "@mui/material/colors";
+import { mainTheme} from "../../theme";
+import { ThemeProvider } from "@emotion/react";
+import { Link } from "react-router-dom";
+
+
 
 const validationSchema = yup.object({
     team: yup.string().required("Team Number Required").nullable(),
@@ -45,6 +54,8 @@ const PitForm = () => {
 
 
     return (
+       
+
         <Formik initialValues={{
             team: '',
             driveTrainType: "",
@@ -63,6 +74,7 @@ const PitForm = () => {
             canShootInLow: false,
             canShootInHigh: false,
 
+
             autoRoutines: [],
 
             climbHeight: 'none',
@@ -70,36 +82,41 @@ const PitForm = () => {
 
             hasRedFlags: false,
             redFlags:"",
+
             notes: "",
+            flagTeam: false
         }}
-                onSubmit={(values, {setSubmitting, resetForm}) => {
+                
 
-                    console.log(JSON.stringify(values))
-                    alert(JSON.stringify(values, null, 2))
-                    let teamNumber = values.team;
-                    delete values.team
-                    TeamDataService.updateTeam(teamNumber, {
-                        "isPitScouted": true,
-                        "pitScout": values
-                    })
-                    resetForm();
-                }}
+            onSubmit={(values, { setSubmitting, resetForm }) => {
 
-                validationSchema={validationSchema}
+                console.log(JSON.stringify(values))
+                alert(JSON.stringify(values, null, 2))
+                let teamNumber = values.team;
+                delete values.team
+                // TeamDataService.updateTeam(teamNumber, {
+                //     "isPitScouted": true,
+                //     "pitScout": values
+                // })
+                resetForm();
+            }}
+
+            validationSchema={validationSchema}
+
         >
             {({
-                  values,
-                  errors,
-                  touched,
-                  handleChange,
-                  handleBlur,
-                  handleSubmit,
-                  isSubmitting,
-                  /* and other goodies */
-              }) => (
+                values,
+                errors,
+                touched,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                isSubmitting,
+                /* and other goodies */
+            }) => (
                 <form onSubmit={handleSubmit}>
-                    <Paper>
-                        <FormGroup>
+                    <Paper sx={{marginTop:15}}>
+                        <FormGroup sx={{p:10}}>
                             <Field
                                 name={"team"}
                                 type={"team"}
@@ -107,7 +124,7 @@ const PitForm = () => {
 
                                 options={allTeams || ['...Loading']}
                                 getOptionDisabled={isTeamScouted}
-                                sx={{width: 300}}
+                                sx={{ width: 300 }}
                                 isOptionEqualToValue={(option, value) => {
                                     if (value === "" || value === option || value === `undefined`) {
                                         return true;
@@ -121,6 +138,7 @@ const PitForm = () => {
                                         helperText={touched['team'] && errors['team']}
                                         label="team"
                                         variant="outlined"
+                                        color="secondary"
                                     />
                                 )}
                             />
@@ -266,6 +284,7 @@ const PitForm = () => {
                                 select
                                 variant="standard"
                                 margin="normal"
+                                color="secondary"
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -280,6 +299,7 @@ const PitForm = () => {
 
                             </Field>
 
+
                             <FormLabel disabled={isSubmitting}>Climb Confidence</FormLabel>
                             <Rating name={"climbConfidence"} value={values.climbConfidence}
                                     onChange={handleChange} disabled={isSubmitting}/>
@@ -292,6 +312,10 @@ const PitForm = () => {
 
 
                             <Typography variant={"h6"}>Misc</Typography>
+
+
+                          
+
                             <Field
                                 component={TextField}
                                 name="notes"
@@ -300,6 +324,9 @@ const PitForm = () => {
                                 margin={"normal"}
                                 multiline
                                 maxRows={4}
+                                disabled={isSubmitting}
+                                color="secondary"
+
                             />
 
                             <FormControlLabel control={<Field component={Checkbox} type="checkbox" name="hasRedFlags"/>} label="Has Any Red Flags" disabled={isSubmitting}/>
@@ -314,14 +341,30 @@ const PitForm = () => {
                                 margin={"normal"}
                                 multiline
                                 maxRows={4}
+
                             />}
+
+                                disabled={isSubmitting}
+                                color="secondary"
+
+                            />
+                            <FormControlLabel
+                                control={
+                                    <Field component={Checkbox} type="checkbox" name="flagTeam" color="secondary"/>
+                                }
+                                label="Flag Team"
+
+                            />
+
                         </FormGroup>
-                        <Button type={"submit"}>Submit</Button>
+                        <Button type={"submit"} color="primary" variant="contained" sx={{m:5}}>Submit</Button>
                     </Paper>
 
                 </form>)}
 
         </Formik>
+
+       
 
     );
 }
