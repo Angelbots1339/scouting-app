@@ -65,30 +65,6 @@ function TeamPage() {
                         <Item sx={{ height: 300 }}>
                             <Typography sx={{ marginTop: 5, p: 1 }} variant="h5" color="secondary">{`Years Of Experience: ${team?.experienceInYears || "loading..."}`}</Typography>
 
-                        </Item>
-                    </Grid>
-                    <Grid item xs={4} sx={{ mx: "auto", textAlign: "center" }}>
-                        <Item sx={{ height: 300 }}>
-                            <Typography sx={{ marginTop: 5, p: 1 }} variant="h5" color="secondary">{`DriveTrain: ${team?.driveTrainType || "loading..."}`}</Typography>
-
-                            <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Robot Length: ${team?.robotLength || "loading..."}`}</Typography>
-                            <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Robot Width: ${team?.robotWidth || "loading..."}`}</Typography>
-                            
-                            {team?.usingFalcons && <Typography sx={{ p: 1 }} variant="h5" color="lightGreen">{`Using Falcons`}</Typography>}
-                            {!team?.usingFalcons && <Typography sx={{ p: 1 }} variant="h5" color="red">{`Using Falcons`}</Typography>}
-
-                            {team?.usingFalcons && team?.areFalconsLoctited && <Typography sx={{ p: 1 }} variant="h5" color="lightGreen">{`Loctited Falcons`}</Typography>}
-                            {team?.usingFalcons && !team?.areFalconsLoctited && <Typography sx={{ p: 1 }} variant="h5" color="red">{`Loctited Falcons`}</Typography>}
-
-                            {team?.adultOnDriveTeam && <Typography sx={{ p: 1 }} variant="h5" color="red">{`Adult On Drive Team`}</Typography>}
-                            {!team?.adultOnDriveTeam && <Typography sx={{ p: 1 }} variant="h5" color="lightGreen">{`Adult On Drive Team`}</Typography>}
-
-                            
-
-                        </Item>
-                    </Grid>
-                    <Grid item xs={4} sx={{ mx: "auto", textAlign: "center" }}>
-                        <Item sx={{ height: 300 }}>
                             <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Battery Count: ${team?.batteryCount || "loading..."}`}</Typography>
 
                             <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Motor Count: ${team?.motorCount || "loading..."}`}</Typography>
@@ -98,25 +74,55 @@ function TeamPage() {
                     </Grid>
                     <Grid item xs={4} sx={{ mx: "auto", textAlign: "center" }}>
                         <Item sx={{ height: 300 }}>
-                        {team?.canShootInHigh && <Typography sx={{ p: 1 }} variant="h5" color="lightGreen">{`Can Shoot In High`}</Typography>}
-                        {!team?.canShootInHigh && <Typography sx={{ p: 1 }} variant="h5" color="red">{`Can Shoot In High`}</Typography>}
+                            <Typography sx={{ marginTop: 5, p: 1 }} variant="h5" color="secondary">{`DriveTrain: ${team?.driveTrainType || "loading..."}`}</Typography>
 
-                        {team?.canShootInLow && <Typography sx={{ p: 1 }} variant="h5" color="lightGreen">{`Can Shoot In Low`}</Typography>}
-                        {!team?.canShootInLow && <Typography sx={{ p: 1 }} variant="h5" color="red">{`Can Shoot In Low`}</Typography>}
+                            <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Robot Length: ${team?.robotLength || "loading..."}`}</Typography>
+                            <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Robot Width: ${team?.robotWidth || "loading..."}`}</Typography>
 
-                        {team?.groundPickUp && <Typography sx={{ p: 1 }} variant="h5" color="lightGreen">{`Can Pick Up From Ground`}</Typography>}
-                        {!team?.groundPickUp && <Typography sx={{ p: 1 }} variant="h5" color="red">{`Can Pick Up From Ground`}</Typography>}
+                            {team?.usingFalcons && <Typography sx={{ p: 1 }} variant="h5" color="lightGreen">{`Using Falcons`}</Typography>}
+                            {!team?.usingFalcons && <Typography sx={{ p: 1 }} variant="h5" color="red">{`Using Falcons`}</Typography>}
 
-                        {team?.terminalPickUp && <Typography sx={{ p: 1 }} variant="h5" color="lightGreen">{`Can Pick Up From Terminal`}</Typography>}
-                        {!team?.terminalPickUp && <Typography sx={{ p: 1 }} variant="h5" color="red">{`Can Pick Up From Terminal`}</Typography>}
+                            {team?.usingFalcons && team?.areFalconsLoctited && <Typography sx={{ p: 1 }} variant="h5" color="lightGreen">{`Loctited Falcons`}</Typography>}
+                            {team?.usingFalcons && !team?.areFalconsLoctited && <Typography sx={{ p: 1 }} variant="h5" color="red">{`Loctited Falcons`}</Typography>}
+
+                            {team?.adultOnDriveTeam && <Typography sx={{ p: 1 }} variant="h5" color="red">{`Adult On Drive Team`}</Typography>}
+                            {!team?.adultOnDriveTeam && <Typography sx={{ p: 1 }} variant="h5" color="lightGreen">{`Adult On Drive Team`}</Typography>}
+
+
 
                         </Item>
                     </Grid>
                     <Grid item xs={4} sx={{ mx: "auto", textAlign: "center" }}>
                         <Item sx={{ height: 300 }}>
 
-                        <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Climb Height: ${team?.climbHeight || "loading..."}`}</Typography>
-                        <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Climb Confidence: ${team?.climbConfidence || "loading..."}`}</Typography>
+                            {/* This line breaks the page for some reason. If I comment it out it works, and when I uncomment it it's fine until I reload the page. 
+                            React updates the page when I uncomment it and it gets data fine, but claims autoRoutines doesn't exist. */}
+                            {/* <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Auto Routine Count: ${team?.autoRoutines.length || "Loading..."}`}</Typography> */}
+
+
+                        </Item>
+                    </Grid>
+                    <Grid item xs={4} sx={{ mx: "auto", textAlign: "center" }}>
+                        <Item sx={{ height: 300 }}>
+                            {team?.canShootInHigh && <Typography sx={{ p: 1 }} variant="h5" color="lightGreen">{`Can Shoot In High`}</Typography>}
+                            {!team?.canShootInHigh && <Typography sx={{ p: 1 }} variant="h5" color="red">{`Can Shoot In High`}</Typography>}
+
+                            {team?.canShootInLow && <Typography sx={{ p: 1 }} variant="h5" color="lightGreen">{`Can Shoot In Low`}</Typography>}
+                            {!team?.canShootInLow && <Typography sx={{ p: 1 }} variant="h5" color="red">{`Can Shoot In Low`}</Typography>}
+
+                            {team?.groundPickUp && <Typography sx={{ p: 1 }} variant="h5" color="lightGreen">{`Can Pick Up From Ground`}</Typography>}
+                            {!team?.groundPickUp && <Typography sx={{ p: 1 }} variant="h5" color="red">{`Can Pick Up From Ground`}</Typography>}
+
+                            {team?.terminalPickUp && <Typography sx={{ p: 1 }} variant="h5" color="lightGreen">{`Can Pick Up From Terminal`}</Typography>}
+                            {!team?.terminalPickUp && <Typography sx={{ p: 1 }} variant="h5" color="red">{`Can Pick Up From Terminal`}</Typography>}
+
+                        </Item>
+                    </Grid>
+                    <Grid item xs={4} sx={{ mx: "auto", textAlign: "center" }}>
+                        <Item sx={{ height: 300 }}>
+
+                            <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Climb Height: ${team?.climbHeight || "loading..."}`}</Typography>
+                            <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Climb Confidence: ${team?.climbConfidence || "loading..."}`}</Typography>
 
 
                         </Item>
