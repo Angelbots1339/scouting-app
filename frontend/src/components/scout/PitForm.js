@@ -248,7 +248,11 @@ const PitForm = () => {
                                 <hr style={{ width: 'auto', height: 1, borderWidth: 5 }} color="grey"></hr>
                             </div>
 
-                            <FormControlLabel sx={{ marginTop: 5 }}
+
+                            <Typography variant={"h6"} sx={{ marginTop: 5 }}>Team</Typography>
+
+
+                            <FormControlLabel
                                 control={<Field component={Checkbox} type="checkbox" name="adultOnDriveTeam" />}
                                 label="Adult On Drive Team"
                                 disabled={isSubmitting}
