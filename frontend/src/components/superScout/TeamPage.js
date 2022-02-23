@@ -70,6 +70,9 @@ function TeamPage() {
                     <Grid item xs={4} sx={{ mx: "auto", textAlign: "center" }}>
                         <Item sx={{ height: 300 }}>
                             <Typography sx={{ marginTop: 5, p: 1 }} variant="h5" color="secondary">{`DriveTrain: ${team?.driveTrainType || "loading..."}`}</Typography>
+
+                            <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Robot Length: ${team?.robotLength || "loading..."}`}</Typography>
+                            <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Robot Width: ${team?.robotWidth || "loading..."}`}</Typography>
                             
                             {team?.usingFalcons && <Typography sx={{ p: 1 }} variant="h5" color="lightGreen">{`Using Falcons`}</Typography>}
                             {!team?.usingFalcons && <Typography sx={{ p: 1 }} variant="h5" color="red">{`Using Falcons`}</Typography>}
@@ -80,12 +83,17 @@ function TeamPage() {
                             {team?.adultOnDriveTeam && <Typography sx={{ p: 1 }} variant="h5" color="red">{`Adult On Drive Team`}</Typography>}
                             {!team?.adultOnDriveTeam && <Typography sx={{ p: 1 }} variant="h5" color="lightGreen">{`Adult On Drive Team`}</Typography>}
 
+                            
+
                         </Item>
                     </Grid>
                     <Grid item xs={4} sx={{ mx: "auto", textAlign: "center" }}>
                         <Item sx={{ height: 300 }}>
                             <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Battery Count: ${team?.batteryCount || "loading..."}`}</Typography>
 
+                            <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Motor Count: ${team?.motorCount || "loading..."}`}</Typography>
+
+                            <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Wiring Organization: ${team?.wiringOrganization || "loading..."}`}</Typography>
                         </Item>
                     </Grid>
                     <Grid item xs={4} sx={{ mx: "auto", textAlign: "center" }}>
@@ -106,6 +114,10 @@ function TeamPage() {
                     </Grid>
                     <Grid item xs={4} sx={{ mx: "auto", textAlign: "center" }}>
                         <Item sx={{ height: 300 }}>
+
+                        <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Climb Height: ${team?.climbHeight || "loading..."}`}</Typography>
+                        <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Climb Confidence: ${team?.climbConfidence || "loading..."}`}</Typography>
+
 
                         </Item>
                     </Grid>
