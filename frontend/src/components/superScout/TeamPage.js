@@ -7,12 +7,16 @@ import { mainTheme } from "../../theme";
 
 
 
+
 function TeamPage() {
     const { teamNumber } = useParams()
 
 
+
     const [team, setTeam] = useState([]);
-    const [rawData, setRawData] = useState([]);
+    const [rawData, setRawData] = useState([]); 
+
+   
 
 
     const getTeam = (id) => {
@@ -85,13 +89,13 @@ function TeamPage() {
                             <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Robot Width: ${team?.robotWidth || "loading..."}`}</Typography>
                             <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Robot Height: ${team?.robotHeight || "loading..."}`}</Typography>
 
-              
+
                             <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Motor Type: ${team?.motorType || "loading..."}`}</Typography>
 
                             {team?.motorType == "falcons" && team?.areFalconsLoctited && <Typography sx={{ p: 1 }} variant="h5" color="lightGreen">{`Loctited Falcons`}</Typography>}
                             {team?.motorType == "falcons" && !team?.areFalconsLoctited && <Typography sx={{ p: 1 }} variant="h5" color="red">{`Loctited Falcons`}</Typography>}
 
-                           
+
 
 
 
@@ -134,21 +138,18 @@ function TeamPage() {
 
                         </Item>
                     </Grid>
-                    <Grid item xs={4} sx={{ mx: "auto", textAlign: "center" }}>
-                        <Item sx={{ height: 300 }}>
 
-                        </Item>
-                    </Grid>
-                    <Grid item xs={4} sx={{ mx: "auto", textAlign: "center" }}>
-                        <Item sx={{ height: 300 }}>
-
-                        </Item>
-                    </Grid>
-                    <Grid item xs={4} sx={{ mx: "auto", textAlign: "center" }}>
-                        <Item sx={{ height: 300 }}>
-
-                        </Item>
-                    </Grid>
+                    {/* team?.autoRoutines just breaks the code. Great.  */}
+                    {/* {
+                        team?.autoRoutines.map((number) => 
+                    
+                        <Grid item xs={4} sx={{ mx: "auto", textAlign: "center" }}>
+                            <Item sx={{ height: 300 }}>
+                                {number}
+                            </Item>
+                        </Grid>
+                        ) || "Loading..."
+                    } */}
 
 
 
