@@ -59,7 +59,8 @@ const PitForm = () => {
         <Formik initialValues={{
             team: '',
             driveTrainType: "",
-            usingFalcons: false,
+            motorType: "",
+            shootPositions: "",
             areFalconsLoctited: false,
             adultOnDriveTeam: false,
             robotLength: 0,
@@ -68,6 +69,7 @@ const PitForm = () => {
             wiringOrganization: 0,
             batteryCount: 0,
             motorCount: 0,
+            pitPeople: 0,
 
             cargoHold: 0,
             groundPickUp: false,
@@ -145,7 +147,7 @@ const PitForm = () => {
                             />
 
                             {/*--------General Robot Info---------*/}
-                            <Typography variant={"h6"} sx={{marginTop:5}}>General Robot Info</Typography>
+                            <Typography variant={"h6"} sx={{ marginTop: 5 }}>General Robot Info</Typography>
 
 
 
@@ -165,21 +167,27 @@ const PitForm = () => {
                             </Field>
 
 
-                            <FormControlLabel control={<Field component={Checkbox} type="checkbox" name="usingFalcons" />} label="Using Any Falcons" disabled={isSubmitting} />
+                            <Field
+                                component={TextField}
+                                type="text"
+                                name="motorType"
+                                label="Motor Type"
+                                select
+                                variant="standard"
+                                margin="normal"
+                                InputLabelProps={{ shrink: true, }}>
+                                <MenuItem value={"falcons"}>Falcons</MenuItem>
+                                <MenuItem value={"neo"}>Neo</MenuItem>
+                                <MenuItem value={"brushed"}>Brushed</MenuItem>
+                                <MenuItem value={"other"}>Other</MenuItem>
+                            </Field>
 
-
-                            {values.usingFalcons &&
+                            {values.motorType == "falcons" &&
                                 <FormControlLabel control={<Field component={Checkbox} type="checkbox" name="areFalconsLoctited" />} label="Are Falcons Loctited" disabled={isSubmitting} />
-
-
                             }
 
 
-                            <FormControlLabel
-                                control={<Field component={Checkbox} type="checkbox" name="adultOnDriveTeam" />}
-                                label="Adult On Drive Team"
-                                disabled={isSubmitting}
-                            />
+
                             <Field
                                 component={TextField}
                                 name="motorCount"
@@ -218,16 +226,54 @@ const PitForm = () => {
                                 onChange={handleChange} disabled={isSubmitting} />
 
 
+                            <Field
+                                component={TextField}
+                                type="text"
+                                name="bumperQuality"
+                                label="Bumper Quality"
+                                select
+                                variant="standard"
+                                margin="normal"
+                                InputLabelProps={{ shrink: true, }}>
+                                <MenuItem value={"none"}>No Bumpers</MenuItem>
+                                <MenuItem value={"bad"}>Bad</MenuItem>
+                                <MenuItem value={"decent"}>Decent</MenuItem>
+                                <MenuItem value={"good"}>Good</MenuItem>
+                            </Field>
+
+
+                            {/*---------Team----------*/}
+                            <div>
+                                <hr style={{ width: 'auto', height: 1, borderWidth: 5 }} color="grey"></hr>
+                            </div>
+
+                            <FormControlLabel sx={{ marginTop: 5 }}
+                                control={<Field component={Checkbox} type="checkbox" name="adultOnDriveTeam" />}
+                                label="Adult On Drive Team"
+                                disabled={isSubmitting}
+                            />
+
+                            <Field
+                                component={TextField}
+                                name="pitPeople"
+                                type="number"
+                                label="People In Pit"
+                                margin={"normal"}
+                                inputProps={{ min: 0, max: 99 }}
+                            />
+
+
+
                             {/*---------Shooter----------*/}
                             <div>
-                            <hr style={{width:'auto', height:1, borderWidth:5}} color="grey"></hr>
+                                <hr style={{ width: 'auto', height: 1, borderWidth: 5 }} color="grey"></hr>
                             </div>
 
 
 
 
 
-                            <Typography variant={"h6"}  sx={{marginTop:5}}>Cargo Manipulator</Typography>
+                            <Typography variant={"h6"} sx={{ marginTop: 5 }}>Cargo Manipulator</Typography>
                             <Field
                                 component={TextField}
                                 name="cargoHold"
@@ -241,14 +287,30 @@ const PitForm = () => {
                             <FormControlLabel control={<Field component={Checkbox} type="checkbox" name="groundPickUp" />} label="Can pick up from ground" disabled={isSubmitting} />
                             <FormControlLabel control={<Field component={Checkbox} type="checkbox" name="terminalPickUp" />} label="Can pick up from terminal" disabled={isSubmitting} />
 
+                            
+                            <Field
+                                component={TextField}
+                                type="text"
+                                name="shootPositions"
+                                label="Possible Shooting Positions"
+                                select
+                                variant="standard"
+                                margin="normal"
+                                InputLabelProps={{ shrink: true, }}>
+                                <MenuItem value={"fender"}>Fender</MenuItem>
+                                <MenuItem value={"anywhere"}>Anywhere</MenuItem>
+                                <MenuItem value={"launchpad"}>Launchpad</MenuItem>
+                                <MenuItem value={"specific"}>Specific Locations</MenuItem>
+                                <MenuItem value={"other"}>Other</MenuItem>
+                            </Field>
                             {/*-------Auto------*/}
 
                             <div>
-                            <hr style={{width:'auto', height:1, borderWidth:5}} color="grey"></hr>
+                                <hr style={{ width: 'auto', height: 1, borderWidth: 5 }} color="grey"></hr>
                             </div>
 
 
-                            <Typography variant={"h6"} sx={{marginTop:5}}>Auto</Typography>
+                            <Typography variant={"h6"} sx={{ marginTop: 5 }}>Auto</Typography>
                             <FieldArray name={"autoRoutines"} render={
                                 arrayHelpers => (
                                     <div>
@@ -295,11 +357,11 @@ const PitForm = () => {
                             {/*------Climb---------*/}
 
                             <div>
-                            <hr style={{width:'auto', height:1, borderWidth:5}} color="grey"></hr>
+                                <hr style={{ width: 'auto', height: 1, borderWidth: 5 }} color="grey"></hr>
                             </div>
 
 
-                            <Typography variant={"h6"} sx={{marginTop:5}}>Climb</Typography>
+                            <Typography variant={"h6"} sx={{ marginTop: 5 }}>Climb</Typography>
                             <Field
                                 component={TextField}
                                 type="text"
@@ -334,12 +396,12 @@ const PitForm = () => {
                             {/*------Extra------*/}
 
                             <div>
-                            <hr style={{width:'auto', height:1, borderWidth:5}} color="grey"></hr>
+                                <hr style={{ width: 'auto', height: 1, borderWidth: 5 }} color="grey"></hr>
                             </div>
 
 
 
-                            <Typography variant={"h6"} sx={{marginTop:5}}>Misc</Typography>
+                            <Typography variant={"h6"} sx={{ marginTop: 5 }}>Misc</Typography>
 
 
 

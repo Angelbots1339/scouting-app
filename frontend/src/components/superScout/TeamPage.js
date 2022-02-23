@@ -57,7 +57,7 @@ function TeamPage() {
                     <Grid item xs={4} sx={{ mx: "auto", textAlign: "center" }}>
                         <Item sx={{ height: 300 }}>
                             <Typography sx={{ marginTop: 5, p: 1 }} variant="h5" color="secondary">{`Notes: ${team?.notes || "loading..."}`}</Typography>
-                            {!team?.hasRedFlags && <Typography sx={{ marginTop: 5, p: 1 }} variant="h5" color="secondary">{`Red Flags: ${team?.hasRedFlags || "loading..."}`}</Typography>}
+                            {!team?.hasRedFlags && <Typography sx={{ marginTop: 5, p: 1 }} variant="h5" color="lightGreen">{`No Red Flags`}</Typography>}
                             {team?.hasRedFlags && <Typography sx={{ marginTop: 5, p: 1 }} variant="h5" color="secondary">{`Red Flags: ${team?.redFlags || "loading..."}`}</Typography>}
                         </Item>
                     </Grid>
@@ -70,6 +70,11 @@ function TeamPage() {
                             <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Motor Count: ${team?.motorCount || "loading..."}`}</Typography>
 
                             <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Wiring Organization: ${team?.wiringOrganization || "loading..."}`}</Typography>
+
+                            <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Bumper Quality: ${team?.bumperQuality || "loading..."}`}</Typography>
+
+                            {team?.adultOnDriveTeam && <Typography sx={{ p: 1 }} variant="h5" color="red">{`Adult On Drive Team`}</Typography>}
+                            {!team?.adultOnDriveTeam && <Typography sx={{ p: 1 }} variant="h5" color="lightGreen">{`Adult On Drive Team`}</Typography>}
                         </Item>
                     </Grid>
                     <Grid item xs={4} sx={{ mx: "auto", textAlign: "center" }}>
@@ -78,15 +83,15 @@ function TeamPage() {
 
                             <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Robot Length: ${team?.robotLength || "loading..."}`}</Typography>
                             <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Robot Width: ${team?.robotWidth || "loading..."}`}</Typography>
+                            <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Robot Height: ${team?.robotHeight || "loading..."}`}</Typography>
 
-                            {team?.usingFalcons && <Typography sx={{ p: 1 }} variant="h5" color="lightGreen">{`Using Falcons`}</Typography>}
-                            {!team?.usingFalcons && <Typography sx={{ p: 1 }} variant="h5" color="red">{`Using Falcons`}</Typography>}
+              
+                            <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Motor Type: ${team?.motorType || "loading..."}`}</Typography>
 
-                            {team?.usingFalcons && team?.areFalconsLoctited && <Typography sx={{ p: 1 }} variant="h5" color="lightGreen">{`Loctited Falcons`}</Typography>}
-                            {team?.usingFalcons && !team?.areFalconsLoctited && <Typography sx={{ p: 1 }} variant="h5" color="red">{`Loctited Falcons`}</Typography>}
+                            {team?.motorType == "falcons" && team?.areFalconsLoctited && <Typography sx={{ p: 1 }} variant="h5" color="lightGreen">{`Loctited Falcons`}</Typography>}
+                            {team?.motorType == "falcons" && !team?.areFalconsLoctited && <Typography sx={{ p: 1 }} variant="h5" color="red">{`Loctited Falcons`}</Typography>}
 
-                            {team?.adultOnDriveTeam && <Typography sx={{ p: 1 }} variant="h5" color="red">{`Adult On Drive Team`}</Typography>}
-                            {!team?.adultOnDriveTeam && <Typography sx={{ p: 1 }} variant="h5" color="lightGreen">{`Adult On Drive Team`}</Typography>}
+                           
 
 
 
