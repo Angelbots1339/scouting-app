@@ -126,9 +126,11 @@ function TeamPage() {
                     <Grid item xs={4} sx={{ mx: "auto", textAlign: "center" }}>
                         <Item sx={{ height: 300 }}>
 
+
                             <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Climb Height: ${team?.climbHeight || "loading..."}`}</Typography>
                             <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Climb Confidence: ${team?.climbConfidence || "loading..."}`}</Typography>
 
+                            <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Pit System: ${team?.pitSystem || "loading..."}`}</Typography>
 
                         </Item>
                     </Grid>

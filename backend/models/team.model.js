@@ -36,6 +36,8 @@ const pitScout = new mongoose.Schema({
     climbHeight: String,
     climbConfidence: Number,
 
+
+    pitSystem: String,
     hasRedFlags: Boolean,
     redFlags: String,
     notes: String,

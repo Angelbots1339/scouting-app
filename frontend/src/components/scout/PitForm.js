@@ -83,6 +83,7 @@ const PitForm = () => {
             climbHeight: 'none',
             climbConfidence: 0,
 
+            pitSystem: "",
             hasRedFlags: false,
             redFlags: "",
 
@@ -260,8 +261,21 @@ const PitForm = () => {
                                 label="People In Pit"
                                 margin={"normal"}
                                 inputProps={{ min: 0, max: 99 }}
-                            />
+                            /> 
 
+
+                            <Field
+                                component={TextField}
+                                name="pitSystem"
+                                type="text"
+                                label="Pit System (Checklist, Part Replacement, etc.)"
+                                margin={"normal"}
+                                multiline
+                                maxRows={4}
+                                disabled={isSubmitting}
+                                color="secondary"
+
+                            />
 
 
                             {/*---------Shooter----------*/}
@@ -273,7 +287,7 @@ const PitForm = () => {
 
 
 
-                            <Typography variant={"h6"} sx={{ marginTop: 5 }}>Cargo Manipulator</Typography>
+                            <Typography variant={"h6"} sx={{ marginTop: 5 }}>Cargo Manipulation and Shooting</Typography>
                             <Field
                                 component={TextField}
                                 name="cargoHold"
