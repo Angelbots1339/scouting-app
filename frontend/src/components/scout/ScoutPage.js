@@ -15,7 +15,7 @@ export default function ScoutPage() {
                 <AppBar style={{display: "flex", alignItems:"center", width:"100"}}>
                 <img src="../../logo200.png" style={{ width: 60, height: 60, borderRadius: 10 }} sx={{ p: 5, m: 5 }} />
 
-                <ButtonGroup variant="contained" >
+                <ButtonGroup variant="contained" sx={{ m: 2 }}>
 
 
                     <Button component={Link} to={'/'}>Home</Button>

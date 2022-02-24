@@ -19,7 +19,7 @@ function App() {
 
                         <ButtonGroup variant={"contained"} sx={{ m: 2 }}>
                             <Button component={Link} to={'/scout/pitForm'}>Scout</Button>
-                            <Button component={Link} to={'/superScout'}>SuperScout</Button>
+                            <Button component={Link} to={'/superScout/pitForm'}>SuperScout</Button>
                         </ButtonGroup>
                     </AppBar>
                 </div>
