@@ -1,10 +1,8 @@
 import {DataGrid} from "@mui/x-data-grid";
-import {Button, Rating, CssBaseline} from "@mui/material";
+import {Button} from "@mui/material";
 import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
 import TeamDataService from "../../services/team";
-import { ThemeProvider } from "@emotion/react";
-import { mainTheme} from "../../theme";
 
 
 const columns = [
@@ -15,13 +13,10 @@ const columns = [
     {field: 'Experience', headerName: 'Experience In Years', width: 150, valueGetter: (params) => params.row?.pitScout?.experienceInYears, type: Number},
     {field: 'notes', headerName: 'Notes', width: 150},
 ]
-function renderRating(params) {
-    return <Rating readOnly value={params.value} />;
-}
+
 
 
 function TeamGrid(){
-    const test = "234"
     const [data, setData] = useState([]);
 
     const updateData = () => {

@@ -1,20 +1,18 @@
-import {useEffect, useReducer, useState} from "react";
+import {useReducer, useState} from "react";
 import {
     Button,
     Checkbox,
     FormControlLabel,
     FormGroup,
     Grid,
-    IconButton, makeStyles,
-    Paper,
+    IconButton, Paper,
     Switch,
     Typography,
-    TextField, MenuItem, Select, FormHelperText, InputLabel, FormControl
+    TextField, MenuItem, Select, FormHelperText, FormControl
 } from "@mui/material";
 import React from "react";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import {Field} from "formik";
 
 import TeamDataService from "../../services/team";
 
@@ -96,7 +94,7 @@ const GameForm = () => {
         cycleTimes[index].cargoScored = event.target.checked ? 2 : 1;
         updateCycleTime(index, cycleTimes);
     }
-    const onRemoveCycle = index => event => {
+    const onRemoveCycle = index => () => {
         let cycleTimes = JSON.parse(JSON.stringify(cycleList));
         cycleTimes[index].cargoScored = 0;
         cycleTimes[index].cargoShot = 0;
@@ -204,7 +202,7 @@ const GameForm = () => {
         }
     }
     //------Form------
-    const [isDefultClimb, setIsDefultClimb] = useState(true);
+    // const [isDefultClimb, setIsDefultClimb] = useState(true);
     const handleSubmit = () => {
         const values =
             {
@@ -231,12 +229,7 @@ const GameForm = () => {
         setIsTimerStart(false)
 
     }
-    const onChangeIsDefaultClimb = (Event) => {
-      setIsDefultClimb(Event.target.checked);
-    }
-
-
-    //-----JSX-----
+//-----JSX-----
     return (
         <Paper sx={{marginTop:15}}>
         <div>

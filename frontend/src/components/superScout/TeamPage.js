@@ -1,6 +1,6 @@
 import TeamDataService from "../../services/team";
 import { useEffect, useState } from "react";
-import { CssBaseline, FormGroup, FormControlLabel, styled, Grid, Paper, Typography, Checkbox, Radio } from "@mui/material";
+import { styled, Grid, Paper, Typography} from "@mui/material";
 import { useParams } from "react-router-dom";
 import { mainTheme } from "../../theme";
 
@@ -28,7 +28,7 @@ function TeamPage() {
     }, [teamNumber]);
 
 
-    const Item = styled(Paper)(({ theme }) => ({
+    const Item = styled(Paper)(() => ({
         mainTheme
     }));
 

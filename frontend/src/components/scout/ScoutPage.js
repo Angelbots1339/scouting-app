@@ -1,10 +1,5 @@
-import PitForm from "./PitForm";
 import { Outlet, Link } from "react-router-dom";
-import { ThemeProvider, CssBaseline, Button, ButtonGroup, AppBar } from "@mui/material";
-import { mainTheme } from "../../theme";
-
-
-
+import { Button, ButtonGroup, AppBar } from "@mui/material";
 
 
 export default function ScoutPage() {
@@ -13,7 +8,7 @@ export default function ScoutPage() {
             <div>
             <div style={{width: "auto", alignItems:"center"}}>
                 <AppBar style={{display: "flex", alignItems:"center", width:"100"}}>
-                <img src="../../logo200.png" style={{ width: 60, height: 60, borderRadius: 10 }} sx={{ p: 5, m: 5 }} />
+                <img src="../../logo200.png" alt={"angleBoticsLogo"}style={{ width: 60, height: 60, borderRadius: 10 }} sx={{ p: 5, m: 5 }} />
 
                 <ButtonGroup variant="contained" sx={{ m: 2 }}>
 
