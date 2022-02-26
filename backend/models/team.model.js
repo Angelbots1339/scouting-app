@@ -45,7 +45,7 @@ const teamSchema = new mongoose.Schema({
         default: false
     },
     pitScout: pitScout,
-    games: [gameScout ],
+    games: [gameScout],
     notes: String
 });
 
