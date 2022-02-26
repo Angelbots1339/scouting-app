@@ -9,9 +9,12 @@ const autoRoutine = new mongoose.Schema({
 const pitScout = new mongoose.Schema({
     //-----GeneralRobotInfo------
     driveTrainType: String,
+    motorType: String,
+    bumperQuality: String,
     areFalconsLoctited: Boolean,
     robotLength: Number,
     robotWidth: Number,
+    robotHeight: Number,
     experienceInYears: Number,
     wiringOrganization: Number,
     motorCount: Number,
@@ -25,15 +28,18 @@ const pitScout = new mongoose.Schema({
     canShootInHigh: Boolean,
 
 
-    autoRoutines: [autoRoutine],
+    autoRoutines:[autoRoutine],
 
     climbHeight: String,
     climbConfidence: Number,
 
+
+    pitSystem: String,
     hasRedFlags: Boolean,
     redFlags: String,
     notes: String,
 })
+
 
 //cycles: [cycleTime: cycleTime,
 //             HighGoal: false,
