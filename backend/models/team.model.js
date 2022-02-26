@@ -25,7 +25,7 @@ const pitScout = new mongoose.Schema({
     canShootInHigh: Boolean,
 
 
-    autoRoutines:[autoRoutine],
+    autoRoutines: [autoRoutine],
 
     climbHeight: String,
     climbConfidence: Number,
@@ -34,8 +34,36 @@ const pitScout = new mongoose.Schema({
     redFlags: String,
     notes: String,
 })
+
+//cycles: [cycleTime: cycleTime,
+//             HighGoal: false,
+//             cargoShot: 1,
+//             cargoScored: 1],
+//                 cargoShotLow,
+//                 cargoShotHigh,
+//                 cargoScoredLow,
+//                 cargoScoredHigh,
+//                 notes,
+//                 brokeDown,
+//                 auto,
+//                 climb
+const cycle = new mongoose.Schema({
+    cycleTime: Number,
+    HighGoal: Boolean,
+    cargoShot: Number,
+    cargoScored: Number
+})
 const gameScout = new mongoose.Schema({
-    pointsScored: Number
+    cargoShotLow: Number,
+    cargoShotHigh: Number,
+    cargoScoredLow: Number,
+    cargoScoredHigh: Number,
+    notes: String,
+    brokeDown: Number,
+    auto: autoRoutine,
+    climb: Number,
+    cycles: [cycle]
+
 })
 
 const teamSchema = new mongoose.Schema({
