@@ -1,11 +1,14 @@
 import {DataGrid} from "@mui/x-data-grid";
-import {Button, Rating} from "@mui/material";
+import {Button, Rating, CssBaseline} from "@mui/material";
 import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
 import TeamDataService from "../../services/team";
+import { ThemeProvider } from "@emotion/react";
+import { mainTheme} from "../../theme";
+
 
 const columns = [
-    {field: '_id', headerName: 'Team', width: 150, renderCell: (params) => (<Button component={Link} to={`/superscout/${params.value}`}>{params.value}</Button>)},
+    {field: '_id', headerName: 'Team', width: 150, renderCell: (params) => (<Button component={Link} variant={"contained"}  to={`/superscout/${params.value}`}>{params.value}</Button>)},
     {field: 'isPitScouted', headerName: 'Pit Scouted', width:150,  type: 'boolean'},
     {field: 'DriveBase', headerName: 'DriveBase', width: 150, valueGetter: (params) => params.row?.pitScout?.driveBaseType},
     {field: 'redFlags', headerName: 'redFlags', width: 150, valueGetter: (params) => params.row?.pitScout?.redFlags},
@@ -29,9 +32,11 @@ function TeamGrid(){
         updateData();
     }, [])
     return (
-        <div style={{ height: 400, width: "100%" }}>
-            <DataGrid rows={data || []} columns={columns} getRowId={(row) => row._id} pageSize={15}/>
+       
+        <div style={{ height: 400, width: "100%"}}>
+            <DataGrid rows={data || []} columns={columns} getRowId={(row) => row._id} pageSize={15} sx={{marginTop:20}}/>
         </div>
+        
     );
 }
 export default TeamGrid;

@@ -1,20 +1,21 @@
 import mongoose from "mongoose";
 
+
 const autoRoutine = new mongoose.Schema({
     position: Number,
     cargoLow: Number,
     cargoHigh: Number,
     offLine: Boolean
 })
-autoRoutine.virtual('score').get(function() {
-    return this.cargoLow * 2 + this.cargoHigh * 4 + this.offLine;
-});
 const pitScout = new mongoose.Schema({
     //-----GeneralRobotInfo------
     driveTrainType: String,
+    motorType: String,
+    bumperQuality: String,
     areFalconsLoctited: Boolean,
     robotLength: Number,
     robotWidth: Number,
+    robotHeight: Number,
     experienceInYears: Number,
     wiringOrganization: Number,
     motorCount: Number,
@@ -33,33 +34,12 @@ const pitScout = new mongoose.Schema({
     climbHeight: String,
     climbConfidence: Number,
 
+
+    pitSystem: String,
     hasRedFlags: Boolean,
     redFlags: String,
     notes: String,
 })
-
-const cycles = new mongoose.Schema({
-    cycleTime: Number,
-    cargoShot: Number,
-    HighGoal: Boolean,
-    cargoScored: Number
-})
-cycles.virtual("score").get(() => this.cargoScoredLow + this.cargoScoredHigh * 2)
-
-const gameScout = new mongoose.Schema({
-    auto: autoRoutine,
-    cycles: [cycles],
-    climb: Number, //climb failed = -1
-    brokeDown: Boolean,
-    notes: String,
-    cargoShotLow : Number,
-    cargoShotHigh : Number,
-    cargoScoredLow : Number,
-    cargoScoredHigh : Number,
-})
-
-cycles.virtual("score").get(() => this.auto.score + this.cycles.reduce((sum, value) =>  sum + value.score));
-
 
 
 const teamSchema = new mongoose.Schema({
@@ -72,15 +52,6 @@ const teamSchema = new mongoose.Schema({
     games: [gameScout],
     notes: String
 });
-
-/**setCycleList([...cycleList, {
- cycleTime: cycleTime,
- HighGoal: false,
- cargoShot: 1,
- cargoScored: 1
- }])**/
-
-
 
 
 const team = mongoose.model('team', teamSchema)

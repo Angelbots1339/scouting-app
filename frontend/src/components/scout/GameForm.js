@@ -107,6 +107,7 @@ const GameForm = () => {
 
     const cycleComponent = (datum, index) => {
         return (
+
             <Paper sx={{p: 0.5, m: 0.5}} key={index}>
                 <Grid>
                     <FormControlLabel control={<Switch/>} label={"Two Shot"} checked={datum.cargoShot === 2}
@@ -237,6 +238,7 @@ const GameForm = () => {
 
     //-----JSX-----
     return (
+        <Paper sx={{marginTop:15}}>
         <div>
             <Paper sx={{m: 1, p: 1}}>
                 <form onSubmit={handleSubmit}>
@@ -361,6 +363,7 @@ const GameForm = () => {
 
             </Paper>
         </div>
+        </Paper>
     )
 }
 export default GameForm
