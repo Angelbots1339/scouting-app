@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-
 const autoRoutine = new mongoose.Schema({
     position: Number,
     cargoLow: Number,
@@ -10,12 +9,9 @@ const autoRoutine = new mongoose.Schema({
 const pitScout = new mongoose.Schema({
     //-----GeneralRobotInfo------
     driveTrainType: String,
-    motorType: String,
-    bumperQuality: String,
     areFalconsLoctited: Boolean,
     robotLength: Number,
     robotWidth: Number,
-    robotHeight: Number,
     experienceInYears: Number,
     wiringOrganization: Number,
     motorCount: Number,
@@ -34,13 +30,13 @@ const pitScout = new mongoose.Schema({
     climbHeight: String,
     climbConfidence: Number,
 
-
-    pitSystem: String,
     hasRedFlags: Boolean,
     redFlags: String,
     notes: String,
 })
-
+const gameScout = new mongoose.Schema({
+    pointsScored: Number
+})
 
 const teamSchema = new mongoose.Schema({
     _id: Number,
@@ -49,7 +45,7 @@ const teamSchema = new mongoose.Schema({
         default: false
     },
     pitScout: pitScout,
-    games: [gameScout],
+    games: [gameScout ],
     notes: String
 });
 
