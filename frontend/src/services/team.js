@@ -18,6 +18,9 @@ class TeamDataService {
     getScoutNeededTeams(){
         return http.get('/team/scoutNeeded');
     }
+    addGame(teamNumber, data){
+        return http.post(`/${teamNumber}/game`, data)
+    }
 }
 
 

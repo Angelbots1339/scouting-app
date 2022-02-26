@@ -1,20 +1,21 @@
-import {useEffect, useState} from "react";
+import {useReducer, useState} from "react";
 import {
     Button,
     Checkbox,
     FormControlLabel,
     FormGroup,
     Grid,
-    IconButton, makeStyles,
-    Paper,
+    IconButton, Paper,
     Switch,
     Typography,
-    TextField, MenuItem, Select, FormHelperText, InputLabel, FormControl
+    TextField, MenuItem, Select, FormHelperText, FormControl
 } from "@mui/material";
 import React from "react";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import {Field} from "formik";
+
+import TeamDataService from "../../services/team";
+
 
 
 const GameForm = () => {
@@ -24,7 +25,18 @@ const GameForm = () => {
     const [cargoScoredHigh, setCargoScoredHigh] = useState(0);
     const [cargoScoredLow, setCargoScoredLow] = useState(0);
 
+    const stateReducer = (state, action) => ({
+        ...state,
+        ...(typeof action === 'function' ? action(state) : action),
+    });
+    const [auto, setAuto] = useReducer(stateReducer, {cargoHigh: 0, cargoLow: 0 , offline: false})
+    const [climb, setClimb] = useState(0);
+    const [notes, setNotes] = useState("");
+    const [brokeDown, setBrokeDown] = useState(false);
+    const [teamNumber, setTeamNumber] = useState(0);
+
     const [cycleList, setCycleList] = useState([])
+
     const addCycleTime = () => {
         setCycleList([...cycleList, {
             cycleTime: cycleTime,
@@ -35,6 +47,7 @@ const GameForm = () => {
         setCargoShotLow(cargoShotLow + 1);
         setCargoScoredLow(cargoScoredLow + 1);
     }
+
     const updateCycleTime = (index, newList) => {
         let previousCycle = cycleList[index];
         let currentCycle = newList[index];
@@ -81,7 +94,7 @@ const GameForm = () => {
         cycleTimes[index].cargoScored = event.target.checked ? 2 : 1;
         updateCycleTime(index, cycleTimes);
     }
-    const onRemoveCycle = index => event => {
+    const onRemoveCycle = index => () => {
         let cycleTimes = JSON.parse(JSON.stringify(cycleList));
         cycleTimes[index].cargoScored = 0;
         cycleTimes[index].cargoShot = 0;
@@ -189,7 +202,7 @@ const GameForm = () => {
         }
     }
     //------Form------
-    const [isDefultClimb, setIsDefultClimb] = useState(true);
+    // const [isDefultClimb, setIsDefultClimb] = useState(true);
     const handleSubmit = () => {
         const values =
             {
@@ -197,16 +210,26 @@ const GameForm = () => {
                 cargoShotLow,
                 cargoShotHigh,
                 cargoScoredLow,
-                cargoScoredHigh
+                cargoScoredHigh,
+                notes,
+                brokeDown,
+                auto,
+                climb
             }
-        alert(JSON.stringify(values, null, 2))
-    }
-    const onChangeIsDefaultClimb = (Event) => {
-      setIsDefultClimb(Event.target.checked);
-    }
+        TeamDataService.addGame(teamNumber, values).then((data) => console.log(data));
+        setTeamNumber(0)
+        setCargoScoredHigh(0)
+        setCargoScoredLow(0)
+        setCargoShotHigh(0)
+        setCargoShotLow(0)
+        setAuto({cargoHigh: 0, cargoLow: 0 , offline: false})
+        setClimb(0)
+        setNotes("")
+        setCycleList([])
+        setIsTimerStart(false)
 
-
-    //-----JSX-----
+    }
+//-----JSX-----
     return (
         <Paper sx={{marginTop:15}}>
         <div>
@@ -214,7 +237,44 @@ const GameForm = () => {
                 <form onSubmit={handleSubmit}>
                     <FormGroup>
                         <div>
-                            <Typography variant={"h4"}> 1339</Typography>
+                            <TextField name={`Team`} type="number"
+                                       label="Team Number"
+                                       margin={"normal"}
+                                       inputProps={{min: 0, max: 9999}}
+                                       value={teamNumber}
+                                       onChange={e => setTeamNumber(e.target.value)}
+                            />
+
+
+
+                            <Typography variant={"h6"}> Auto</Typography>
+
+                            <FormGroup>
+                            <TextField name={`cargoLow`} type="number"
+                                   label="Cargo Low"
+                                   margin={"normal"}
+                                   inputProps={{min: 0, max: 5}}
+                            value={auto.cargoLow}
+                                       onChange={e => setAuto({cargoLow: e.target.value})}
+                            />
+
+                            <TextField name={`cargoHigh`} type="number"
+                                   label="Cargo High"
+                                   margin={"normal"}
+                                   inputProps={{min: 0, max: 5}}
+                            value={auto.cargoHigh}
+                            onChange={e => setAuto({cargoHigh: e.target.value})}/>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox type="checkbox" name={`offLine`} value={auto.offLine}
+                                              onChange={e => setAuto({offline: e.target.checked})}/>
+                                }
+                                label="Off Start Line"
+                                />
+
+                            </FormGroup>
+
+                            <Typography variant={"h6"}> Cycles</Typography>
                             <Paper elevation={4} sx={{p: 1}}>
                                 {cycleList.map(cycleComponent)}
 
@@ -251,42 +311,45 @@ const GameForm = () => {
                                       }, 0) : 0}/>
                     </Grid>
                     <FormGroup>
+                        <Typography variant={"h6"}> Climb</Typography>
 
-                        <FormControlLabel control={<Checkbox  checked={isDefultClimb}/>} label={"Climbed: Loading..."} onChange={onChangeIsDefaultClimb}/>
-                        {!isDefultClimb &&
+                        {/*<FormControlLabel control={<Checkbox  checked={isDefultClimb}/>} label={"Climbed: Loading..."} onChange={onChangeIsDefaultClimb}/>*/}
+
                             <FormControl variant={"standard"}>
-                            <InputLabel id="climb-label">Climb</InputLabel>
                             <Select
                                 labelId="climb-label"
                                 id="Climb"
                                 label="Age"
+                                value={climb}
+                                onChange={e => setClimb(e.target.value)}
                             >
                                 <MenuItem value="None">
                                     <em>None</em>
                                 </MenuItem>
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
+                                <MenuItem value={-1}>Failed</MenuItem>
+                                <MenuItem value={0}>LowBar</MenuItem>
+                                <MenuItem value={1}>MidBar</MenuItem>
+                                <MenuItem value={2}>HighBar</MenuItem>
+                                <MenuItem value={3}>TraversalBar</MenuItem>
                             </Select>
                             <FormHelperText>Select Climb</FormHelperText>
-                        </FormControl>}
+                        </FormControl>
+                        <Typography variant={"h6"}> Extra</Typography>
+
                         <TextField
                             name="notes"
                             type="text"
                             label="Notes"
                             margin={"normal"}
+                            value={notes}
+                            onChange={e => setNotes(e.target.value)}
                             multiline
                             maxRows={4}
                         />
+                        <FormControlLabel control={<Checkbox  checked={brokeDown} onChange={e => setBrokeDown(e.target.checked)}/>} label={"BrokeDown"} />
 
-                        <TextField
-                            name="redFlags"
-                            type="text"
-                            label="RedFlags"
-                            margin={"normal"}
-                            multiline
-                            maxRows={4}
-                        />
+
+
                     </FormGroup>
                     <Button type={"submit"}>Ready</Button>
                 </form>

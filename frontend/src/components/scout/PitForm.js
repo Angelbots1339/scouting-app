@@ -1,24 +1,18 @@
 import {
     Button,
-    FormControl, FormControlLabel, FormGroup, FormHelperText, FormLabel,
+    FormControlLabel, FormGroup, FormLabel,
     Grid, Paper, Typography, AutocompleteRenderInputParams, MenuItem, Rating, IconButton
 } from "@mui/material";
 import MuiTextField from '@mui/material/TextField';
-import MuiCheckBox from '@mui/material/Checkbox';
 import {Field, FieldArray, Formik} from "formik";
 
 import * as yup from "yup";
 import { useEffect, useState } from "react";
 import TeamDataService from "../../services/team";
 
-import {Add, Remove} from "@mui/icons-material";
+import {Remove} from "@mui/icons-material";
 
-import { TextField, Autocomplete, Select, RadioGroup, Checkbox, rating } from 'formik-mui';
-import { blue } from "@mui/material/colors";
-import { mainTheme} from "../../theme";
-import { ThemeProvider } from "@emotion/react";
-import { Link } from "react-router-dom";
-
+import { TextField, Autocomplete, Checkbox} from 'formik-mui';
 
 
 const validationSchema = yup.object({
@@ -88,16 +82,16 @@ const PitForm = () => {
         }}
                 
 
-            onSubmit={(values, { setSubmitting, resetForm }) => {
+            onSubmit={(values, {resetForm }) => {
 
                 console.log(JSON.stringify(values))
                 alert(JSON.stringify(values, null, 2))
                 let teamNumber = values.team;
                 delete values.team
-                // TeamDataService.updateTeam(teamNumber, {
-                //     "isPitScouted": true,
-                //     "pitScout": values
-                // })
+                TeamDataService.updateTeam(teamNumber, {
+                    "isPitScouted": true,
+                    "pitScout": values
+                })
                 resetForm();
             }}
 
@@ -109,7 +103,6 @@ const PitForm = () => {
                 errors,
                 touched,
                 handleChange,
-                handleBlur,
                 handleSubmit,
                 isSubmitting,
                 /* and other goodies */

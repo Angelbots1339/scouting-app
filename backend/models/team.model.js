@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-
 const autoRoutine = new mongoose.Schema({
     position: Number,
     cargoLow: Number,
@@ -10,12 +9,9 @@ const autoRoutine = new mongoose.Schema({
 const pitScout = new mongoose.Schema({
     //-----GeneralRobotInfo------
     driveTrainType: String,
-    motorType: String,
-    bumperQuality: String,
     areFalconsLoctited: Boolean,
     robotLength: Number,
     robotWidth: Number,
-    robotHeight: Number,
     experienceInYears: Number,
     wiringOrganization: Number,
     motorCount: Number,
@@ -29,18 +25,46 @@ const pitScout = new mongoose.Schema({
     canShootInHigh: Boolean,
 
 
-    autoRoutines:[autoRoutine],
+    autoRoutines: [autoRoutine],
 
     climbHeight: String,
     climbConfidence: Number,
 
-
-    pitSystem: String,
     hasRedFlags: Boolean,
     redFlags: String,
     notes: String,
 })
 
+//cycles: [cycleTime: cycleTime,
+//             HighGoal: false,
+//             cargoShot: 1,
+//             cargoScored: 1],
+//                 cargoShotLow,
+//                 cargoShotHigh,
+//                 cargoScoredLow,
+//                 cargoScoredHigh,
+//                 notes,
+//                 brokeDown,
+//                 auto,
+//                 climb
+const cycle = new mongoose.Schema({
+    cycleTime: Number,
+    HighGoal: Boolean,
+    cargoShot: Number,
+    cargoScored: Number
+})
+const gameScout = new mongoose.Schema({
+    cargoShotLow: Number,
+    cargoShotHigh: Number,
+    cargoScoredLow: Number,
+    cargoScoredHigh: Number,
+    notes: String,
+    brokeDown: Number,
+    auto: autoRoutine,
+    climb: Number,
+    cycles: [cycle]
+
+})
 
 const teamSchema = new mongoose.Schema({
     _id: Number,
