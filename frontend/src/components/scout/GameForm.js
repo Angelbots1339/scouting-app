@@ -200,8 +200,6 @@ const GameForm = () => {
 
 
 
-
-
         if (isTimerStart) {
             addCycleTime();
             setCycleTime(0);
@@ -213,9 +211,11 @@ const GameForm = () => {
     //------Form------
     // const [isDefultClimb, setIsDefultClimb] = useState(true);
     const handleSubmit = () => {
+
+
         const values =
             {
-               cycles: [...cycleList],
+                cycles: [...cycleList],
                 cargoShotLow,
                 cargoShotHigh,
                 cargoScoredLow,
@@ -236,6 +236,9 @@ const GameForm = () => {
         }
         TeamDataService.addGame(teamNumber, values).then((data) => console.log(data));
 
+
+
+
         setTeamNumber(0)
         setCargoScoredHigh(0)
         setCargoScoredLow(0)
@@ -253,7 +256,7 @@ const GameForm = () => {
         <Paper sx={{marginTop:15}}>
         <div>
             <Paper sx={{m: 1, p: 1}}>
-                <form onSubmit={handleSubmit}>
+                <form>
                     <FormGroup>
                         <div>
                             <TextField name={`Team`} type="number"
@@ -370,7 +373,7 @@ const GameForm = () => {
 
 
                     </FormGroup>
-                    <Button type={"submit"}>Ready</Button>
+                    <Button variant={"contained"} onClick={handleSubmit}>Ready</Button>
                 </form>
 
             </Paper>
