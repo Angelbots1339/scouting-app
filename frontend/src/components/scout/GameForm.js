@@ -192,7 +192,16 @@ const GameForm = () => {
         return `${getMinutes}:${getSeconds}:${getMiliSecons}`
     }
 
+
+    const [teams, setTeams] = useState([]);
     const onClickStart = () => {
+
+
+
+
+
+
+
         if (isTimerStart) {
             addCycleTime();
             setCycleTime(0);
@@ -206,7 +215,7 @@ const GameForm = () => {
     const handleSubmit = () => {
         const values =
             {
-                cycles: [...cycleList],
+               cycles: [...cycleList],
                 cargoShotLow,
                 cargoShotHigh,
                 cargoScoredLow,
@@ -216,7 +225,17 @@ const GameForm = () => {
                 auto,
                 climb
             }
+
+
+        TeamDataService.getAllTeams().then(res => {
+            setTeams(res.data.map((team) => team._id))
+        })
+
+        if(!teams.includes(teamNumber)){
+            TeamDataService.addTeam(teamNumber);
+        }
         TeamDataService.addGame(teamNumber, values).then((data) => console.log(data));
+
         setTeamNumber(0)
         setCargoScoredHigh(0)
         setCargoScoredLow(0)
