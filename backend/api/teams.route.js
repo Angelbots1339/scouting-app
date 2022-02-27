@@ -2,6 +2,32 @@ import express from "express";
 import Team from '../models/team.model.js'
 
 const router = express.Router()
+const sturcterTeam = (team) => {
+
+    let teamScout = {}
+    if(team.isPitScouted){
+        teamScout = {...team?.pitScout._doc}
+        delete teamScout.autoRoutines
+        delete teamScout._id
+    }
+
+    let data = {
+
+        teamNumber: team._id,
+        averageContributedScore: team.games.reduce((total, next) => total + next.score, 0)/team.games.length || 0,
+        ...teamScout
+
+    }
+    return data
+}
+const sturcterTeams = (teams) => {
+    let data =[];
+    for (let i = 0; i < teams.length; i++) {
+        data.push(sturcterTeam(teams[i]))
+    }
+    return data
+}
+
 
 router.route("/").get((req, res, next) =>{
     Team.find()
@@ -11,6 +37,16 @@ router.route("/").get((req, res, next) =>{
 router.route("/:id").get((req, res, next) =>{
     Team.findById(req.params.id)
         .then((team) => {res.send(team)})
+        .catch(next)
+})
+router.route("/:id/data").get((req, res, next) =>{
+    Team.findById(req.params.id)
+        .then((team) => {res.send(sturcterTeam(team))})
+        .catch(next)
+})
+router.route("/data/all").get((req, res, next) =>{
+    Team.find()
+        .then((teams) => {res.send(sturcterTeams(teams))})
         .catch(next)
 })
 router.route("/team/scoutNeeded").get((req, res, next) =>{
