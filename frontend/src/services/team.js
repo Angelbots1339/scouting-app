@@ -22,6 +22,9 @@ class TeamDataService {
     addGame(teamNumber, data){
         return http.post(`/${teamNumber}/game`, data)
     }
+    addNote(teamNumber, note){
+        return http.post(`/${teamNumber}/notes`, {note: note})
+    }
 
 
     addTeam(teamNumber){

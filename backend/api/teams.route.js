@@ -11,14 +11,13 @@ const sturcterTeam = (team) => {
         delete teamScout._id
     }
 
-    let data = {
+    return {
 
         teamNumber: team._id,
-        averageContributedScore: team.games.reduce((total, next) => total + next.score, 0)/team.games.length || 0,
+        averageContributedScore: team.games.reduce((total, next) => total + next.score, 0) / team.games.length || 0,
         ...teamScout
 
     }
-    return data
 }
 const sturcterTeams = (teams) => {
     let data =[];
@@ -76,10 +75,17 @@ router.route("/:id/game").post(((req, res, next) =>{
         res.send(team.games)
     }).catch(next)
 }))
+router.route("/:id/notes").post(((req, res, next) =>{
+    Team.findById({_id: req.params.id}).then((team) => {
+        team.notes.push(req.body.note)
+        team.save()
+        res.send(team.notes)
+    }).catch(next)
+}))
 router.route("/:id/game").get(((req, res, next) => {
     Team.findById({_id: req.params.id}).then((team) => {
         res.send(team.games)
-    } )
+    } ).catch(next)
 }))
 
 

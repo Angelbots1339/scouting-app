@@ -12,13 +12,12 @@ import GameForm from "./components/scout/GameForm";
 import { mainTheme } from "./theme";
 import { ThemeProvider } from '@mui/material/styles';
 import {CssBaseline} from '@mui/material'
+import DriveTeamForm from "./components/scout/DriveTeamForm";
 
-
-const theme = mainTheme;
 
 
 ReactDOM.render(
-    <ThemeProvider theme={theme} >
+    <ThemeProvider theme={mainTheme} >
         <CssBaseline/>
     <BrowserRouter>
         <Routes>
@@ -26,6 +25,7 @@ ReactDOM.render(
             <Route path="scout" element={<ScoutPage/>}>
                 <Route path="pitform" element={<PitForm/>}/>
                 <Route path="gameform" element={<GameForm/>}/>
+                <Route path="driveteamform" element={<DriveTeamForm/>}/>
             </Route>
             <Route path="superscout" element={<SuperScoutPage />}>
                 <Route path={":teamNumber"} element={<TeamPage/>}/>
