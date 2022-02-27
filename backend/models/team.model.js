@@ -104,7 +104,8 @@ const teamSchema = new mongoose.Schema({
     },
     pitScout: pitScout,
     games: [gameScout],
-    notes: String
+    notes: String,
+    driveTeamNotes: [String]
 });
 
 
