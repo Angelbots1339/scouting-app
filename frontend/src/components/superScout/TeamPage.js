@@ -56,6 +56,8 @@ function TeamPage() {
                             <Typography variant="h3" sx={{ mx: 1, alignSelf: "center" }} color="primary"> Team {teamNumber}</Typography>
                             {rawData?.isPitScouted && <Typography variant="h5" sx={{ mx: 1 }} color="lightGreen">{"Has Been Scouted"}</Typography>}
                             {!rawData?.isPitScouted && <Typography variant="h5" sx={{ mx: 1 }} color="red">{"Has Been Scouted"}</Typography>}
+
+
                         </Item>
                     </Grid>
                     <Grid item xs={4} sx={{ mx: "auto", textAlign: "center" }}>
