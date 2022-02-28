@@ -1,6 +1,6 @@
 import TeamDataService from "../../services/team";
 import { useEffect, useState } from "react";
-import { styled, Grid, Paper, Typography} from "@mui/material";
+import { styled, Grid, Paper, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { mainTheme } from "../../theme";
 
@@ -14,10 +14,28 @@ function TeamPage() {
 
 
     const [team, setTeam] = useState([]);
-    const [rawData, setRawData] = useState([]); 
+    const [rawData, setRawData] = useState([]);
+    const [gamesArray, setGamesArray] = useState([]);
+    const [autosArray, setAutosArray] = useState([]);
 
-   
 
+    const getGamesArray = (id) => {
+
+        TeamDataService.getTeam(id).then(
+            response => {
+                setGamesArray(response.data.games)
+            }).catch(e => console.log(e));
+
+    }
+
+    const getAutosArray = (id) => {
+
+        TeamDataService.getTeam(id).then(
+            response => {
+                setAutosArray(response.data.pitScout.autoRoutines)
+            }).catch(e => console.log(e));
+
+    }
 
     const getTeam = (id) => {
         TeamDataService.getTeam(id).then(response => {
@@ -36,6 +54,8 @@ function TeamPage() {
     useEffect(() => {
         getTeam(teamNumber)
         getRawData(teamNumber)
+        getAutosArray(teamNumber)
+        getGamesArray(teamNumber)
 
     }, [teamNumber]);
 
@@ -56,6 +76,8 @@ function TeamPage() {
                             <Typography variant="h3" sx={{ mx: 1, alignSelf: "center" }} color="primary"> Team {teamNumber}</Typography>
                             {rawData?.isPitScouted && <Typography variant="h5" sx={{ mx: 1 }} color="lightGreen">{"Has Been Scouted"}</Typography>}
                             {!rawData?.isPitScouted && <Typography variant="h5" sx={{ mx: 1 }} color="red">{"Has Been Scouted"}</Typography>}
+
+                            <Typography variant="h5" color="secondary">{`Games Scouted: ${gamesArray.length || "loading..."}`}</Typography>
 
 
                         </Item>
@@ -141,18 +163,25 @@ function TeamPage() {
                         </Item>
                     </Grid>
 
-                    {/* team?.autoRoutines just breaks the code. Great.  */}
-                    {/* {
-                        team?.autoRoutines.map((number) => 
-                    
-                        <Grid item xs={4} sx={{ mx: "auto", textAlign: "center" }}>
-                            <Item sx={{ height: 300 }}>
-                                {number}
-                            </Item>
-                        </Grid>
-                        ) || "Loading..."
-                    } */}
 
+                    {
+                        autosArray.map((number) =>
+
+                            <Grid item xs={4} sx={{ mx: "auto", textAlign: "center" }} key={number}>
+                                <Item sx={{ height: 300 }}>
+
+                                    <Typography sx={{ p: 1 }} variant="h4" color="secondary">{`Auto Routine: ${autosArray.indexOf(number) || "0"}`}</Typography>
+                                    <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Position: ${number?.position || "0"}`}</Typography>
+                                    <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Cargo Low: ${number?.cargoLow || "0"}`}</Typography>
+                                    <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Cargo High: ${number?.cargoHigh || "0"}`}</Typography>
+
+                                    {number?.offLine && <Typography sx={{ p: 1 }} variant="h5" color="lightGreen">{`Moves Off Line`}</Typography>}
+                                    {!number?.offLine && <Typography sx={{ p: 1 }} variant="h5" color="red">{`Moves Off Line`}</Typography>}
+
+                                </Item>
+                            </Grid>
+                        )
+                    }
 
 
                 </Grid>
