@@ -13,6 +13,7 @@ import { mainTheme } from "./theme";
 import { ThemeProvider } from '@mui/material/styles';
 import {CssBaseline} from '@mui/material'
 import DriveTeamForm from "./components/scout/DriveTeamForm";
+import DataTable from "./components/superScout/DataTable";
 
 
 
@@ -22,6 +23,7 @@ ReactDOM.render(
     <BrowserRouter>
         <Routes>
             <Route path="/" element={<App />} />
+            <Route path="/datatable" element={<DataTable />} />
             <Route path="scout" element={<ScoutPage/>}>
                 <Route path="pitform" element={<PitForm/>}/>
                 <Route path="gameform" element={<GameForm/>}/>

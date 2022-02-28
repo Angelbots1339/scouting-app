@@ -11,7 +11,11 @@ const flattenTeam = (team) => {
         delete teamScout._id
     }
     const getAvg = (nums) => {
-      return nums.reduce((acc, a) => acc + a, 0)/nums.length;
+        if(nums){
+            return nums.reduce((acc, a) => acc + a, 0)/nums.length;
+        }
+        return []
+
     }
 
     let data = structorTeam(team);
@@ -45,9 +49,9 @@ const structorTeam = (team) => {
         percentScoredHigh: team.games.map((game) => game.percentScoredHigh),
         percentScoredLow: team.games.map((game) => game.percentScoredLow),
         percentShotHigh: team.games.map((game) => game.percentShotHigh),
-        autoCargoLow: team.games.map((game) => game.auto.cargoLow),
-        autoCargoHigh: team.games.map((game) => game.auto.cargoHigh),
-        contributedScore: team.games.map((game) => game.score),
+        //autoCargoLow: team.games.map((game) => game.auto.cargoLow),
+        //autoCargoHigh: team.games.map((game) => game.auto.cargoHigh),
+        //contributedScore: team.games.map((game) => game.score),
         lowCycleTimePerCargo: team.games.map((game) => game.cycles).flat().filter((cycle) => !cycle.HighGoal).map((cycle) => cycle.cycleTimePerBall),
         highCycleTimePerCargo: team.games.map((game) => game.cycles).flat().filter((cycle) => cycle.HighGoal).map((cycle) => cycle.cycleTimePerBall),
         ...teamScout
@@ -58,6 +62,7 @@ const flattenTeams = (teams) => {
     let data = [];
     for (let i = 0; i < teams.length; i++) {
         data.push(flattenTeam(teams[i]))
+
     }
     return data
 }
@@ -77,7 +82,7 @@ router.route("/:id").get((req, res, next) => {
         })
         .catch(next)
 })
-router.route("/:id/flatdata").get((req, res, next) => {
+router.route("/flatdata").get((req, res, next) => {
     Team.findById(req.params.id)
         .then((team) => {
             res.send(flattenTeam(team))
@@ -91,7 +96,7 @@ router.route("/:id/data").get((req, res, next) => {
         })
         .catch(next)
 })
-router.route("/flatdata").get((req, res, next) => {
+router.route("/data/flat").get((req, res, next) => {
     Team.find()
         .then((teams) => {
             res.send(flattenTeams(teams))
