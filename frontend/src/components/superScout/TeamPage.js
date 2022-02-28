@@ -1,6 +1,6 @@
 import TeamDataService from "../../services/team";
 import { useEffect, useState } from "react";
-import { CssBaseline, FormGroup, FormControlLabel, styled, Grid, Paper, Typography, Checkbox, Radio } from "@mui/material";
+import { styled, Grid, Paper, Typography} from "@mui/material";
 import { useParams } from "react-router-dom";
 import { mainTheme } from "../../theme";
 
@@ -40,7 +40,7 @@ function TeamPage() {
     }, [teamNumber]);
 
 
-    const Item = styled(Paper)(({ theme }) => ({
+    const Item = styled(Paper)(() => ({
         mainTheme
     }));
 
@@ -92,8 +92,8 @@ function TeamPage() {
 
                             <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Motor Type: ${team?.motorType || "loading..."}`}</Typography>
 
-                            {team?.motorType == "falcons" && team?.areFalconsLoctited && <Typography sx={{ p: 1 }} variant="h5" color="lightGreen">{`Loctited Falcons`}</Typography>}
-                            {team?.motorType == "falcons" && !team?.areFalconsLoctited && <Typography sx={{ p: 1 }} variant="h5" color="red">{`Loctited Falcons`}</Typography>}
+                            {team?.motorType === "falcons" && team?.areFalconsLoctited && <Typography sx={{ p: 1 }} variant="h5" color="lightGreen">{`Loctited Falcons`}</Typography>}
+                            {team?.motorType === "falcons" && !team?.areFalconsLoctited && <Typography sx={{ p: 1 }} variant="h5" color="red">{`Loctited Falcons`}</Typography>}
 
 
 
