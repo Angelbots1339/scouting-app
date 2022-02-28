@@ -42,18 +42,6 @@ const pitScout = new mongoose.Schema({
 })
 
 
-//cycles: [cycleTime: cycleTime,
-//             HighGoal: false,
-//             cargoShot: 1,
-//             cargoScored: 1],
-//                 cargoShotLow,
-//                 cargoShotHigh,
-//                 cargoScoredLow,
-//                 cargoScoredHigh,
-//                 notes,
-//                 brokeDown,
-//                 auto,
-//                 climb
 const cycle = new mongoose.Schema({
     cycleTime: Number,
     HighGoal: Boolean,
@@ -64,6 +52,12 @@ const cycle = new mongoose.Schema({
 cycle.virtual('score').get(function() {
     return (this.HighGoal? 2 : 1) * this.cargoScored;
 })
+
+cycle.virtual('cycleTimePerBall').get(function() {
+    return this.cycleTime/this.cargoScored ;
+})
+
+
 
 const gameScout = new mongoose.Schema({
     cargoShotLow: Number,
@@ -101,6 +95,39 @@ gameScout.virtual('score').get(function() {
 
     return acc + climbPoints + this.auto.score + this.cargoScoredHigh * 2 + this.cargoScoredLow;
 })
+gameScout.virtual('percentScoredHigh').get(function() {
+    let shotInCycles = 0;
+    let scoredInCycles = 0;
+    for (let i = 0; i < this.cycles.length; i++) {
+        if(this.cycles[i].HighGoal){
+            shotInCycles += this.cycles[i].cargoShot;
+            scoredInCycles += this.cycles[i].cargoScored;
+        }
+    }
+    return (scoredInCycles/shotInCycles + this.cargoScoredHigh/this.cargoShotHigh)/2;
+})
+gameScout.virtual('percentScoredLow').get(function() {
+    let shotInCycles = 0;
+    let scoredInCycles = 0;
+    for (let i = 0; i < this.cycles.length; i++) {
+        if(!this.cycles[i].HighGoal){
+            shotInCycles += this.cycles[i].cargoShot;
+            scoredInCycles += this.cycles[i].cargoScored;
+        }
+    }
+    return (scoredInCycles/shotInCycles + this.cargoScoredLow/this.cargoShotLow)/2;
+})
+gameScout.virtual('percentShotHigh').get(function() {
+    let shotHigh = 0;
+    let totalShot = 0;
+    for (let i = 0; i < this.cycles.length; i++) {
+        totalShot += this.cycles[i].cargoShot;
+        shotHigh += this.cycles[i].HighGoal? this.cycles[i].cargoShot : 0;
+    }
+    return (shotHigh/totalShot + this.cargoShotHigh/(this.cargoShotHigh + this.cargoShotLow))/2;
+})
+
+
 
 const teamSchema = new mongoose.Schema({
     _id: Number,

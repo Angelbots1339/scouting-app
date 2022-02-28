@@ -1,12 +1,13 @@
 import {
     Button,
-     FormControlLabel, FormGroup,
+     FormControlLabel, FormGroup, FormLabel,
     Grid, Paper, Typography, AutocompleteRenderInputParams, MenuItem, Rating, IconButton
 } from "@mui/material";
 import MuiTextField from '@mui/material/TextField';
 import * as yup from "yup";
 import { useEffect, useState } from "react";
 import TeamDataService from "../../services/team";
+import {Field, FieldArray, Formik} from "formik";
 
 import { Remove } from "@mui/icons-material";
 
@@ -86,7 +87,7 @@ const PitForm = () => {
         }}
 
 
-            onSubmit={(values, { setSubmitting, resetForm }) => {
+            onSubmit={(values, { resetForm }) => {
 
                 console.log(JSON.stringify(values))
                 alert(JSON.stringify(values, null, 2))
@@ -106,7 +107,6 @@ const PitForm = () => {
                 errors,
                 touched,
                 handleChange,
-                handleBlur,
                 handleSubmit,
                 isSubmitting,
                 /* and other goodies */
@@ -176,7 +176,7 @@ const PitForm = () => {
                                 <MenuItem value={"other"}>Other</MenuItem>
                             </Field>
 
-                            {values.motorType == "falcons" &&
+                            {values.motorType === "falcons" &&
                                 <FormControlLabel control={<Field component={Checkbox} type="checkbox" name="areFalconsLoctited" />} label="Are Falcons Loctited" disabled={isSubmitting} />
                             }
 
@@ -238,7 +238,7 @@ const PitForm = () => {
 
                             {/*---------Team----------*/}
                             <div>
-                                <hr style={{ width: 'auto', height: 1, borderWidth: 5 }} color="grey"></hr>
+                                <hr style={{ width: 'auto', height: 1, borderWidth: 5 }} color="grey"/>
                             </div>
 
 
@@ -277,7 +277,7 @@ const PitForm = () => {
 
                             {/*---------Shooter----------*/}
                             <div>
-                                <hr style={{ width: 'auto', height: 1, borderWidth: 5 }} color="grey"></hr>
+                                <hr style={{ width: 'auto', height: 1, borderWidth: 5 }} color="grey"/>
                             </div>
 
 
@@ -317,7 +317,7 @@ const PitForm = () => {
                             {/*-------Auto------*/}
 
                             <div>
-                                <hr style={{ width: 'auto', height: 1, borderWidth: 5 }} color="grey"></hr>
+                                <hr style={{ width: 'auto', height: 1, borderWidth: 5 }} color="grey"/>
                             </div>
 
 
@@ -368,7 +368,7 @@ const PitForm = () => {
                             {/*------Climb---------*/}
 
                             <div>
-                                <hr style={{ width: 'auto', height: 1, borderWidth: 5 }} color="grey"></hr>
+                                <hr style={{ width: 'auto', height: 1, borderWidth: 5 }} color="grey"/>
                             </div>
 
 
@@ -407,7 +407,7 @@ const PitForm = () => {
                             {/*------Extra------*/}
 
                             <div>
-                                <hr style={{ width: 'auto', height: 1, borderWidth: 5 }} color="grey"></hr>
+                                <hr style={{ width: 'auto', height: 1, borderWidth: 5 }} color="grey"/>
                             </div>
 
 

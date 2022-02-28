@@ -269,6 +269,7 @@ const GameForm = () => {
 
 
 
+
                             <Typography variant={"h6"}> Auto</Typography>
 
                             <FormGroup>

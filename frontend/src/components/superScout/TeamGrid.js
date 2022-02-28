@@ -16,6 +16,7 @@ const columns = [
 
 
 
+
 function TeamGrid(){
     const [data, setData] = useState([]);
 
@@ -29,7 +30,7 @@ function TeamGrid(){
     return (
        
         <div style={{ height: 400, width: "100%"}}>
-            <DataGrid rows={data || []} columns={columns} getRowId={(row) => row._id} pageSize={15} sx={{marginTop:20}}/>
+            <DataGrid rows={data || []} columns={columns} getRowId={(row) => row._id} pageSize={15} sx={{marginTop:20}} style={{ direction: 'rtl'}}/>
         </div>
         
     );
