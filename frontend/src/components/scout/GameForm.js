@@ -362,11 +362,11 @@ const GameForm = () => {
                                     <MenuItem value="None">
                                         <em>None</em>
                                     </MenuItem>
-                                    <MenuItem value={-1}>Failed</MenuItem>
-                                    <MenuItem value={0}>LowBar</MenuItem>
-                                    <MenuItem value={1}>MidBar</MenuItem>
-                                    <MenuItem value={2}>HighBar</MenuItem>
-                                    <MenuItem value={3}>TraversalBar</MenuItem>
+                                    <MenuItem value={0}>Failed</MenuItem>
+                                    <MenuItem value={1}>LowBar</MenuItem>
+                                    <MenuItem value={2}>MidBar</MenuItem>
+                                    <MenuItem value={3}>HighBar</MenuItem>
+                                    <MenuItem value={4}>TraversalBar</MenuItem>
                                 </Select>
                                 <FormHelperText>Select Climb</FormHelperText>
                             </FormControl>
