@@ -92,8 +92,21 @@ gameScout.virtual('score').get(function() {
         acc += this.cycles[i].score;
 
     }
-
     return acc + climbPoints + this.auto.score + this.cargoScoredHigh * 2 + this.cargoScoredLow;
+})
+gameScout.virtual('highCargoScored').get(function() {
+    let acc = 0;
+    for (let i = 0; i < this.cycles.length; i++) {
+        acc += this.cycles[i].HighGoal? this.cycles[i].cargoScored : 0;
+    }
+    return acc + this.cargoScoredHigh;
+})
+gameScout.virtual('lowCargoScored').get(function() {
+    let acc = 0;
+    for (let i = 0; i < this.cycles.length; i++) {
+        acc += !this.cycles[i].HighGoal? this.cycles[i].cargoScored : 0;
+    }
+    return acc + this.cargoScoredLow;
 })
 gameScout.virtual('percentScoredHigh').get(function() {
     let shotInCycles = 0;
