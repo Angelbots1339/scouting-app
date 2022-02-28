@@ -257,7 +257,7 @@ const GameForm = () => {
         <div>
             <Paper sx={{m: 1, p: 1}}>
                 <form>
-                    <FormGroup>
+                    <FormGroup sx={{ paddingLeft: 10, paddingTop: 8}}>
                         <div>
                             <TextField name={`Team`} type="number"
                                        label="Team Number"
@@ -313,7 +313,7 @@ const GameForm = () => {
                         </div>
                     </FormGroup>
 
-                    <Grid container>
+                    <Grid container sx={{ paddingLeft: 10, paddingTop:2, paddingBottom:2}}>
                         <ScoreCounter name={"Shot High"} value={cargoShotHigh} setScore={setCargoShotHigh}
                                       cycleValue={cycleList.length ? cycleList.reduce(function (acc, current) {
                                           return acc + (current.HighGoal ? current.cargoShot : 0);
@@ -333,7 +333,7 @@ const GameForm = () => {
                                           return acc + (!current.HighGoal ? current.cargoScored : 0);
                                       }, 0) : 0}/>
                     </Grid>
-                    <FormGroup>
+                    <FormGroup sx={{ paddingLeft: 10}}>
                         <Typography variant={"h6"}> Climb</Typography>
 
                         {/*<FormControlLabel control={<Checkbox  checked={isDefultClimb}/>} label={"Climbed: Loading..."} onChange={onChangeIsDefaultClimb}/>*/}
@@ -374,7 +374,7 @@ const GameForm = () => {
 
 
                     </FormGroup>
-                    <Button variant={"contained"} onClick={handleSubmit}>Ready</Button>
+                    <Button variant={"contained"} color="primary" onClick={handleSubmit} sx={{ m: 5 }}>Ready</Button>
                 </form>
 
             </Paper>
