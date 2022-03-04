@@ -252,9 +252,10 @@ const GameForm = () => {
             <div>
                 <Paper sx={{ m: 1, p: 1}}>
                     <form>
-                        <FormGroup sx={{ paddingLeft: 10, paddingTop: 8, marginRight:10 }}>
+                        <FormGroup>
                             <div>
                                 <TextField name={`Team`} type="number"
+                                           fullWidth
                                     label="Team Number"
                                     margin={"normal"}
                                     inputProps={{ min: 0, max: 9999 }}

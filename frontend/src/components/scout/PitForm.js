@@ -110,8 +110,8 @@ const PitForm = () => {
                 /* and other goodies */
             }) => (
                 <form onSubmit={handleSubmit}>
-                    <Paper sx={{ marginTop: 15 }}>
-                        <FormGroup sx={{ p: 10 }}>
+                    <Paper sx={{ marginTop: 16, p: 1 }}>
+                        <FormGroup>
                             <Field
                                 name={"team"}
                                 type={"team"}
