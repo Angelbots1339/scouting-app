@@ -35,8 +35,6 @@ const PitForm = () => {
         TeamDataService.getScoutNeededTeams().then(res => res.data.map(team => team._id.toString())).then(res => {
             setNeedScoutTeams(res)
         }).catch(e => console.log(e));
-
-
     }
 
     useEffect(() => {

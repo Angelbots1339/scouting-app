@@ -71,7 +71,14 @@ const gameScout = new mongoose.Schema({
     cycles: [cycle]
 
 })
+gameScout.virtual('cargoScore').get(function() {
+    let acc = 0;
+    for (let i = 0; i < this.cycles.length; i++) {
+        acc += this.cycles[i].score;
 
+    }
+    return acc + this.cargoScoredHigh * 2 + this.cargoScoredLow;
+})
 gameScout.virtual('score').get(function() {
     let climbPoints = 0;
     switch (this.climb){
@@ -87,13 +94,9 @@ gameScout.virtual('score').get(function() {
         case 4:
             climbPoints = 15
     }
-    let acc = 0;
-    for (let i = 0; i < this.cycles.length; i++) {
-        acc += this.cycles[i].score;
-
-    }
-    return acc + climbPoints + this.auto.score + this.cargoScoredHigh * 2 + this.cargoScoredLow;
+    return climbPoints + this.auto.score + this.cargoScore;
 })
+
 gameScout.virtual('highCargoScored').get(function() {
     let acc = 0;
     for (let i = 0; i < this.cycles.length; i++) {
@@ -150,7 +153,6 @@ const teamSchema = new mongoose.Schema({
     },
     pitScout: pitScout,
     games: [gameScout],
-    notes: String,
     driveTeamNotes: [String]
 });
 

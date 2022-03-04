@@ -1,4 +1,4 @@
-import { useReducer, useState } from "react";
+import {useReducer, useState} from "react";
 import {
     Button,
     Checkbox,
@@ -36,6 +36,7 @@ const GameForm = () => {
     const [teamNumber, setTeamNumber] = useState(0);
 
     const [cycleList, setCycleList] = useState([])
+
 
     const addCycleTime = () => {
         setCycleList([...cycleList, {
@@ -193,17 +194,11 @@ const GameForm = () => {
     }
 
 
-    const [teams, setTeams] = useState([]);
+    //const [teams, setTeams] = useState([]);
     const onClickStart = () => {
-
-
-
-
-
         if (isTimerStart) {
             addCycleTime();
             setCycleTime(0);
-            setIsTimerStart(false);
         } else {
             setIsTimerStart(true)
         }
@@ -227,13 +222,13 @@ const GameForm = () => {
         }
 
 
-        TeamDataService.getAllTeams().then(res => {
-            setTeams(res.data.map((team) => team._id))
-        })
-
-        if (!teams.includes(teamNumber)) {
-            TeamDataService.addTeam(teamNumber);
-        }
+        // TeamDataService.getAllTeams().then(res => {
+        //     setTeams(res.data.map((team) => team._id))
+        // })
+        //
+        // if (!teams.includes(teamNumber)) {
+        //     TeamDataService.addTeam(teamNumber);
+        // }
         TeamDataService.addGame(teamNumber, values).then((data) => console.log(data));
 
 
@@ -266,10 +261,6 @@ const GameForm = () => {
                                     value={teamNumber}
                                     onChange={e => setTeamNumber(e.target.value)}
                                 />
-
-
-
-
                                 <div>
                                     <hr style={{ width: 'auto', height: 1, borderWidth: 5 }} color="grey" />
                                 </div>
