@@ -24,8 +24,8 @@ export default function SuperScoutPage() {
 
                         <img src="../../logo200.png"  alt={"angleboticsLogo"} style={{ width: 60, height: 60, borderRadius: 10 }} />
                         <ButtonGroup variant="contained" sx={{ m: 2 }}>
-                            <Button component={Link} to={'/superScout/teamGrid'}>Team Grid</Button>
-                            <Button component={Link} to={'/'}>Home</Button>
+                            <Button  style={{cursor:'pointer'}} component={Link} to={'/superScout/teamGrid'}>Team Grid</Button>
+                            <Button  style={{cursor:'pointer'}} component={Link} to={'/'}>Home</Button>
 
                         </ButtonGroup>
                     </AppBar>

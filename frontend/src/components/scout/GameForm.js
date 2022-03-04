@@ -175,10 +175,10 @@ const GameForm = () => {
             }}>
                 <Typography display={"inline"} variant={"subtitle1"}>{`${props.name}: ${props.value}`}</Typography>
                 <Grid container>
-                    <IconButton onClick={onAdd}>
+                    <IconButton onClick={onAdd} style={{cursor:'pointer'}}>
                         <AddIcon />
                     </IconButton>
-                    <IconButton onClick={onMinus}>
+                    <IconButton onClick={onMinus} style={{cursor:'pointer'}}>
                         <RemoveIcon />
                     </IconButton>
                 </Grid>
@@ -303,10 +303,10 @@ const GameForm = () => {
 
                                 </Paper>
                                 <Typography sx={{ marginTop: 5 }}>Time: {formatTime(cycleTime)}</Typography>
-                                <Button onClick={onClickStart} variant={"contained"} sx={{ marginTop: 1 }}>
+                                <Button onClick={onClickStart} style={{cursor:'pointer'}} variant={"contained"} sx={{ marginTop: 1 }}>
                                     {isTimerStart ? "Add" : "Start"}
                                 </Button>
-                                <Button sx={{ marginTop: 1 }} variant={"contained"} onClick={() => {
+                                <Button sx={{ marginTop: 1 }} style={{cursor:'pointer'}} variant={"contained"} onClick={() => {
                                     setCycleTime(0);
                                     setIsTimerStart(false);
                                 }}>Reset</Button>
@@ -385,7 +385,7 @@ const GameForm = () => {
 
 
                         </FormGroup>
-                        <Button variant={"contained"} color="primary" onClick={handleSubmit} sx={{ m: 5 }}>Ready</Button>
+                        <Button variant={"contained"} color="primary" onClick={handleSubmit} sx={{ m: 5 }} style={{cursor:'pointer'}}>Ready</Button>
                     </form>
 
                 </Paper>
