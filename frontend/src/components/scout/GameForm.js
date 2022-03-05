@@ -29,7 +29,7 @@ const GameForm = () => {
         ...(typeof action === 'function' ? action(state) : action),
     });
     const [auto, setAuto] = useReducer(stateReducer, { cargoHigh: 0, cargoLow: 0, offline: false })
-    const [climb, setClimb] = useState(0);
+    const [climb, setClimb] = useState(-1);
     const [notes, setNotes] = useState("");
     const [brokeDown, setBrokeDown] = useState(false);
     const [teamNumber, setTeamNumber] = useState(0);
@@ -350,10 +350,9 @@ const GameForm = () => {
                                     value={climb}
                                     onChange={e => setClimb(e.target.value)}
                                 >
-                                    <MenuItem value="None">
+                                    <MenuItem value="-1">
                                         <em>None</em>
                                     </MenuItem>
-                                    <MenuItem value={-1}>Failed</MenuItem>
                                     <MenuItem value={0}>LowBar</MenuItem>
                                     <MenuItem value={1}>MidBar</MenuItem>
                                     <MenuItem value={2}>HighBar</MenuItem>
