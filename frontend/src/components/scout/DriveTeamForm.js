@@ -28,7 +28,7 @@ const PitForm = () => {
     }
 
 
-    return (<form onSubmit={handelSubmit}>
+    return (<form>
             <Paper sx={{ marginTop: 24 }}>
                 <FormGroup>
                     <TextField type={"number"} margin={"normal"} value={team1} onChange={(e) => setTeam1(e.target.value)}
@@ -44,7 +44,7 @@ const PitForm = () => {
                                maxRows={4} value={team2Notes} onChange={(e) => setTeam2Notes(e.target.value)}
                                label={"alliance 2 Notes"}/>
                 </FormGroup>
-                <Button type={"submit"} color="primary" variant="contained" sx={{m: 5, cursor:'pointer'}} onT>Submit</Button>
+                <Button color="primary" variant="contained" sx={{m: 5, cursor:'pointer'}} onClick={handelSubmit} >Submit</Button>
             </Paper>
         </form>
 

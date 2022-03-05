@@ -5,14 +5,19 @@ const router = express.Router()
 const flattenTeam = (team) => {
 
     let teamScout = {}
+
     if (team.isPitScouted) {
         teamScout = {...team?.pitScout._doc}
         delete teamScout.autoRoutines
         delete teamScout._id
     }
     const getAvg = (nums) => {
+
         if(nums){
-            return nums.reduce((acc, a) => acc + a, 0)/nums.length;
+            let filtered = nums.filter(function (el) {
+                return el != null;
+            });
+            return filtered.reduce((acc, a) => acc + a, 0)/nums.length;
         }
         return []
 
@@ -35,6 +40,7 @@ const flattenTeam = (team) => {
         avgLowCycleTimePerCargo: getAvg(data.lowCycleTimePerCargo),
         avgHighCycleTimePerCargo: getAvg(data.highCycleTimePerCargo),
         avgBreakdowns: getAvg(data.breakdowns),
+        notes: data.notes.join(", "),
 
         ...teamScout
     }
@@ -64,7 +70,7 @@ const structorTeam = (team) => {
         lowCycleTimePerCargo: team.games.map((game) => game.cycles).flat().filter((cycle) => !cycle.HighGoal).map((cycle) => cycle.cycleTimePerBall),
         highCycleTimePerCargo: team.games.map((game) => game.cycles).flat().filter((cycle) => cycle.HighGoal).map((cycle) => cycle.cycleTimePerBall),
         breakdowns: team.games.map((game) => game.brokeDown),
-        notes: team.driveTeamNotes.join(", "),
+        notes: team.driveTeamNotes,
 
         ...teamScout
     }
