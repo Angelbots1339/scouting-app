@@ -108,19 +108,18 @@ const GameForm = () => {
 
             <Paper sx={{ p: 0.5, m: 0.5 }} key={index}>
                 <Grid>
-                    <FormControlLabel control={<Checkbox onClick ={onChangeCycleCargoShot(index)} onTouchStart={onChangeCycleCargoShot(index)}/>} label={"Two Shot"} checked={datum.cargoShot === 2}/>
+                    <FormControlLabel control={<Checkbox onClick ={onChangeCycleCargoShot(index)} onTouchStart={onChangeCycleCargoShot(index)}/>} label={"Two Shot"} checked={datum.cargoShot === 2} sx={{ cursor:'pointer' }}/>
 
                     <FormControlLabel control={<Checkbox onClick ={onChangeCycleCargoScored(index)} onTouchStart={onChangeCycleCargoScored(index)} />} disabled={datum.cargoShot !== 2} label={"Two Made"}
-                        checked={datum.cargoScored === 2}
-                                        />
+                        checked={datum.cargoScored === 2} sx={{ cursor:'pointer' }}/>
 
-                    <FormControlLabel control={<Checkbox onClick={onChangeCycleHighGoal(index)} onTouchStart={onChangeCycleHighGoal(index)} />} label={"Upper"}  checked={datum.HighGoal} />
+                    <FormControlLabel control={<Checkbox onClick={onChangeCycleHighGoal(index)} onTouchStart={onChangeCycleHighGoal(index)} />} label={"Upper"}  checked={datum.HighGoal} sx={{ cursor:'pointer' }} />
 
                     <Typography display={"inline"}>
                         Time: {formatTime(datum.cycleTime)}
                     </Typography>
 
-                    <IconButton onTouchStart={onRemoveCycle(index)} onClick={onRemoveCycle(index)}>
+                    <IconButton sx={{ cursor:'pointer' }} onTouchStart={onRemoveCycle(index)} onClick={onRemoveCycle(index)}>
                         <RemoveIcon />
                     </IconButton>
                 </Grid>
