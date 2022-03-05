@@ -152,9 +152,9 @@ router.route("/:id/game").post(((req, res, next) => {
 }))
 router.route("/:id/notes").post(((req, res, next) => {
     Team.findById({_id: req.params.id}).then((team) => {
-        team.notes.push(req.body.note)
+        team.driveTeamNotes.push(req.body.note)
         team.save()
-        res.send(team.notes)
+        res.send(team.driveTeamNotes)
     }).catch(next)
 }))
 router.route("/:id/game").get(((req, res, next) => {
