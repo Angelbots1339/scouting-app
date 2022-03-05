@@ -345,12 +345,12 @@ const PitForm = () => {
                                                         }
                                                         label="Off Start Line"
                                                     />
-                                                    <IconButton type={"button"} style={{cursor:'pointer'}} onClick={() => arrayHelpers.remove(index)} ><Remove /></IconButton>
+                                                    <IconButton type={"button"} sx={{cursor:'pointer'}} onClick={() => arrayHelpers.remove(index)} ><Remove /></IconButton>
                                                 </Grid>
                                             </Paper>
 
                                         ))}
-                                        <Button type={"button"} style={{cursor:'pointer'}} variant={"outlined"} onClick={() => arrayHelpers.push({
+                                        <Button type={"button"} sx={{cursor:'pointer'}} variant={"outlined"} onClick={() => arrayHelpers.push({
                                             position: 1,
                                             cargoLow: 0,
                                             cargoHigh: 0,
@@ -454,7 +454,7 @@ const PitForm = () => {
                             />
 
                         </FormGroup>
-                        <Button type={"submit"} color="primary" variant="contained" sx={{ m: 5 }} style={{cursor:'pointer'}}>Submit</Button>
+                        <Button type={"submit"} color="primary" variant="contained" sx={{ m: 5,cursor:'pointer' }}>Submit</Button>
                     </Paper>
 
                 </form>)}

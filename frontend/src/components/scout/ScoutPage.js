@@ -13,10 +13,10 @@ export default function ScoutPage() {
                 <ButtonGroup variant="contained" sx={{ m: 2 }}>
 
 
-                    <Button style={{cursor:'pointer'}} component={Link} to={'/scout/pitform'}>Pit Scout</Button>
-                    <Button style={{cursor:'pointer'}} component={Link} to={'/scout/gameform'}>Game Scout</Button>
-                    <Button style={{cursor:'pointer'}} component={Link} to={'/scout/driveteamform'}>Drive Team Form</Button>
-                    <Button style={{cursor:'pointer'}} component={Link} to={'/'}>Home</Button>
+                    <Button sx={{cursor:'pointer'}} component={Link} to={'/scout/pitform'}>Pit Scout</Button>
+                    <Button sx={{cursor:'pointer'}} component={Link} to={'/scout/gameform'}>Game Scout</Button>
+                    <Button sx={{cursor:'pointer'}} component={Link} to={'/scout/driveteamform'}>Drive Team Form</Button>
+                    <Button sx={{cursor:'pointer'}} component={Link} to={'/'}>Home</Button>
 
                 </ButtonGroup>
                 </AppBar>

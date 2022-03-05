@@ -175,10 +175,10 @@ const GameForm = () => {
             }}>
                 <Typography display={"inline"} variant={"subtitle1"}>{`${props.name}: ${props.value}`}</Typography>
                 <Grid container>
-                    <IconButton onClick={onAdd} style={{cursor:'pointer'}}>
+                    <IconButton onClick={onAdd} sx={{cursor:'pointer'}}>
                         <AddIcon />
                     </IconButton>
-                    <IconButton onClick={onMinus} style={{cursor:'pointer'}}>
+                    <IconButton onClick={onMinus} sx={{cursor:'pointer'}}>
                         <RemoveIcon />
                     </IconButton>
                 </Grid>
@@ -248,7 +248,7 @@ const GameForm = () => {
     }
     //-----JSX-----
     return (
-        <Paper sx={{ marginTop: 15}}>
+        <Paper sx={{ marginTop: 17}}>
             <div>
                 <Paper sx={{ m: 1, p: 1}}>
                     <form>
@@ -303,10 +303,10 @@ const GameForm = () => {
 
                                 </Paper>
                                 <Typography sx={{ marginTop: 5 }}>Time: {formatTime(cycleTime)}</Typography>
-                                <Button onClick={onClickStart} style={{cursor:'pointer'}} variant={"contained"} sx={{ marginTop: 1 }}>
+                                <Button onClick={onClickStart} variant={"contained"} sx={{ marginTop: 1, cursor:'pointer' }}>
                                     {isTimerStart ? "Add" : "Start"}
                                 </Button>
-                                <Button sx={{ marginTop: 1 }} style={{cursor:'pointer'}} variant={"contained"} onClick={() => {
+                                <Button sx={{ marginTop: 1, cursor:'pointer' }}  variant={"contained"} onClick={() => {
                                     setCycleTime(0);
                                     setIsTimerStart(false);
                                 }}>Reset</Button>
@@ -385,7 +385,7 @@ const GameForm = () => {
 
 
                         </FormGroup>
-                        <Button variant={"contained"} color="primary" onClick={handleSubmit} sx={{ m: 5 }} style={{cursor:'pointer'}}>Ready</Button>
+                        <Button variant={"contained"} color="primary" onClick={handleSubmit} sx={{ m: 5, cursor:'pointer'}} >Ready</Button>
                     </form>
 
                 </Paper>
