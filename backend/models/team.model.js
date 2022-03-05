@@ -72,12 +72,7 @@ const gameScout = new mongoose.Schema({
 
 })
 gameScout.virtual('cargoScore').get(function() {
-    let acc = 0;
-    for (let i = 0; i < this.cycles.length; i++) {
-        acc += this.cycles[i].score;
-
-    }
-    return acc + this.cargoScoredHigh * 2 + this.cargoScoredLow;
+    return this.cargoScoredHigh * 2 + this.cargoScoredLow;
 })
 gameScout.virtual('score').get(function() {
     let climbPoints = 0;
@@ -97,50 +92,16 @@ gameScout.virtual('score').get(function() {
     return climbPoints + this.auto.score + this.cargoScore;
 })
 
-gameScout.virtual('highCargoScored').get(function() {
-    let acc = 0;
-    for (let i = 0; i < this.cycles.length; i++) {
-        acc += this.cycles[i].HighGoal? this.cycles[i].cargoScored : 0;
-    }
-    return acc + this.cargoScoredHigh;
-})
-gameScout.virtual('lowCargoScored').get(function() {
-    let acc = 0;
-    for (let i = 0; i < this.cycles.length; i++) {
-        acc += !this.cycles[i].HighGoal? this.cycles[i].cargoScored : 0;
-    }
-    return acc + this.cargoScoredLow;
-})
 gameScout.virtual('percentScoredHigh').get(function() {
-    let shotInCycles = 0;
-    let scoredInCycles = 0;
-    for (let i = 0; i < this.cycles.length; i++) {
-        if(this.cycles[i].HighGoal){
-            shotInCycles += this.cycles[i].cargoShot;
-            scoredInCycles += this.cycles[i].cargoScored;
-        }
-    }
-    return (scoredInCycles/shotInCycles + this.cargoScoredHigh/this.cargoShotHigh)/2;
+
+    return this.cargoScoredHigh/this.cargoShotHigh;
 })
 gameScout.virtual('percentScoredLow').get(function() {
-    let shotInCycles = 0;
-    let scoredInCycles = 0;
-    for (let i = 0; i < this.cycles.length; i++) {
-        if(!this.cycles[i].HighGoal){
-            shotInCycles += this.cycles[i].cargoShot;
-            scoredInCycles += this.cycles[i].cargoScored;
-        }
-    }
-    return (scoredInCycles/shotInCycles + this.cargoScoredLow/this.cargoShotLow)/2;
+    return this.cargoScoredLow/this.cargoShotLow;
 })
 gameScout.virtual('percentShotHigh').get(function() {
-    let shotHigh = 0;
-    let totalShot = 0;
-    for (let i = 0; i < this.cycles.length; i++) {
-        totalShot += this.cycles[i].cargoShot;
-        shotHigh += this.cycles[i].HighGoal? this.cycles[i].cargoShot : 0;
-    }
-    return (shotHigh/totalShot + this.cargoShotHigh/(this.cargoShotHigh + this.cargoShotLow))/2;
+
+    return this.cargoShotHigh/(this.cargoShotHigh + this.cargoShotLow);
 })
 
 

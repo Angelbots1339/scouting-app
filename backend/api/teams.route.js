@@ -23,16 +23,18 @@ const flattenTeam = (team) => {
         teamNumber: team._id,
         climbs: getAvg(data.climbs),
         avgHighShotAccuracy: getAvg(data.highShotAccuracy),
-        //avgTotalHighScored: getAvg(data.totalHighScored),
+        avgTotalHighScored: getAvg(data.totalHighScored),
         avgLowShotAccuracy: getAvg(data.lowShotAccuracy),
-        //avgTotalLowScored: getAvg(data.totalLowScored),
+        avgTotalLowScored: getAvg(data.totalLowScored),
         percentShotHigh: getAvg(data.percentShotHigh),
         avgAutoCargoLow: getAvg(data.autoCargoLow),
         avgAutoCargoHigh: getAvg(data.autoCargoHigh),
+        avgAutoOffline: getAvg(data.offLineAuto),
         avgContributedScore: getAvg(data.contributedScore),
         avgContributedCargoScore: getAvg(data.contributedCargoScore),
         avgLowCycleTimePerCargo: getAvg(data.lowCycleTimePerCargo),
         avgHighCycleTimePerCargo: getAvg(data.highCycleTimePerCargo),
+        avgBreakdowns: getAvg(data.breakdowns),
 
         ...teamScout
     }
@@ -46,20 +48,24 @@ const structorTeam = (team) => {
         delete teamScout._id
     }
 
+
     return {
-        teamNumber: team._id,
         climbs: team.games.map((game) => game.climb),
         highShotAccuracy: team.games.map((game) => game.percentScoredHigh),
-        //totalHighScored: team.games.map((game) => game.highCargoScored),
+        totalHighScored: team.games.map((game) => game.cargoScoredHigh),
         lowShotAccuracy: team.games.map((game) => game.percentScoredLow),
-        //totalLowScored: team.games.map((game) => game.lowCargoScored),
+        totalLowScored: team.games.map((game) => game.cargoScoredLow),
         percentShotHigh: team.games.map((game) => game.percentShotHigh),
         autoCargoLow: team.games.map((game) => game.auto.cargoLow),
         autoCargoHigh: team.games.map((game) => game.auto.cargoHigh),
+        offLineAuto: team.games.map((game) => game.auto.offLine),
         contributedScore: team.games.map((game) => game.score),
         contributedCargoScore: team.games.map((game) => game.cargoScore),
         lowCycleTimePerCargo: team.games.map((game) => game.cycles).flat().filter((cycle) => !cycle.HighGoal).map((cycle) => cycle.cycleTimePerBall),
         highCycleTimePerCargo: team.games.map((game) => game.cycles).flat().filter((cycle) => cycle.HighGoal).map((cycle) => cycle.cycleTimePerBall),
+        breakdowns: team.games.map((game) => game.brokeDown),
+        notes: team.driveTeamNotes.join(", "),
+
         ...teamScout
     }
 }

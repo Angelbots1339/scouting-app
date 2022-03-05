@@ -28,7 +28,7 @@ const GameForm = () => {
         ...state,
         ...(typeof action === 'function' ? action(state) : action),
     });
-    const [auto, setAuto] = useReducer(stateReducer, { cargoHigh: 0, cargoLow: 0, offline: false })
+    const [auto, setAuto] = useReducer(stateReducer, { cargoHigh: 0, cargoLow: 0, offLine: false })
     const [climb, setClimb] = useState(-1);
     const [notes, setNotes] = useState("");
     const [brokeDown, setBrokeDown] = useState(false);
@@ -235,11 +235,12 @@ const GameForm = () => {
         setCargoScoredLow(0)
         setCargoShotHigh(0)
         setCargoShotLow(0)
-        setAuto({ cargoHigh: 0, cargoLow: 0, offline: false })
+        setAuto({ cargoHigh: 0, cargoLow: 0, offLine: false })
         setClimb(0)
         setNotes("")
         setCycleList([])
         setIsTimerStart(false)
+        setBrokeDown(false)
 
     }
     //-----JSX-----
@@ -281,7 +282,7 @@ const GameForm = () => {
                                     <FormControlLabel
                                         control={
                                             <Checkbox type="checkbox" name={`offLine`} value={auto.offLine}
-                                                onChange={e => setAuto({ offline: e.target.checked })} />
+                                                onChange={e => setAuto({ offLine: e.target.checked })} />
                                         }
                                         label="Off Start Line"
                                     />
