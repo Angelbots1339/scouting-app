@@ -44,7 +44,7 @@ const PitForm = () => {
                                maxRows={4} value={team2Notes} onChange={(e) => setTeam2Notes(e.target.value)}
                                label={"alliance 2 Notes"}/>
                 </FormGroup>
-                <Button type={"submit"} color="primary" variant="contained" sx={{m: 5, cursor:'pointer'}}>Submit</Button>
+                <Button type={"submit"} color="primary" variant="contained" sx={{m: 5, cursor:'pointer'}} onT>Submit</Button>
             </Paper>
         </form>
 

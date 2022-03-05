@@ -110,20 +110,20 @@ const GameForm = () => {
             <Paper sx={{ p: 0.5, m: 0.5 }} key={index}>
                 <Grid>
                     <FormControlLabel control={<Switch />} label={"Two Shot"} checked={datum.cargoShot === 2}
-                        onChange={onChangeCycleCargoShot(index)} />
+                        onChange={onChangeCycleCargoShot(index)} onTouchStart={onChangeCycleCargoShot(index)}/>
 
                     <FormControlLabel control={<Switch />} disabled={datum.cargoShot !== 2} label={"Two Made"}
                         checked={datum.cargoScored === 2}
-                        onChange={onChangeCycleCargoScored(index)} />
+                        onChange={onChangeCycleCargoScored(index)} onTouchStart ={onChangeCycleCargoScored(index)}  />
 
                     <FormControlLabel control={<Switch />} label={"Upper"} checked={datum.HighGoal}
-                        onChange={onChangeCycleHighGoal(index)} />
+                        onChange={onChangeCycleHighGoal(index)} onTouchStart={onChangeCycleHighGoal(index)}/>
 
                     <Typography display={"inline"}>
                         Time: {formatTime(datum.cycleTime)}
                     </Typography>
 
-                    <IconButton onClick={onRemoveCycle(index)}>
+                    <IconButton onTouchStart={onRemoveCycle(index)} onClick={onRemoveCycle(index)}>
                         <RemoveIcon />
                     </IconButton>
                 </Grid>
@@ -175,10 +175,10 @@ const GameForm = () => {
             }}>
                 <Typography display={"inline"} variant={"subtitle1"}>{`${props.name}: ${props.value}`}</Typography>
                 <Grid container>
-                    <IconButton onClick={onAdd} sx={{cursor:'pointer'}}>
+                    <IconButton onClick={onAdd} onTouchStart={onAdd} sx={{cursor:'pointer'}}>
                         <AddIcon />
                     </IconButton>
-                    <IconButton onClick={onMinus} sx={{cursor:'pointer'}}>
+                    <IconButton onClick={onMinus} onTouchStart={onMinus} sx={{cursor:'pointer'}}>
                         <RemoveIcon />
                     </IconButton>
                 </Grid>
@@ -303,10 +303,13 @@ const GameForm = () => {
 
                                 </Paper>
                                 <Typography sx={{ marginTop: 5 }}>Time: {formatTime(cycleTime)}</Typography>
-                                <Button onClick={onClickStart} variant={"contained"} sx={{ marginTop: 1, cursor:'pointer' }}>
+                                <Button onTouchStart={onClickStart} onClick={onClickStart} variant={"contained"} sx={{ marginTop: 1, cursor:'pointer' }}>
                                     {isTimerStart ? "Add" : "Start"}
                                 </Button>
-                                <Button sx={{ marginTop: 1, cursor:'pointer' }}  variant={"contained"} onClick={() => {
+                                <Button sx={{ marginTop: 1, cursor:'pointer' }}  variant={"contained"} onTouchStart={() => {
+                                    setCycleTime(0);
+                                    setIsTimerStart(false);
+                                }}  onClick={() => {
                                     setCycleTime(0);
                                     setIsTimerStart(false);
                                 }}>Reset</Button>
@@ -385,7 +388,7 @@ const GameForm = () => {
 
 
                         </FormGroup>
-                        <Button variant={"contained"} color="primary" onClick={handleSubmit} sx={{ m: 5, cursor:'pointer'}} >Ready</Button>
+                        <Button variant={"contained"} color="primary" onClick={handleSubmit} onTouchStart={handleSubmit} sx={{ m: 5, cursor:'pointer'}} >Ready</Button>
                     </form>
 
                 </Paper>
