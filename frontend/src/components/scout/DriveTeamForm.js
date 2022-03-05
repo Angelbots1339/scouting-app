@@ -29,7 +29,7 @@ const PitForm = () => {
 
 
     return (<form onSubmit={handelSubmit}>
-            <Paper sx={{ marginTop: 20 }}>
+            <Paper sx={{ marginTop: 24 }}>
                 <FormGroup>
                     <TextField type={"number"} margin={"normal"} value={team1} onChange={(e) => setTeam1(e.target.value)}
                                label={"alliance 1 Team Number"}/>

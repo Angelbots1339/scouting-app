@@ -6,7 +6,6 @@ import {
     FormGroup,
     Grid,
     IconButton, Paper,
-    Switch,
     Typography,
     TextField, MenuItem, Select, FormHelperText, FormControl
 } from "@mui/material";
@@ -109,15 +108,14 @@ const GameForm = () => {
 
             <Paper sx={{ p: 0.5, m: 0.5 }} key={index}>
                 <Grid>
-                    <FormControlLabel control={<Switch />} label={"Two Shot"} checked={datum.cargoShot === 2}
-                        onChange={onChangeCycleCargoShot(index)} onTouchStart={onChangeCycleCargoShot(index)}/>
+                    <FormControlLabel control={<Checkbox />} label={"Two Shot"} checked={datum.cargoShot === 2}
+                                      onClick ={onChangeCycleCargoShot(index)} onTouchStart={onChangeCycleCargoShot(index)}/>
 
-                    <FormControlLabel control={<Switch />} disabled={datum.cargoShot !== 2} label={"Two Made"}
+                    <FormControlLabel control={<Checkbox />} disabled={datum.cargoShot !== 2} label={"Two Made"}
                         checked={datum.cargoScored === 2}
-                        onChange={onChangeCycleCargoScored(index)} onTouchStart ={onChangeCycleCargoScored(index)}  />
+                                      onClick ={onChangeCycleCargoScored(index)} onTouchStart ={onChangeCycleCargoScored(index)}  />
 
-                    <FormControlLabel control={<Switch />} label={"Upper"} checked={datum.HighGoal}
-                        onChange={onChangeCycleHighGoal(index)} onTouchStart={onChangeCycleHighGoal(index)}/>
+                    <FormControlLabel control={<Checkbox />} label={"Upper"}  checked={datum.HighGoal} onClick ={onChangeCycleHighGoal(index)} onTouchStart={onChangeCycleHighGoal(index)}/>
 
                     <Typography display={"inline"}>
                         Time: {formatTime(datum.cycleTime)}
@@ -248,7 +246,7 @@ const GameForm = () => {
     }
     //-----JSX-----
     return (
-        <Paper sx={{ marginTop: 17}}>
+        <Paper sx={{ marginTop: 24}}>
             <div>
                 <Paper sx={{ m: 1, p: 1}}>
                     <form>
