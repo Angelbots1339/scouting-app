@@ -60,6 +60,7 @@ cycle.virtual('cycleTimePerBall').get(function() {
 
 
 const gameScout = new mongoose.Schema({
+    _id: Number,
     cargoShotLow: Number,
     cargoShotHigh: Number,
     cargoScoredLow: Number,

@@ -12,6 +12,7 @@ import {Field, FieldArray, Formik} from "formik";
 import { Remove } from "@mui/icons-material";
 
 import { TextField, Autocomplete, Checkbox } from 'formik-mui';
+import team from "../../services/team";
 
 
 
@@ -90,10 +91,10 @@ const PitForm = () => {
                 console.log(JSON.stringify(values))
                 alert(JSON.stringify(values, null, 2))
                 delete values.team
-                // TeamDataService.updateTeam(teamNumber, {
-                //     "isPitScouted": true,
-                //     "pitScout": values
-                // })
+                TeamDataService.updateTeam(parseInt(team), {
+                    "isPitScouted": true,
+                    "pitScout": values
+                })
                 resetForm();
             }}
 

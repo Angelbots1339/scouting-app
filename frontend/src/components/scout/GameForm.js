@@ -1,4 +1,4 @@
-import {useReducer, useState} from "react";
+import {useEffect, useReducer, useState} from "react";
 import {
     Button,
     Checkbox,
@@ -7,7 +7,7 @@ import {
     Grid,
     IconButton, Paper,
     Typography,
-    TextField, MenuItem, Select, FormHelperText, FormControl
+    TextField, MenuItem, Select, FormHelperText, FormControl, Autocomplete
 } from "@mui/material";
 import React from "react";
 import AddIcon from '@mui/icons-material/Add';
@@ -33,6 +33,7 @@ const GameForm = () => {
     const [notes, setNotes] = useState("");
     const [brokeDown, setBrokeDown] = useState(false);
     const [teamNumber, setTeamNumber] = useState(0);
+    const [matchNumber, setMatchNumber] = useState(0);
 
     const [cycleList, setCycleList] = useState([])
 
@@ -206,6 +207,7 @@ const GameForm = () => {
 
         const values =
         {
+            _id: matchNumber,
             cycles: [...cycleList],
             cargoShotLow,
             cargoShotHigh,
@@ -229,7 +231,7 @@ const GameForm = () => {
 
 
 
-
+        setMatchNumber(matchNumber + 1)
         setTeamNumber(0)
         setCargoScoredHigh(0)
         setCargoScoredLow(0)
@@ -243,6 +245,21 @@ const GameForm = () => {
         setBrokeDown(false)
 
     }
+    //------Team Picker-------
+    const [allTeams, setAllTeams] = useState([]);
+
+
+    const updateTeams = () => {
+        TeamDataService.getAllTeams().then(res => res.data.map(team => team._id.toString())).then(res => {
+            setAllTeams(res)
+        }).catch(e => console.log(e));
+    }
+
+    useEffect(() => {
+        updateTeams();
+    }, [])
+
+
     //-----JSX-----
     return (
         <Paper sx={{ marginTop: 24}}>
@@ -251,14 +268,24 @@ const GameForm = () => {
                     <form>
                         <FormGroup>
                             <div>
-                                <TextField name={`Team`} type="number"
-                                           fullWidth
-                                    label="Team Number"
-                                    margin={"normal"}
-                                    inputProps={{ min: 0, max: 9999 }}
+
+                                <Autocomplete
+                                    disablePortal
+                                    options={allTeams}
+                                    sx={{ width: 300 }}
                                     value={teamNumber}
-                                    onChange={e => setTeamNumber(e.target.value)}
+                                    onChange={(event, value) => setTeamNumber(parseInt(value))}
+                                    renderInput={(params) => <TextField {...params} label="Team Number" />}
                                 />
+                                <TextField name={`matchNumber`} type="number"
+                                           fullWidth
+                                    label="Match Number"
+                                    margin={"normal"}
+                                    inputProps={{ min: 0, max: 99 }}
+                                    value={matchNumber}
+                                    onChange={e => setMatchNumber(e.target.value)}
+                                />
+
                                 <div>
                                     <hr style={{ width: 'auto', height: 1, borderWidth: 5 }} color="grey" />
                                 </div>

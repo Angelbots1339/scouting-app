@@ -12,25 +12,32 @@ const flattenTeam = (team) => {
         delete teamScout._id
     }
     const getAvg = (nums) => {
+        return getSum(nums)/removeNull(nums).length;
+    }
+    const getSum = (nums) => {
+        let filtered = removeNull(nums);
+        return filtered.reduce((acc, a) => acc + a, 0)
+    }
+    const removeNull = (nums) => {
 
         if(nums){
-            let filtered = nums.filter(function (el) {
+            return nums.filter(function (el) {
                 return el != null;
             });
-            return filtered.reduce((acc, a) => acc + a, 0)/nums.length;
         }
-        return []
-
+        return [];
     }
 
     let data = structorTeam(team);
     return {
         teamNumber: team._id,
         climbs: getAvg(data.climbs),
-        avgHighShotAccuracy: getAvg(data.highShotAccuracy),
+        avgHighShotAccuracy: getSum(data.totalHighScored)/ getSum(data.totalHighShot),
         avgTotalHighScored: getAvg(data.totalHighScored),
-        avgLowShotAccuracy: getAvg(data.lowShotAccuracy),
+        avgTotalHighShot: getAvg(data.totalLowShot),
+        avgLowShotAccuracy: getSum(data.totalLowScored)/ getSum(data.totalLowShot),
         avgTotalLowScored: getAvg(data.totalLowScored),
+        avgTotalLowShot: getAvg(data.totalLowShot),
         percentShotHigh: getAvg(data.percentShotHigh),
         avgAutoCargoLow: getAvg(data.autoCargoLow),
         avgAutoCargoHigh: getAvg(data.autoCargoHigh),
@@ -40,7 +47,7 @@ const flattenTeam = (team) => {
         avgLowCycleTimePerCargo: getAvg(data.lowCycleTimePerCargo),
         avgHighCycleTimePerCargo: getAvg(data.highCycleTimePerCargo),
         avgBreakdowns: getAvg(data.breakdowns),
-        notes: data.notes.join(", "),
+        driveTeamNotes: team.driveTeamNotes.join(", "),
 
         ...teamScout
     }
@@ -59,8 +66,10 @@ const structorTeam = (team) => {
         climbs: team.games.map((game) => game.climb),
         highShotAccuracy: team.games.map((game) => game.percentScoredHigh),
         totalHighScored: team.games.map((game) => game.cargoScoredHigh),
+        totalHighShot: team.games.map((game) => game.cargoShotHigh),
         lowShotAccuracy: team.games.map((game) => game.percentScoredLow),
         totalLowScored: team.games.map((game) => game.cargoScoredLow),
+        totalLowShot: team.games.map((game) => game.cargoShotLow),
         percentShotHigh: team.games.map((game) => game.percentShotHigh),
         autoCargoLow: team.games.map((game) => game.auto.cargoLow),
         autoCargoHigh: team.games.map((game) => game.auto.cargoHigh),
@@ -70,7 +79,7 @@ const structorTeam = (team) => {
         lowCycleTimePerCargo: team.games.map((game) => game.cycles).flat().filter((cycle) => !cycle.HighGoal).map((cycle) => cycle.cycleTimePerBall),
         highCycleTimePerCargo: team.games.map((game) => game.cycles).flat().filter((cycle) => cycle.HighGoal).map((cycle) => cycle.cycleTimePerBall),
         breakdowns: team.games.map((game) => game.brokeDown),
-        notes: team.driveTeamNotes,
+        driveTeamNotes: team.driveTeamNotes,
 
         ...teamScout
     }
@@ -166,6 +175,11 @@ router.route("/:id/notes").post(((req, res, next) => {
 router.route("/:id/game").get(((req, res, next) => {
     Team.findById({_id: req.params.id}).then((team) => {
         res.send(team.games)
+    }).catch(next)
+}))
+router.route("/:id/game/:matchNumber").get(((req, res, next) => {
+    Team.findById({_id: req.params.id}).then((team) => {
+        res.send(team.games.find(x => x._id === req.params.matchNumber))
     }).catch(next)
 }))
 
