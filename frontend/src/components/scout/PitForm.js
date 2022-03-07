@@ -88,8 +88,6 @@ const PitForm = () => {
 
             onSubmit={(values, { resetForm }) => {
 
-                console.log(JSON.stringify(values))
-                alert(JSON.stringify(values, null, 2))
                 delete values.team
                 TeamDataService.updateTeam(parseInt(team), {
                     "isPitScouted": true,
