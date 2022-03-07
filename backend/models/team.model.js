@@ -6,9 +6,9 @@ const autoRoutine = new mongoose.Schema({
     cargoHigh: Number,
     offLine: Boolean
 })
-autoRoutine.virtual('score').get(function() { return  (this.cargoLow * 2 + this.cargoHigh * 4 + (this.offline? 2 : 0) )})
+autoRoutine.virtual('score').get(function() { return  (this.cargoLow * 2 + this.cargoHigh * 4 + (this.offLine? 2 : 0) )})
 autoRoutine.virtual('joined').get(function() {
-    return `Position: ${this.position} ${this.cargoLow !== 0? `Cargo Low: ${this.cargoLow} ` : ""}${this.cargoHigh !== 0? `Cargo High: ${this.cargoHigh} ` : ""}${this.offline? "Goes Off line" : ""}`;
+    return `Position:${this.position} ${this.cargoLow !== 0? `Low:${this.cargoLow} ` : ""}${this.cargoHigh !== 0? `High:${this.cargoHigh} ` : ""}${this.offLine? "Goes Off line" : ""}`;
 })
 const pitScout = new mongoose.Schema({
     //-----GeneralRobotInfo------
