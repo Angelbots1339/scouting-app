@@ -34,6 +34,7 @@ const GameForm = () => {
     const [brokeDown, setBrokeDown] = useState(false);
     const [teamNumber, setTeamNumber] = useState(0);
     const [matchNumber, setMatchNumber] = useState(0);
+    const [matchCode, setMatchCode] = useState("qm");
 
     const [cycleList, setCycleList] = useState([])
 
@@ -207,7 +208,7 @@ const GameForm = () => {
 
         const values =
         {
-            _id: matchNumber,
+            _id: `${matchCode}_${matchNumber}`,
             cycles: [...cycleList],
             cargoShotLow,
             cargoShotHigh,
@@ -277,14 +278,24 @@ const GameForm = () => {
                                     onChange={(event, value) => setTeamNumber(parseInt(value))}
                                     renderInput={(params) => <TextField {...params} label="Team Number" />}
                                 />
+
+                                <Grid>
+
+                                    <TextField name={`matchType`}
+                                               label="Match Type"
+                                               margin={"normal"}
+                                               value={matchCode}
+                                               onChange={e => setMatchCode(e.target.value)}
+                                    />
+
                                 <TextField name={`matchNumber`} type="number"
-                                           fullWidth
                                     label="Match Number"
                                     margin={"normal"}
                                     inputProps={{ min: 0, max: 99 }}
                                     value={matchNumber}
                                     onChange={e => setMatchNumber(e.target.value)}
                                 />
+                                </Grid>
 
                                 <div>
                                     <hr style={{ width: 'auto', height: 1, borderWidth: 5 }} color="grey" />

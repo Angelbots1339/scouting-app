@@ -48,6 +48,7 @@ const flattenTeam = (team) => {
         avgHighCycleTimePerCargo: getAvg(data.highCycleTimePerCargo),
         avgBreakdowns: getAvg(data.breakdowns),
         driveTeamNotes: team.driveTeamNotes.join(", "),
+        autoRoutes: team.autoRoutes.join(", "),
 
         ...teamScout
     }
@@ -55,9 +56,12 @@ const flattenTeam = (team) => {
 const structorTeam = (team) => {
 
     let teamScout = {}
+    let autoRoutes = [];
     if(team.isPitScouted){
         teamScout = {...team?.pitScout._doc}
+
         delete teamScout.autoRoutines
+        autoRoutes = teamScout.autoRoutines.map(x => x.joined);
         delete teamScout._id
     }
 
@@ -80,6 +84,7 @@ const structorTeam = (team) => {
         highCycleTimePerCargo: team.games.map((game) => game.cycles).flat().filter((cycle) => cycle.HighGoal).map((cycle) => cycle.cycleTimePerBall),
         breakdowns: team.games.map((game) => game.brokeDown),
         driveTeamNotes: team.driveTeamNotes,
+        autoRoutes: autoRoutes,
 
         ...teamScout
     }

@@ -7,6 +7,9 @@ const autoRoutine = new mongoose.Schema({
     offLine: Boolean
 })
 autoRoutine.virtual('score').get(function() { return  (this.cargoLow * 2 + this.cargoHigh * 4 + (this.offline? 2 : 0) )})
+autoRoutine.virtual('joined').get(function() {
+    return `Position: ${this.position} ${this.cargoLow !== 0? `Cargo Low: ${this.cargoLow} ` : ""}${this.cargoHigh !== 0? `Cargo High: ${this.cargoHigh} ` : ""}${this.offline? "Goes Off line" : ""}`;
+})
 const pitScout = new mongoose.Schema({
     //-----GeneralRobotInfo------
     driveTrainType: String,
@@ -60,7 +63,7 @@ cycle.virtual('cycleTimePerBall').get(function() {
 
 
 const gameScout = new mongoose.Schema({
-    _id: Number,
+    _id: String,
     cargoShotLow: Number,
     cargoShotHigh: Number,
     cargoScoredLow: Number,
