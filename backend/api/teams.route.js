@@ -47,6 +47,7 @@ const flattenTeam = (team) => {
         avgLowCycleTimePerCargo: getAvg(data.lowCycleTimePerCargo),
         avgHighCycleTimePerCargo: getAvg(data.highCycleTimePerCargo),
         avgBreakdowns: getAvg(data.breakdowns),
+        gamesScouted: getAvg(data.breakdowns.length),
         driveTeamNotes: team.driveTeamNotes.join(", "),
         autoRoutes: team.autoRoutes.join(", "),
 
@@ -67,6 +68,7 @@ const structorTeam = (team) => {
 
 
     return {
+        gameCodes: team.games.map((game) => game._id),
         climbs: team.games.map((game) => game.climb),
         highShotAccuracy: team.games.map((game) => game.percentScoredHigh),
         totalHighScored: team.games.map((game) => game.cargoScoredHigh),
