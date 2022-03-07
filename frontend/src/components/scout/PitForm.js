@@ -109,8 +109,8 @@ const PitForm = () => {
                 /* and other goodies */
             }) => (
                 <form onSubmit={handleSubmit}>
-                    <Paper sx={{ marginTop: 16, p: 1 }}>
-                        <FormGroup>
+                    <Paper sx={{ marginTop: 22, p: 1}}>
+                        <FormGroup sx={{ marginLeft:'5%', marginRight:'5%' , marginTop:5}}>
                             <Field
                                 name={"team"}
                                 type={"team"}
@@ -349,7 +349,7 @@ const PitForm = () => {
                                             </Paper>
 
                                         ))}
-                                        <Button type={"button"} sx={{cursor:'pointer'}} variant={"outlined"} onClick={() => arrayHelpers.push({
+                                        <Button type={"button"} sx={{cursor:'pointer'}} variant={"contained"} onClick={() => arrayHelpers.push({
                                             position: 1,
                                             cargoLow: 0,
                                             cargoHigh: 0,

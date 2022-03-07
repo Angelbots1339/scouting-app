@@ -263,11 +263,11 @@ const GameForm = () => {
 
     //-----JSX-----
     return (
-        <Paper sx={{ marginTop: 24}}>
+        <Paper sx={{ marginTop: 22}}>
             <div>
                 <Paper sx={{ m: 1, p: 1}}>
                     <form>
-                        <FormGroup>
+                        <FormGroup sx={{marginTop:5, marginLeft:'5%', marginRight:'5%' }}>
                             <div>
 
                                 <Autocomplete

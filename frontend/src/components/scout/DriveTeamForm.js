@@ -42,10 +42,10 @@ const PitForm = () => {
     }, [])
 
     return (<form>
-            <Paper sx={{ marginTop: 24 }}>
-                <FormGroup>
+            <Paper sx={{ marginTop: 22 }}>
+                <FormGroup sx={{marginLeft:'5%', marginRight:'5%' , paddingTop:5}}>
 
-                    <Autocomplete
+                    <Autocomplete 
                         disablePortal
                         options={allTeams}
                         sx={{ width: 300 }}

@@ -50,7 +50,7 @@ function TeamPage() {
 
         <div>
             <div style={{ marginTop: 150 }}>
-                <Grid container spacing={2}>
+                <Grid container spacing={2} sx={{width:'90%', marginLeft:'5%', marginRight:'5%'}}>
                     <Grid item xs={10} sx={{ mx: "auto", textAlign: "center" }}>
                         <Item>
                             <Typography variant="h3" sx={{ mx: 1, alignSelf: "center" }} color="primary"> Team {teamNumber}</Typography>
