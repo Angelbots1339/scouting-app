@@ -2,6 +2,22 @@ import express from "express";
 import Team from '../models/team.model.js'
 
 const router = express.Router()
+const getAvg = (nums) => {
+    return getSum(nums)/removeNull(nums).length;
+}
+const getSum = (nums) => {
+    let filtered = removeNull(nums);
+    return filtered.reduce((acc, a) => acc + a, 0)
+}
+const removeNull = (nums) => {
+
+    if(nums){
+        return nums.filter(function (el) {
+            return el != null;
+        });
+    }
+    return [];
+}
 const flattenTeam = (team) => {
 
     let teamScout = {}
@@ -11,22 +27,7 @@ const flattenTeam = (team) => {
         delete teamScout.autoRoutines
         delete teamScout._id
     }
-    const getAvg = (nums) => {
-        return getSum(nums)/removeNull(nums).length;
-    }
-    const getSum = (nums) => {
-        let filtered = removeNull(nums);
-        return filtered.reduce((acc, a) => acc + a, 0)
-    }
-    const removeNull = (nums) => {
 
-        if(nums){
-            return nums.filter(function (el) {
-                return el != null;
-            });
-        }
-        return [];
-    }
 
     let data = structorTeam(team);
     return {
@@ -74,12 +75,12 @@ const structorTeam = (team) => {
         contributedScore: team.games.map((game) => game.score),
         totalHighShot: team.games.map((game) => game.cargoShotHigh),
         totalHighScored: team.games.map((game) => game.cargoScoredHigh),
+        avgHighCycleTimePerCargo: team.games.map((game) => game.cycles).map(cycles => getAvg(cycles.filter((cycle) => !cycle.HighGoal).map((cycle) => cycle.cycleTimePerBall))),
         highShotAccuracy: team.games.map((game) => game.percentScoredHigh),
-        highCycleTimePerCargo: team.games.map((game) => game.cycles).flat().filter((cycle) => cycle.HighGoal).map((cycle) => cycle.cycleTimePerBall),
         totalLowShot: team.games.map((game) => game.cargoShotLow),
         totalLowScored: team.games.map((game) => game.cargoScoredLow),
         lowShotAccuracy: team.games.map((game) => game.percentScoredLow),
-        lowCycleTimePerCargo: team.games.map((game) => game.cycles).flat().filter((cycle) => !cycle.HighGoal).map((cycle) => cycle.cycleTimePerBall),
+        avgLowCycleTimePerCargo: team.games.map((game) => game.cycles).map(cycles => getAvg(cycles.filter((cycle) => cycle.HighGoal).map((cycle) => cycle.cycleTimePerBall))),
         percentShotHigh: team.games.map((game) => game.percentShotHigh),
         autoCargoLow: team.games.map((game) => game.auto.cargoLow),
         autoCargoHigh: team.games.map((game) => game.auto.cargoHigh),
@@ -87,6 +88,8 @@ const structorTeam = (team) => {
         climbs: team.games.map((game) => game.climb),
         breakdowns: team.games.map((game) => game.brokeDown),
         gameNotes: team.games.map((game) => game.notes),
+        highCycleTimePerCargo: team.games.map((game) => game.cycles).flat().filter((cycle) => cycle.HighGoal).map((cycle) => cycle.cycleTimePerBall),
+        lowCycleTimePerCargo: team.games.map((game) => game.cycles).flat().filter((cycle) => !cycle.HighGoal).map((cycle) => cycle.cycleTimePerBall),
         driveTeamNotes: team.driveTeamNotes,
         possibleAutoRoutes: autoRoutes,
 
