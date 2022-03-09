@@ -49,7 +49,7 @@ const flattenTeam = (team) => {
         avgBreakdowns: getAvg(data.breakdowns),
         climbs: getAvg(data.climbs),
         gamesScouted: data.breakdowns.length,
-        gameNotes: team.gameNotes.join(", "),
+        gameNotes: data.gameNotes? data.gameNotes.join(", ") : data.gameNotes,
         driveTeamNotes: team.driveTeamNotes.join(", "),
 
         ...teamScout
