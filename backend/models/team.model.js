@@ -14,29 +14,25 @@ const pitScout = new mongoose.Schema({
     //-----GeneralRobotInfo------
     driveTrainType: String,
     motorType: String,
-    bumperQuality: String,
+    motorCount: Number,
+    batteryCount: Number,
     areFalconsLoctited: Boolean,
+    bumperQuality: String,
+    wiringOrganization: Number,
     robotLength: Number,
     robotWidth: Number,
     robotHeight: Number,
-    experienceInYears: Number,
-    wiringOrganization: Number,
-    motorCount: Number,
-    batteryCount: Number,
     adultOnDriveTeam: Boolean,
-
     cargoHold: Number,
+    climbHeight: String,
+    climbConfidence: Number,
+
+    experienceInYears: Number,
     groundPickUp: Boolean,
     terminalPickUp: Boolean,
     canShootInLow: Boolean,
     canShootInHigh: Boolean,
-
-
     autoRoutines:[autoRoutine],
-
-    climbHeight: String,
-    climbConfidence: Number,
-
 
     pitSystem: String,
     hasRedFlags: Boolean,
