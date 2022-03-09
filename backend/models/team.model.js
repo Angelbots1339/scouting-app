@@ -10,6 +10,7 @@ autoRoutine.virtual('score').get(function() { return  (this.cargoLow * 2 + this.
 autoRoutine.virtual('joined').get(function() {
     return `Position:${this.position} ${this.cargoLow !== 0? `Low:${this.cargoLow} ` : ""}${this.cargoHigh !== 0? `High:${this.cargoHigh} ` : ""}${this.offLine? "Goes Off line" : ""}`;
 })
+
 const pitScout = new mongoose.Schema({
     //-----GeneralRobotInfo------
     driveTrainType: String,
