@@ -80,6 +80,7 @@ const GameForm = () => {
     }
 
     const onChangeCycleHighGoal = index => event => {
+        event.preventDefault();
         let cycleTimes = JSON.parse(JSON.stringify(cycleList));
         cycleTimes[index].HighGoal = event.target.checked;
         updateCycleTime(index, cycleTimes);
@@ -87,16 +88,19 @@ const GameForm = () => {
 
     const onChangeCycleCargoShot = index => event => {
 
+        event.preventDefault();
         let cycleTimes = JSON.parse(JSON.stringify(cycleList));
         cycleTimes[index].cargoShot = event.target.checked ? 2 : 1;
         updateCycleTime(index, cycleTimes);
     }
     const onChangeCycleCargoScored = index => event => {
+        event.preventDefault();
         let cycleTimes = JSON.parse(JSON.stringify(cycleList));
         cycleTimes[index].cargoScored = event.target.checked ? 2 : 1;
         updateCycleTime(index, cycleTimes);
     }
-    const onRemoveCycle = index => () => {
+    const onRemoveCycle = index => event => () => {
+        event.preventDefault();
         let cycleTimes = JSON.parse(JSON.stringify(cycleList));
         cycleTimes[index].cargoScored = 0;
         cycleTimes[index].cargoShot = 0;
@@ -110,18 +114,18 @@ const GameForm = () => {
 
             <Paper sx={{ p: 0.5, m: 0.5 }} key={index}>
                 <Grid>
-                    <FormControlLabel control={<Checkbox onClick ={onChangeCycleCargoShot(index)} onTouchStart={onChangeCycleCargoShot(index)}/>} label={"Two Shot"} checked={datum.cargoShot === 2} sx={{ cursor:'pointer' }}/>
+                    <FormControlLabel control={<Checkbox onMouseDown={onChangeCycleCargoShot(index)} onTouchStart={onChangeCycleCargoShot(index)} />} label={"Two Shot"} checked={datum.cargoShot === 2} sx={{ cursor:'pointer' }}/>
 
-                    <FormControlLabel control={<Checkbox onClick ={onChangeCycleCargoScored(index)} onTouchStart={onChangeCycleCargoScored(index)} />} disabled={datum.cargoShot !== 2} label={"Two Made"}
+                    <FormControlLabel control={<Checkbox onMouseDown ={onChangeCycleCargoScored(index)} onTouchStart={onChangeCycleCargoScored(index)} />} disabled={datum.cargoShot !== 2} label={"Two Made"}
                         checked={datum.cargoScored === 2} sx={{ cursor:'pointer' }}/>
 
-                    <FormControlLabel control={<Checkbox onClick={onChangeCycleHighGoal(index)} onTouchStart={onChangeCycleHighGoal(index)} />} label={"Upper"}  checked={datum.HighGoal} sx={{ cursor:'pointer' }} />
+                    <FormControlLabel control={<Checkbox onMouseDown={onChangeCycleHighGoal(index)} onTouchStart={onChangeCycleHighGoal(index)} />} label={"Upper"}  checked={datum.HighGoal} sx={{ cursor:'pointer' }} />
 
                     <Typography display={"inline"}>
                         Time: {formatTime(datum.cycleTime)}
                     </Typography>
 
-                    <IconButton sx={{ cursor:'pointer' }} onTouchStart={onRemoveCycle(index)} onClick={onRemoveCycle(index)}>
+                    <IconButton sx={{ cursor:'pointer' }} onTouchStart={onRemoveCycle(index)} onMouseDown={onRemoveCycle(index)}>
                         <RemoveIcon />
                     </IconButton>
                 </Grid>
@@ -150,7 +154,8 @@ const GameForm = () => {
 
     const ScoreCounter = (props) => {
 
-        const onAdd = () => {
+        const onAdd = (e) => {
+            e.preventDefault()
             if (!props.maxValue) {
                 props.setScore(props.value + 1);
             } else {
@@ -160,7 +165,8 @@ const GameForm = () => {
             }
 
         }
-        const onMinus = () => {
+        const onMinus = (e) => {
+            e.preventDefault()
             if (props.value > props.cycleValue) {
                 props.setScore(props.value - 1);
             }
@@ -173,10 +179,10 @@ const GameForm = () => {
             }}>
                 <Typography display={"inline"} variant={"subtitle1"}>{`${props.name}: ${props.value}`}</Typography>
                 <Grid container>
-                    <IconButton onClick={onAdd} onTouchStart={onAdd} sx={{cursor:'pointer'}}>
+                    <IconButton onMouseDown={onAdd} onTouchStart={onAdd} sx={{cursor:'pointer'}}>
                         <AddIcon />
                     </IconButton>
-                    <IconButton onClick={onMinus} onTouchStart={onMinus} sx={{cursor:'pointer'}}>
+                    <IconButton onMouseDown={onMinus} onTouchStart={onMinus} sx={{cursor:'pointer'}}>
                         <RemoveIcon />
                     </IconButton>
                 </Grid>
@@ -193,7 +199,8 @@ const GameForm = () => {
 
 
     //const [teams, setTeams] = useState([]);
-    const onClickStart = () => {
+    const onClickStart = (e) => {
+        e.preventDefault();
         if (isTimerStart) {
             addCycleTime();
             setCycleTime(0);
@@ -208,7 +215,7 @@ const GameForm = () => {
 
         const values =
         {
-            _id: `${matchCode}_${matchNumber}`,
+            _id: `${matchCode}${matchNumber}`,
             cycles: [...cycleList],
             cargoShotLow,
             cargoShotHigh,
@@ -232,7 +239,7 @@ const GameForm = () => {
 
 
 
-        setMatchNumber(matchNumber + 1)
+        setMatchNumber(parseInt(matchNumber) + 1)
         setTeamNumber(0)
         setCargoScoredHigh(0)
         setCargoScoredLow(0)
@@ -338,13 +345,15 @@ const GameForm = () => {
 
                                 </Paper>
                                 <Typography sx={{ marginTop: 5 }}>Time: {formatTime(cycleTime)}</Typography>
-                                <Button onTouchStart={onClickStart} onClick={onClickStart} variant={"contained"} sx={{ marginTop: 1, cursor:'pointer' }}>
+                                <Button onTouchStart={onClickStart} onMouseDown={onClickStart} variant={"contained"} sx={{ marginTop: 1, cursor:'pointer' }}>
                                     {isTimerStart ? "Add" : "Start"}
                                 </Button>
-                                <Button sx={{ marginTop: 1, cursor:'pointer' }}  variant={"contained"} onTouchStart={() => {
+                                <Button sx={{ marginTop: 1, cursor:'pointer' }}  variant={"contained"} onTouchStart={(e) => {
+                                    e.preventDefault()
                                     setCycleTime(0);
                                     setIsTimerStart(false);
-                                }}  onClick={() => {
+                                }}  onMouseDown={(e) => {
+                                    e.preventDefault()
                                     setCycleTime(0);
                                     setIsTimerStart(false);
                                 }}>Reset</Button>
@@ -422,7 +431,7 @@ const GameForm = () => {
 
 
                         </FormGroup>
-                        <Button variant={"contained"} color="primary" onClick={handleSubmit} onTouchStart={handleSubmit} sx={{ m: 5, cursor:'pointer'}} >Ready</Button>
+                        <Button variant={"contained"} color="primary" onMouseDown={handleSubmit} onTouchStart={handleSubmit} sx={{ m: 5, cursor:'pointer'}} >Ready</Button>
                     </form>
 
                 </Paper>
