@@ -30,9 +30,9 @@ class TeamDataService {
     }
 
 
-    addTeam(teamNumber){
-        return http.post('/', {_id: teamNumber})
-    }
+    // addTeam(teamNumber){
+    //     return http.post('/', {_id: teamNumber})
+    // }
 }
 
 
