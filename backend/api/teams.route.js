@@ -94,6 +94,7 @@ const structorTeam = (team) => {
     }
 }
 
+
 const flattenTeams = (teams) => {
     let data = [];
     for (let i = 0; i < teams.length; i++) {
@@ -102,7 +103,23 @@ const flattenTeams = (teams) => {
     }
     return data
 }
+const formatGame = (game) => {
+    let formatedGame = {};
+    formatedGame.auto = game.auto.joined;
 
+
+    return {
+        cargoShotHigh: game.cargoShotHigh,
+        cargoScoredHigh: game.cargoScoredHigh,
+        cargoShotLow: game.cargoShotLow,
+        cargoScoredLow: game.cargoScoredLow,
+        brokeDown: game.brokeDown,
+        auto: game.auto.joined,
+        climb: game.climb,
+        notes: game.notes,
+        cycles: game.cycles,
+    }
+}
 
 router.route("/").get((req, res, next) => {
     Team.find()
@@ -188,7 +205,10 @@ router.route("/:id/game").get(((req, res, next) => {
 }))
 router.route("/:id/game/:matchNumber").get(((req, res, next) => {
     Team.findById({_id: req.params.id}).then((team) => {
-        res.send(team.games.find(x => x._id === req.params.matchNumber))
+        res.send(
+            formatGame(team.games.find(x => x._id === req.params.matchNumber))
+        )
+
     }).catch(next)
 }))
 
