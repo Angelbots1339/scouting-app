@@ -88,10 +88,10 @@ const structorTeam = (team) => {
         climbs: team.games.map((game) => game.climb),
         breakdowns: team.games.map((game) => game.brokeDown),
         gameNotes: team.games.map((game) => game.notes),
-        lowCycleTimePerCargo: team.games.map((game) => game.cycles).flat().filter((cycle) => !cycle.HighGoal).map((cycle) => cycle.cycleTimePerBall),
-        possibleAutoRoutes: autoRoutes,
         driveTeamNotes: team.driveTeamNotes,
+        lowCycleTimePerCargo: team.games.map((game) => game.cycles).flat().filter((cycle) => !cycle.HighGoal).map((cycle) => cycle.cycleTimePerBall),
         highCycleTimePerCargo: team.games.map((game) => game.cycles).flat().filter((cycle) => cycle.HighGoal).map((cycle) => cycle.cycleTimePerBall),
+        possibleAutoRoutes: autoRoutes,
 
         ...teamScout
     }
