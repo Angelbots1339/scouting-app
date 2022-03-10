@@ -175,12 +175,14 @@ router.route("/").post(((req, res, next) => {
         })
         .catch(next)
 }))
+
 router.route("/:id").put((req, res, next) =>
     Team.findByIdAndUpdate({_id: req.params.id}, req.body, {runValidators: true})
         .then((team) => {
             res.send(team)
         })
         .catch(next))
+
 
 router.route("/:id").delete((req, res, next) =>
     Team.findByIdAndDelete({_id: req.params.id})

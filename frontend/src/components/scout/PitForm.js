@@ -90,7 +90,7 @@ const PitForm = () => {
 
                 let team = values.team;
                 delete values.team
-                TeamDataService.updateTeam(parseInt(team), {
+                TeamDataService.updateTeam(team, {
                     "isPitScouted": true,
                     "pitScout": values
                 }).then(res => console.log(res))

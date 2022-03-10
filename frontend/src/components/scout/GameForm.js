@@ -80,7 +80,7 @@ const GameForm = () => {
     }
 
     const onChangeCycleHighGoal = index => event => {
-        event.preventDefault();
+
         let cycleTimes = JSON.parse(JSON.stringify(cycleList));
         cycleTimes[index].HighGoal = event.target.checked;
         updateCycleTime(index, cycleTimes);
@@ -88,19 +88,19 @@ const GameForm = () => {
 
     const onChangeCycleCargoShot = index => event => {
 
-        event.preventDefault();
+
         let cycleTimes = JSON.parse(JSON.stringify(cycleList));
         cycleTimes[index].cargoShot = event.target.checked ? 2 : 1;
         updateCycleTime(index, cycleTimes);
     }
     const onChangeCycleCargoScored = index => event => {
-        event.preventDefault();
+
         let cycleTimes = JSON.parse(JSON.stringify(cycleList));
         cycleTimes[index].cargoScored = event.target.checked ? 2 : 1;
         updateCycleTime(index, cycleTimes);
     }
-    const onRemoveCycle = index => event => () => {
-        event.preventDefault();
+    const onRemoveCycle = index => () => {
+
         let cycleTimes = JSON.parse(JSON.stringify(cycleList));
         cycleTimes[index].cargoScored = 0;
         cycleTimes[index].cargoShot = 0;
@@ -114,18 +114,18 @@ const GameForm = () => {
 
             <Paper sx={{ p: 0.5, m: 0.5 }} key={index}>
                 <Grid>
-                    <FormControlLabel control={<Checkbox onMouseDown={onChangeCycleCargoShot(index)} onTouchStart={onChangeCycleCargoShot(index)} />} label={"Two Shot"} checked={datum.cargoShot === 2} sx={{ cursor:'pointer' }}/>
+                    <FormControlLabel control={<Checkbox onClick={onChangeCycleCargoShot(index)} onTouchStart={onChangeCycleCargoShot(index)} />} label={"Two Shot"} checked={datum.cargoShot === 2} sx={{ cursor:'pointer' }}/>
 
-                    <FormControlLabel control={<Checkbox onMouseDown ={onChangeCycleCargoScored(index)} onTouchStart={onChangeCycleCargoScored(index)} />} disabled={datum.cargoShot !== 2} label={"Two Made"}
+                    <FormControlLabel control={<Checkbox onClick ={onChangeCycleCargoScored(index)} onTouchStart={onChangeCycleCargoScored(index)} />} disabled={datum.cargoShot !== 2} label={"Two Made"}
                         checked={datum.cargoScored === 2} sx={{ cursor:'pointer' }}/>
 
-                    <FormControlLabel control={<Checkbox onMouseDown={onChangeCycleHighGoal(index)} onTouchStart={onChangeCycleHighGoal(index)} />} label={"Upper"}  checked={datum.HighGoal} sx={{ cursor:'pointer' }} />
+                    <FormControlLabel control={<Checkbox onClick={onChangeCycleHighGoal(index)} onTouchStart={onChangeCycleHighGoal(index)} />} label={"Upper"}  checked={datum.HighGoal} sx={{ cursor:'pointer' }} />
 
                     <Typography display={"inline"}>
                         Time: {formatTime(datum.cycleTime)}
                     </Typography>
 
-                    <IconButton sx={{ cursor:'pointer' }} onTouchStart={onRemoveCycle(index)} onMouseDown={onRemoveCycle(index)}>
+                    <IconButton  onClick={onRemoveCycle(index)}>
                         <RemoveIcon />
                     </IconButton>
                 </Grid>
