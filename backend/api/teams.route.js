@@ -34,7 +34,7 @@ const flattenTeam = (team) => {
         teamNumber: team._id,
         avgContributedCargoScore: getAvg(data.contributedCargoScore),
         avgContributedScore: getAvg(data.contributedScore),
-        avgTotalHighShot: getAvg(data.totalLowShot),
+        avgTotalHighShot: getAvg(data.totalHighShot),
         avgTotalHighScored: getAvg(data.totalHighScored),
         avgHighShotAccuracy: getSum(data.totalHighScored)/ getSum(data.totalHighShot),
         avgHighCycleTimePerCargo: getAvg(data.highCycleTimePerCargo),
