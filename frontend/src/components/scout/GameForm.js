@@ -246,7 +246,7 @@ const GameForm = () => {
         setCargoShotHigh(0)
         setCargoShotLow(0)
         setAuto({ cargoHigh: 0, cargoLow: 0, offLine: false })
-        setClimb(0)
+        setClimb(-1)
         setNotes("")
         setCycleList([])
         setIsTimerStart(false)
