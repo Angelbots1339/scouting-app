@@ -133,6 +133,18 @@ router.route("/").get((req, res, next) => {
         })
         .catch(next)
 })
+router.route("/delete/all/match").delete((req, res, next) => {
+    Team.find()
+        .then((teams) => {
+            res.send(teams)
+            for (let i = 0; i < teams.length; i++) {
+                teams[i].games = [];
+                teams[i].save();
+            }
+
+        })
+        .catch(next)
+})
 router.route("/:id").get((req, res, next) => {
     Team.findById(req.params.id)
         .then((team) => {
