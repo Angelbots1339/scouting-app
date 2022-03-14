@@ -125,8 +125,8 @@ const flattenTeams = (teams) => {
 
 router.route("/events").get((req, res, next) => {
     Event.find()
-        .then((teams) => {
-            res.send(teams)
+        .then((events) => {
+            res.send(events)
         })
         .catch(next)
 })

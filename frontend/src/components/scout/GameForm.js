@@ -246,7 +246,7 @@ const GameForm = () => {
         setCargoShotHigh(0)
         setCargoShotLow(0)
         setAuto({ cargoHigh: 0, cargoLow: 0, offLine: false })
-        setClimb(-1)
+        setClimb(0)
         setNotes("")
         setCycleList([])
         setIsTimerStart(false)
@@ -398,13 +398,14 @@ const GameForm = () => {
                                     value={climb}
                                     onChange={e => setClimb(e.target.value)}
                                 >
-                                    <MenuItem value="-1">
-                                        <em>None</em>
+                                    <MenuItem value={0}>
+                                        No Climb
                                     </MenuItem>
-                                    <MenuItem value={0}>LowBar</MenuItem>
-                                    <MenuItem value={1}>MidBar</MenuItem>
-                                    <MenuItem value={2}>HighBar</MenuItem>
-                                    <MenuItem value={3}>TraversalBar</MenuItem>
+                                    <MenuItem value={-1}>Failed</MenuItem>
+                                    <MenuItem value={1}>LowBar</MenuItem>
+                                    <MenuItem value={2}>MidBar</MenuItem>
+                                    <MenuItem value={3}>HighBar</MenuItem>
+                                    <MenuItem value={4}>TraversalBar</MenuItem>
                                 </Select>
                                 <FormHelperText>Select Climb</FormHelperText>
                             </FormControl>
