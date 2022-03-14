@@ -1,5 +1,5 @@
 import express from "express";
-import Team from '../models/team.model.js'
+import Event from '../models/event.model.js'
 
 const router = express.Router()
 const getAvg = (nums) => {
@@ -29,7 +29,7 @@ const flattenTeam = (team) => {
     }
 
 
-    let data = structorTeam(team);
+    let data = structTeam(team);
     return {
         teamNumber: team._id,
         avgContributedCargoScore: getAvg(data.contributedCargoScore),
@@ -56,7 +56,7 @@ const flattenTeam = (team) => {
         ...teamScout
     }
 }
-const structorTeam = (team) => {
+const structTeam = (team) => {
 
     let teamScout = {}
     let autoRoutes = [];
@@ -106,130 +106,152 @@ const flattenTeams = (teams) => {
     }
     return data
 }
-const formatGame = (game) => {
-    let formatedGame = {};
-    formatedGame.auto = game.auto.joined;
 
 
-    return {
-        cargoShotHigh: game.cargoShotHigh,
-        cargoScoredHigh: game.cargoScoredHigh,
-        cargoShotLow: game.cargoShotLow,
-        cargoScoredLow: game.cargoScoredLow,
-        brokeDown: game.brokeDown,
-        autoCargoLow: game.auto.cargoLow,
-        autoCargoHigh: game.auto.cargoHigh,
-        autoOffLine: game.auto.offLine,
-        climb: game.climb,
-        notes: game.notes,
-        cycles: game.cycles,
-    }
-}
 
-router.route("/").get((req, res, next) => {
-    Team.find()
+// router.route("/delete/all/match").delete((req, res, next) => {
+//     Competition.find()
+//         .then((teams) => {
+//             res.send(teams)
+//             for (let i = 0; i < teams.length; i++) {
+//                 teams[i].games = [];
+//                 teams[i].save();
+//             }
+//
+//         })
+//         .catch(next)
+// })
+
+
+router.route("/events").get((req, res, next) => {
+    Event.find()
         .then((teams) => {
             res.send(teams)
         })
         .catch(next)
 })
-router.route("/delete/all/match").delete((req, res, next) => {
-    Team.find()
-        .then((teams) => {
-            res.send(teams)
-            for (let i = 0; i < teams.length; i++) {
-                teams[i].games = [];
-                teams[i].save();
-            }
+router.route("/event/:event/stats").get((req, res, next) => {
+    Event.findById(req.params.event)
+        .then((event) => {
+            res.send(flattenTeams(event.teams))
+        })
+        .catch(next)
+})
 
-        })
-        .catch(next)
-})
-router.route("/:id").get((req, res, next) => {
-    Team.findById(req.params.id)
+
+router.route("/event/:event").get((req, res, next) => {
+    Event.findById(req.params.event)
         .then((team) => {
             res.send(team)
         })
         .catch(next)
 })
-router.route("/flatdata").get((req, res, next) => {
-    Team.findById(req.params.id)
-        .then((team) => {
-            res.send(flattenTeam(team))
+router.route("/event/:event/teams").get((req, res, next) => {
+    Event.findById(req.params.event)
+        .then((event) => {
+            res.send(event.teams)
         })
         .catch(next)
 })
-router.route("/:id/data").get((req, res, next) => {
-    Team.findById(req.params.id)
-        .then((team) => {
-            res.send(structorTeam(team))
+
+router.route("/event/:event/teams/pitScouted").get((req, res, next) => {
+    Event.findById(req.params.event)
+        .then((event) => {
+            res.send(event.teams.find({isPitScouted: false}))
         })
         .catch(next)
 })
-router.route("/data/flat").get((req, res, next) => {
-    Team.find()
-        .then((teams) => {
-            res.send(flattenTeams(teams))
+
+
+
+
+router.route("/event/:event/team/:team").get((req, res, next) => {
+    Event.findById(req.params.event)
+        .then((event) => {
+            res.send(event.teams.id(req.params.team))
         })
         .catch(next)
 })
-router.route("/team/scoutNeeded").get((req, res, next) => {
-    Team.find({isPitScouted: false})
-        .then((team) => {
-            res.send(team)
+
+router.route("/event/:event/team/:team/games").get((req, res, next) => {
+    Event.findById(req.params.event)
+        .then((event) => {
+            res.send(event.teams.id(req.params.team).games)
         })
         .catch(next)
 })
-router.route("/").post(((req, res, next) => {
-    Team.create(req.body)
-        .then((team) => {
-            res.send(team)
+router.route("/event/:event/team/:team/games/stats").get((req, res, next) => {
+    Event.findById(req.params.event)
+        .then((event) => {
+            res.send(structTeam(event.teams.id(req.params.team)))
+        })
+        .catch(next)
+})
+
+
+router.route("/event").post(((req, res, next) => {
+    Event.create(req.body)
+        .then((event) => {
+            res.send(event)
+        })
+        .catch(next)
+}))
+router.route("/event/:event/team").post(((req, res, next) => {
+    Event.findById(req.params.event)
+        .then((event) => {
+            event.teams.push(req.body)
+            event.save()
+            res.send(req.body)
         })
         .catch(next)
 }))
 
-router.route("/:id").put((req, res, next) =>
-    Team.findByIdAndUpdate({_id: req.params.id}, req.body, {runValidators: true})
-        .then((team) => {
-            res.send(team)
+router.route("/event/:event/team/:team/game").post(((req, res, next) => {
+    Event.findById(req.params.event).then((event) => {
+        event.teams.id(req.params.team).games.push(req.body)
+        event.save()
+        res.send(event.teams.id(req.params.team))
+    }).catch(next)
+}))
+
+router.route("/event/:event/team/:team/note").post(((req, res, next) => {
+    Event.findById({_id: req.params.id}).then((event) => {
+        event.teams.id(req.params.team).driveTeamNotes.push(req.body.note)
+        event.save()
+        res.send(event.teams.id(req.params.team))
+    }).catch(next)
+}))
+
+router.route("/event/:event").put((req, res, next) =>
+    Event.findByIdAndUpdate({_id: req.params.event}, req.body, {runValidators: true})
+        .then((event) => {
+            res.send(event)
         })
         .catch(next))
 
+router.route("/event/:event/team/:team").put((req, res, next) =>
+    Event.findById({_id: req.params.id})
+        .then((event) => {
+            event.teams.id(req.params.team).set(req.body)
+            event.save()
+            res.send(event.teams.id(req.params.team))
+        })
+        .catch(next))
 
-router.route("/:id").delete((req, res, next) =>
-    Team.findByIdAndDelete({_id: req.params.id})
+router.route("/event/:event").delete((req, res, next) =>
+    Event.findByIdAndDelete({_id: req.params.event})
         .then((team) => {
             res.send(team)
         })
         .catch(next)
 )
-router.route("/:id/game").post(((req, res, next) => {
-    Team.findById({_id: req.params.id}).then((team) => {
-        team.games.push(req.body)
-        team.save()
-        res.send(team.games)
-    }).catch(next)
-}))
-router.route("/:id/notes").post(((req, res, next) => {
-    Team.findById({_id: req.params.id}).then((team) => {
-        team.driveTeamNotes.push(req.body.note)
-        team.save()
-        res.send(team.driveTeamNotes)
-    }).catch(next)
-}))
-router.route("/:id/game").get(((req, res, next) => {
-    Team.findById({_id: req.params.id}).then((team) => {
-        res.send(team.games)
-    }).catch(next)
-}))
-router.route("/:id/game/:matchNumber").get(((req, res, next) => {
-    Team.findById({_id: req.params.id}).then((team) => {
-        res.send(
-            formatGame(team.games.find(x => x._id === req.params.matchNumber))
-        )
-
-    }).catch(next)
-}))
+router.route("/event/:event/team/:team").delete((req, res, next) =>
+    Event.findByIdAndDelete({_id: req.params.event})
+        .then((event) => {
+            event.teams.pull(req.params.team)
+        })
+        .catch(next)
+)
 
 
 export default router

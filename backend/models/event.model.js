@@ -118,9 +118,13 @@ const teamSchema = new mongoose.Schema({
     games: [gameScout],
     driveTeamNotes: [String]
 });
+const eventSchema = new mongoose.Schema({
+    _id: String,
+    teams: [teamSchema]
+})
 
 
-const team = mongoose.model('team', teamSchema)
+const Event = mongoose.model('competition', eventSchema)
 
-export default team
+export default Event
 
