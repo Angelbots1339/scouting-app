@@ -20,10 +20,6 @@ const pitScout = new mongoose.Schema({
     areFalconsLoctited: Boolean,
     bumperQuality: String,
     wiringOrganization: Number,
-    robotLength: Number,
-    robotWidth: Number,
-    robotHeight: Number,
-    adultOnDriveTeam: Boolean,
     cargoHold: Number,
     climbHeight: String,
     climbConfidence: Number,
@@ -35,7 +31,6 @@ const pitScout = new mongoose.Schema({
     canShootInHigh: Boolean,
     autoRoutines:[autoRoutine],
 
-    pitSystem: String,
     hasRedFlags: Boolean,
     redFlags: String,
     notes: String,
