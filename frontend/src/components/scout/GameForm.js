@@ -179,10 +179,10 @@ const GameForm = () => {
             }}>
                 <Typography display={"inline"} variant={"subtitle1"}>{`${props.name}: ${props.value}`}</Typography>
                 <Grid container>
-                    <IconButton onMouseDown={onAdd} onTouchStart={onAdd} sx={{cursor:'pointer'}}>
+                    <IconButton onTouchStart={onAdd} sx={{cursor:'pointer'}}>
                         <AddIcon />
                     </IconButton>
-                    <IconButton onMouseDown={onMinus} onTouchStart={onMinus} sx={{cursor:'pointer'}}>
+                    <IconButton onTouchStart={onMinus} sx={{cursor:'pointer'}}>
                         <RemoveIcon />
                     </IconButton>
                 </Grid>
