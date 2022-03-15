@@ -10,6 +10,7 @@ import TeamDataService from "../../services/team";
 import {Field, FieldArray, Formik} from "formik";
 
 import { Remove } from "@mui/icons-material";
+import { useMediaQuery } from 'react-responsive'
 
 import { TextField, Autocomplete, Checkbox } from 'formik-mui';
 //import team from "../../services/team";
@@ -105,7 +106,8 @@ const PitForm = () => {
                 /* and other goodies */
             }) => (
                 <form onSubmit={handleSubmit}>
-                    <Paper sx={{ marginTop: 22, p: 1}}>
+
+                    <Paper sx={{p: 1}}>
                         <FormGroup sx={{ marginLeft:'5%', marginRight:'5%' , marginTop:5}}>
                             <Field
                                 name={"team"}
@@ -214,14 +216,6 @@ const PitForm = () => {
                             </Field>
 
 
-                            {/*---------Team----------*/}
-                            <div>
-                                <hr style={{ width: 'auto', height: 1, borderWidth: 5 }} color="grey"/>
-                            </div>
-
-
-                            <Typography variant={"h6"} sx={{ marginTop: 5 }}>Team</Typography>
-
 
                             {/*---------Shooter----------*/}
                             <div>
@@ -259,7 +253,7 @@ const PitForm = () => {
                                 <MenuItem value={"fender"}>Fender</MenuItem>
                                 <MenuItem value={"anywhere"}>Anywhere</MenuItem>
                                 <MenuItem value={"launchpad"}>Launchpad</MenuItem>
-                                <MenuItem value={"specific"}>Specific Locations</MenuItem>
+                                <MenuItem value={"tarmac"}>Tarmac</MenuItem>
                                 <MenuItem value={"other"}>Other</MenuItem>
                             </Field>
                             {/*-------Auto------*/}

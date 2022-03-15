@@ -7,7 +7,7 @@ export default function ScoutPage() {
        
             <div>
             <div style={{width: "auto", alignItems:"center"}}>
-                <AppBar style={{display: "flex", alignItems:"center", width:"100"}}>
+                <AppBar position="sticky" style={{display: "flex", alignItems:"center", width:"100"}}>
                 <img src="../../logo200.png" alt={"angleBoticsLogo"} style={{ width: 60, height: 60, borderRadius: 10 }}/>
 
                 <ButtonGroup variant="contained" sx={{ m: 2 }}>
