@@ -10,7 +10,6 @@ import TeamDataService from "../../services/team";
 import {Field, FieldArray, Formik} from "formik";
 
 import { Remove } from "@mui/icons-material";
-import { useMediaQuery } from 'react-responsive'
 
 import { TextField, Autocomplete, Checkbox } from 'formik-mui';
 //import team from "../../services/team";
