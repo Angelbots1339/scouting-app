@@ -36,121 +36,16 @@ const GameForm = () => {
     const [matchNumber, setMatchNumber] = useState(0);
     const [matchCode, setMatchCode] = useState("qm");
 
-    const [cycleList, setCycleList] = useState([])
 
 
-    const addCycleTime = () => {
-        setCycleList([...cycleList, {
-            cycleTime: cycleTime,
-            HighGoal: false,
-            cargoShot: 1,
-            cargoScored: 1
-        }])
-        setCargoShotLow(cargoShotLow + 1);
-        setCargoScoredLow(cargoScoredLow + 1);
-    }
-
-    const updateCycleTime = (index, newList) => {
-        let previousCycle = cycleList[index];
-        let currentCycle = newList[index];
-        if (currentCycle.HighGoal) {
-            if (!previousCycle.HighGoal) {
-                setCargoShotLow(cargoShotLow - previousCycle.cargoShot);
-                setCargoScoredLow(cargoScoredLow - previousCycle.cargoScored);
-
-                setCargoShotHigh(cargoShotHigh + previousCycle.cargoShot);
-                setCargoScoredHigh(cargoScoredHigh + previousCycle.cargoScored);
-            } else {
-                setCargoShotHigh(cargoShotHigh + (currentCycle.cargoShot - previousCycle.cargoShot));
-                setCargoScoredHigh(cargoScoredHigh + (currentCycle.cargoScored - previousCycle.cargoScored));
-            }
-        } else {
-            if (previousCycle.HighGoal) {
-                setCargoShotHigh(cargoShotHigh - previousCycle.cargoShot);
-                setCargoScoredHigh(cargoScoredHigh - previousCycle.cargoScored);
-
-                setCargoShotLow(cargoShotLow + previousCycle.cargoShot);
-                setCargoScoredLow(cargoScoredLow + previousCycle.cargoScored);
-            } else {
-                setCargoShotLow(cargoShotLow + (currentCycle.cargoShot - previousCycle.cargoShot));
-                setCargoScoredLow(cargoScoredLow + (currentCycle.cargoScored - previousCycle.cargoScored));
-            }
-        }
-        setCycleList(newList);
-    }
-
-    const onChangeCycleHighGoal = index => event => {
-
-        let cycleTimes = JSON.parse(JSON.stringify(cycleList));
-        cycleTimes[index].HighGoal = event.target.checked;
-        updateCycleTime(index, cycleTimes);
-    }
-
-    const onChangeCycleCargoShot = index => event => {
 
 
-        let cycleTimes = JSON.parse(JSON.stringify(cycleList));
-        cycleTimes[index].cargoShot = event.target.checked ? 2 : 1;
-        updateCycleTime(index, cycleTimes);
-    }
-    const onChangeCycleCargoScored = index => event => {
-
-        let cycleTimes = JSON.parse(JSON.stringify(cycleList));
-        cycleTimes[index].cargoScored = event.target.checked ? 2 : 1;
-        updateCycleTime(index, cycleTimes);
-    }
-    const onRemoveCycle = index => () => {
-
-        let cycleTimes = JSON.parse(JSON.stringify(cycleList));
-        cycleTimes[index].cargoScored = 0;
-        cycleTimes[index].cargoShot = 0;
-        updateCycleTime(index, cycleTimes);
-        setCycleList(cycleList.filter((item, i) => i !== index))
-    }
 
 
-    const cycleComponent = (datum, index) => {
-        return (
-
-            <Paper sx={{ p: 0.5, m: 0.5 }} key={index}>
-                <Grid>
-                    <FormControlLabel control={<Checkbox onClick={onChangeCycleCargoShot(index)} onTouchStart={onChangeCycleCargoShot(index)} />} label={"Two Shot"} checked={datum.cargoShot === 2} sx={{ cursor:'pointer' }}/>
-
-                    <FormControlLabel control={<Checkbox onClick ={onChangeCycleCargoScored(index)} onTouchStart={onChangeCycleCargoScored(index)} />} disabled={datum.cargoShot !== 2} label={"Two Made"}
-                        checked={datum.cargoScored === 2} sx={{ cursor:'pointer' }}/>
-
-                    <FormControlLabel control={<Checkbox onClick={onChangeCycleHighGoal(index)} onTouchStart={onChangeCycleHighGoal(index)} />} label={"Upper"}  checked={datum.HighGoal} sx={{ cursor:'pointer' }} />
-
-                    <Typography display={"inline"}>
-                        Time: {formatTime(datum.cycleTime)}
-                    </Typography>
-
-                    <IconButton  onClick={onRemoveCycle(index)}>
-                        <RemoveIcon />
-                    </IconButton>
-                </Grid>
-            </Paper>
-        )
-    }
 
 
     // ---------Timer-----------
-    const [cycleTime, setCycleTime] = useState(0);
-    const [isTimerStart, setIsTimerStart] = useState(false);
 
-    React.useEffect(() => {
-        let interval = null;
-        if (isTimerStart) {
-            interval = setInterval(() => {
-                setCycleTime(time => time + 10)
-            }, 10);
-        } else {
-            clearInterval(interval);
-        }
-
-        return () => clearInterval(interval)
-    },
-        [isTimerStart])
 
     const ScoreCounter = (props) => {
 
@@ -167,7 +62,7 @@ const GameForm = () => {
         }
         const onMinus = (e) => {
             e.preventDefault()
-            if (props.value > props.cycleValue) {
+            if (props.value > 0) {
                 props.setScore(props.value - 1);
             }
         }
@@ -190,26 +85,12 @@ const GameForm = () => {
         </Grid>);
     }
 
-    const formatTime = (Time) => {
-        const getMiliSecons = ("0" + ((Time / 10) % 100)).slice(-2);
-        const getSeconds = ("0" + Math.floor((Time / 1000) % 60)).slice(-2);
-        const getMinutes = ("0" + Math.floor((Time / 60000) % 60)).slice(-2);
-        return `${getMinutes}:${getSeconds}:${getMiliSecons}`
-    }
 
 
     //const [teams, setTeams] = useState([]);
-    const onClickStart = (e) => {
-        e.preventDefault();
-        if (isTimerStart) {
-            addCycleTime();
-            setCycleTime(0);
-        } else {
-            setIsTimerStart(true)
-        }
-    }
+
     //------Form------
-    // const [isDefultClimb, setIsDefultClimb] = useState(true);
+    //const [isDefultClimb, setIsDefultClimb] = useState(true);
     const handleSubmit = () => {
 
 
@@ -248,8 +129,6 @@ const GameForm = () => {
         setAuto({ cargoHigh: 0, cargoLow: 0, offLine: false })
         setClimb(0)
         setNotes("")
-        setCycleList([])
-        setIsTimerStart(false)
         setBrokeDown(false)
 
     }
@@ -339,46 +218,16 @@ const GameForm = () => {
                                     <hr style={{ width: 'auto', height: 1, borderWidth: 5 }} color="grey" />
                                 </div>
 
-                                <Typography variant={"h6"} sx={{ paddingTop: 2, paddingBottom: 2 }}> Cycles</Typography>
-                                <Paper elevation={4} sx={{ p: 1 }}>
-                                    {cycleList.map(cycleComponent)}
 
-                                </Paper>
-                                <Typography sx={{ marginTop: 5 }}>Time: {formatTime(cycleTime)}</Typography>
-                                <Button onTouchStart={onClickStart} onMouseDown={onClickStart} variant={"contained"} sx={{ marginTop: 1, cursor:'pointer' }}>
-                                    {isTimerStart ? "Add" : "Start"}
-                                </Button>
-                                <Button sx={{ marginTop: 1, cursor:'pointer' }}  variant={"contained"} onTouchStart={(e) => {
-                                    e.preventDefault()
-                                    setCycleTime(0);
-                                    setIsTimerStart(false);
-                                }}  onMouseDown={(e) => {
-                                    e.preventDefault()
-                                    setCycleTime(0);
-                                    setIsTimerStart(false);
-                                }}>Reset</Button>
+
                             </div>
                         </FormGroup>
 
                         <Grid container sx={{ paddingLeft: 10, paddingTop: 2, paddingBottom: 2, marginRight:10 }}>
-                            <ScoreCounter name={"Shot High"} value={cargoShotHigh} setScore={setCargoShotHigh}
-                                cycleValue={cycleList.length ? cycleList.reduce(function (acc, current) {
-                                    return acc + (current.HighGoal ? current.cargoShot : 0);
-                                }, 0) : 0} />
-                            <ScoreCounter maxValue={cargoShotHigh} name={"Scored High"} value={cargoScoredHigh}
-                                setScore={setCargoScoredHigh}
-                                cycleValue={cycleList.length ? cycleList.reduce(function (acc, current) {
-                                    return acc + (current.HighGoal ? current.cargoScored : 0);
-                                }, 0) : 0} />
-                            <ScoreCounter name={"Shot low"} value={cargoShotLow} setScore={setCargoShotLow}
-                                cycleValue={cycleList.length ? cycleList.reduce(function (acc, current) {
-                                    return acc + (!current.HighGoal ? current.cargoShot : 0);
-                                }, 0) : 0} />
-                            <ScoreCounter maxValue={cargoShotLow} name={"Scored low"} value={cargoScoredLow}
-                                setScore={setCargoScoredLow}
-                                cycleValue={cycleList.length ? cycleList.reduce(function (acc, current) {
-                                    return acc + (!current.HighGoal ? current.cargoScored : 0);
-                                }, 0) : 0} />
+                            <ScoreCounter name={"Shot High"} value={cargoShotHigh} setScore={setCargoShotHigh}/>
+                            <ScoreCounter maxValue={cargoShotHigh} name={"Scored High"} value={cargoScoredHigh} setScore={setCargoScoredHigh}/>
+                            <ScoreCounter name={"Shot low"} value={cargoShotLow} setScore={setCargoShotLow}/>
+                            <ScoreCounter maxValue={cargoShotLow} name={"Scored low"} value={cargoScoredLow} setScore={setCargoScoredLow}/>
                         </Grid>
                         <FormGroup sx={{ paddingLeft: 10 , marginRight:10}}>
 
@@ -387,8 +236,6 @@ const GameForm = () => {
                                 <hr style={{ width: 'auto', height: 1, borderWidth: 5 }} color="grey" />
                             </div>
                             <Typography variant={"h6"} sx={{ marginTop: 5 }}> Climb</Typography>
-
-                            {/*<FormControlLabel control={<Checkbox  checked={isDefultClimb}/>} label={"Climbed: Loading..."} onChange={onChangeIsDefaultClimb}/>*/}
 
                             <FormControl variant={"standard"} sx={{ marginTop: 1 }}>
                                 <Select
