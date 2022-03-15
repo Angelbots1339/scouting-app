@@ -65,11 +65,14 @@ const gameScout = new mongoose.Schema({
     cargoShotHigh: Number,
     cargoScoredLow: Number,
     cargoScoredHigh: Number,
+    playedDefence: Boolean,
+    herdingBallsRating: Number,
+    botDefenceRating: Number,
+    defenceNotes: String,
     notes: String,
     brokeDown: Number,
     auto: autoRoutine,
-    climb: Number,
-    cycles: [cycle]
+    climb: Number
 
 })
 gameScout.virtual('cargoScore').get(function() {
