@@ -401,11 +401,7 @@ const GameForm = () => {
                                     <MenuItem value={0}>
                                         No Climb
                                     </MenuItem>
-<<<<<<< HEAD
-                                    <MenuItem value={0}>Failed</MenuItem>
-=======
                                     <MenuItem value={-1}>Failed</MenuItem>
->>>>>>> main
                                     <MenuItem value={1}>LowBar</MenuItem>
                                     <MenuItem value={2}>MidBar</MenuItem>
                                     <MenuItem value={3}>HighBar</MenuItem>

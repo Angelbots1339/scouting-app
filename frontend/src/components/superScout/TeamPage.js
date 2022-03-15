@@ -15,14 +15,9 @@ function TeamPage() {
 
     const [team, setTeam] = useState([]);
     const [rawData, setRawData] = useState([]);
-<<<<<<< HEAD
-    const [gamesArray, setGamesArray] = useState([]);
-    const [autosArray, setAutosArray] = useState([]);
-=======
 
     const [autoRoutines, setAutoRoutines] = useState([]);
 
->>>>>>> main
 
 
     const getGamesArray = (id) => {
@@ -67,12 +62,7 @@ function TeamPage() {
     useEffect(() => {
         getTeam(teamNumber)
         getRawData(teamNumber)
-<<<<<<< HEAD
-        getAutosArray(teamNumber)
-        getGamesArray(teamNumber)
-=======
         getAutoRoutines(teamNumber)
->>>>>>> main
 
     }, [teamNumber]);
 
@@ -169,8 +159,6 @@ function TeamPage() {
                         </Item>
                     </Grid>
 
-<<<<<<< HEAD
-=======
 
                     {
                         autoRoutines.map((number) =>
@@ -182,7 +170,6 @@ function TeamPage() {
                             </Grid>
                         ) || "Loading..."
                     }
->>>>>>> main
 
                     {
                         autosArray.map((number) =>
