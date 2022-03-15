@@ -12,6 +12,7 @@ import {Field, FieldArray, Formik} from "formik";
 import { Remove } from "@mui/icons-material";
 
 import { TextField, Autocomplete, Checkbox } from 'formik-mui';
+//import team from "../../services/team";
 
 
 
@@ -35,8 +36,6 @@ const PitForm = () => {
         TeamDataService.getScoutNeededTeams().then(res => res.data.map(team => team._id.toString())).then(res => {
             setNeedScoutTeams(res)
         }).catch(e => console.log(e));
-
-
     }
 
     useEffect(() => {
@@ -57,14 +56,10 @@ const PitForm = () => {
             motorType: "",
             shootPositions: "",
             areFalconsLoctited: false,
-            adultOnDriveTeam: false,
-            robotLength: 0,
-            robotWidth: 0,
             experienceInYears: 0,
             wiringOrganization: 0,
             batteryCount: 0,
             motorCount: 0,
-            pitPeople: 0,
 
             cargoHold: 0,
             groundPickUp: false,
@@ -78,7 +73,6 @@ const PitForm = () => {
             climbHeight: 'none',
             climbConfidence: 0,
 
-            pitSystem: "",
             hasRedFlags: false,
             redFlags: "",
 
@@ -89,13 +83,12 @@ const PitForm = () => {
 
             onSubmit={(values, { resetForm }) => {
 
-                console.log(JSON.stringify(values))
-                alert(JSON.stringify(values, null, 2))
+                let team = values.team;
                 delete values.team
-                // TeamDataService.updateTeam(teamNumber, {
-                //     "isPitScouted": true,
-                //     "pitScout": values
-                // })
+                TeamDataService.updateTeam(team, {
+                    "isPitScouted": true,
+                    "pitScout": values
+                }).then(res => console.log(res))
                 resetForm();
             }}
 
@@ -112,8 +105,9 @@ const PitForm = () => {
                 /* and other goodies */
             }) => (
                 <form onSubmit={handleSubmit}>
-                    <Paper sx={{ marginTop: 15 }}>
-                        <FormGroup sx={{ p: 10 }}>
+
+                    <Paper sx={{p: 1}}>
+                        <FormGroup sx={{ marginLeft:'5%', marginRight:'5%' , marginTop:5}}>
                             <Field
                                 name={"team"}
                                 type={"team"}
@@ -190,22 +184,7 @@ const PitForm = () => {
                                 margin={"normal"}
                                 inputProps={{ min: 0, max: 99 }}
                             />
-                            <Field
-                                component={TextField}
-                                name="robotLength"
-                                type="number"
-                                label="Robot Length in Inches"
-                                margin={"normal"}
-                                inputProps={{ min: 0, max: 99, step: 0.1 }}
-                            />
-                            <Field
-                                component={TextField}
-                                name="robotWidth"
-                                type="number"
-                                label="Robot Width in Inches"
-                                margin={"normal"}
-                                inputProps={{ min: 0, max: 99, step: 0.1 }}
-                            />
+                           
 
                             <Field
                                 component={TextField}
@@ -235,44 +214,6 @@ const PitForm = () => {
                                 <MenuItem value={"good"}>Good</MenuItem>
                             </Field>
 
-
-                            {/*---------Team----------*/}
-                            <div>
-                                <hr style={{ width: 'auto', height: 1, borderWidth: 5 }} color="grey"/>
-                            </div>
-
-
-                            <Typography variant={"h6"} sx={{ marginTop: 5 }}>Team</Typography>
-
-
-                            <FormControlLabel
-                                control={<Field component={Checkbox} type="checkbox" name="adultOnDriveTeam" />}
-                                label="Adult On Drive Team"
-                                disabled={isSubmitting}
-                            />
-
-                            <Field
-                                component={TextField}
-                                name="pitPeople"
-                                type="number"
-                                label="People In Pit"
-                                margin={"normal"}
-                                inputProps={{ min: 0, max: 99 }}
-                            /> 
-
-
-                            <Field
-                                component={TextField}
-                                name="pitSystem"
-                                type="text"
-                                label="Pit System (Checklist, Part Replacement, etc.)"
-                                margin={"normal"}
-                                multiline
-                                maxRows={4}
-                                disabled={isSubmitting}
-                                color="secondary"
-
-                            />
 
 
                             {/*---------Shooter----------*/}
@@ -311,7 +252,7 @@ const PitForm = () => {
                                 <MenuItem value={"fender"}>Fender</MenuItem>
                                 <MenuItem value={"anywhere"}>Anywhere</MenuItem>
                                 <MenuItem value={"launchpad"}>Launchpad</MenuItem>
-                                <MenuItem value={"specific"}>Specific Locations</MenuItem>
+                                <MenuItem value={"tarmac"}>Tarmac</MenuItem>
                                 <MenuItem value={"other"}>Other</MenuItem>
                             </Field>
                             {/*-------Auto------*/}
@@ -347,16 +288,17 @@ const PitForm = () => {
                                                         }
                                                         label="Off Start Line"
                                                     />
-                                                    <IconButton type={"button"} onClick={() => arrayHelpers.remove(index)} ><Remove /></IconButton>
+                                                    <IconButton type={"button"} sx={{cursor:'pointer'}} onClick={() => arrayHelpers.remove(index)} ><Remove /></IconButton>
                                                 </Grid>
                                             </Paper>
 
                                         ))}
-                                        <Button type={"button"} variant={"outlined"} onClick={() => arrayHelpers.push({
+                                        <Button type={"button"} sx={{cursor:'pointer'}} variant={"contained"} onClick={() => arrayHelpers.push({
                                             position: 1,
                                             cargoLow: 0,
                                             cargoHigh: 0,
-                                            offLine: false
+                                            offLine: false,
+
                                         }
                                         )}>
                                             Add
@@ -455,7 +397,7 @@ const PitForm = () => {
                             />
 
                         </FormGroup>
-                        <Button type={"submit"} color="primary" variant="contained" sx={{ m: 5 }}>Submit</Button>
+                        <Button type={"submit"} color="primary" variant="contained" sx={{ m: 5,cursor:'pointer' }}>Submit</Button>
                     </Paper>
 
                 </form>)}

@@ -6,36 +6,31 @@ const autoRoutine = new mongoose.Schema({
     cargoHigh: Number,
     offLine: Boolean
 })
-autoRoutine.virtual('score').get(function() { return  (this.cargoLow * 2 + this.cargoHigh * 4 + (this.offline? 2 : 0) )})
+autoRoutine.virtual('score').get(function() { return  (this.cargoLow * 2 + this.cargoHigh * 4 + (this.offLine? 2 : 0) )})
+autoRoutine.virtual('joined').get(function() {
+    return `Position:${this.position} ${this.cargoLow !== 0? `Low:${this.cargoLow} ` : ""}${this.cargoHigh !== 0? `High:${this.cargoHigh} ` : ""}${this.offLine? "Goes Off line" : ""}`;
+})
+
 const pitScout = new mongoose.Schema({
     //-----GeneralRobotInfo------
     driveTrainType: String,
     motorType: String,
-    bumperQuality: String,
-    areFalconsLoctited: Boolean,
-    robotLength: Number,
-    robotWidth: Number,
-    robotHeight: Number,
-    experienceInYears: Number,
-    wiringOrganization: Number,
     motorCount: Number,
     batteryCount: Number,
-    adultOnDriveTeam: Boolean,
-
+    areFalconsLoctited: Boolean,
+    bumperQuality: String,
+    wiringOrganization: Number,
     cargoHold: Number,
+    climbHeight: String,
+    climbConfidence: Number,
+
+    experienceInYears: Number,
     groundPickUp: Boolean,
     terminalPickUp: Boolean,
     canShootInLow: Boolean,
     canShootInHigh: Boolean,
-
-
     autoRoutines:[autoRoutine],
 
-    climbHeight: String,
-    climbConfidence: Number,
-
-
-    pitSystem: String,
     hasRedFlags: Boolean,
     redFlags: String,
     notes: String,
@@ -60,6 +55,7 @@ cycle.virtual('cycleTimePerBall').get(function() {
 
 
 const gameScout = new mongoose.Schema({
+    _id: String,
     cargoShotLow: Number,
     cargoShotHigh: Number,
     cargoScoredLow: Number,
@@ -71,12 +67,14 @@ const gameScout = new mongoose.Schema({
     cycles: [cycle]
 
 })
-
+gameScout.virtual('cargoScore').get(function() {
+    return this.cargoScoredHigh * 2 + this.cargoScoredLow;
+})
 gameScout.virtual('score').get(function() {
     let climbPoints = 0;
     switch (this.climb){
         case 1:
-            climbPoints = 4
+            climbPoints = 0
             break
         case 2:
             climbPoints = 6
@@ -87,44 +85,20 @@ gameScout.virtual('score').get(function() {
         case 4:
             climbPoints = 15
     }
-    let acc = 0;
-    for (let i = 0; i < this.cycles.length; i++) {
-        acc += this.cycles[i].score;
-
-    }
-
-    return acc + climbPoints + this.auto.score + this.cargoScoredHigh * 2 + this.cargoScoredLow;
+    return climbPoints + this.auto.score + this.cargoScore;
 })
+
+
 gameScout.virtual('percentScoredHigh').get(function() {
-    let shotInCycles = 0;
-    let scoredInCycles = 0;
-    for (let i = 0; i < this.cycles.length; i++) {
-        if(this.cycles[i].HighGoal){
-            shotInCycles += this.cycles[i].cargoShot;
-            scoredInCycles += this.cycles[i].cargoScored;
-        }
-    }
-    return (scoredInCycles/shotInCycles + this.cargoScoredHigh/this.cargoShotHigh)/2;
+
+    return this.cargoScoredHigh/this.cargoShotHigh;
 })
 gameScout.virtual('percentScoredLow').get(function() {
-    let shotInCycles = 0;
-    let scoredInCycles = 0;
-    for (let i = 0; i < this.cycles.length; i++) {
-        if(!this.cycles[i].HighGoal){
-            shotInCycles += this.cycles[i].cargoShot;
-            scoredInCycles += this.cycles[i].cargoScored;
-        }
-    }
-    return (scoredInCycles/shotInCycles + this.cargoScoredLow/this.cargoShotLow)/2;
+    return this.cargoScoredLow/this.cargoShotLow;
 })
 gameScout.virtual('percentShotHigh').get(function() {
-    let shotHigh = 0;
-    let totalShot = 0;
-    for (let i = 0; i < this.cycles.length; i++) {
-        totalShot += this.cycles[i].cargoShot;
-        shotHigh += this.cycles[i].HighGoal? this.cycles[i].cargoShot : 0;
-    }
-    return (shotHigh/totalShot + this.cargoShotHigh/(this.cargoShotHigh + this.cargoShotLow))/2;
+
+    return this.cargoShotHigh/(this.cargoShotHigh + this.cargoShotLow);
 })
 
 
@@ -137,12 +111,15 @@ const teamSchema = new mongoose.Schema({
     },
     pitScout: pitScout,
     games: [gameScout],
-    notes: String,
     driveTeamNotes: [String]
 });
+const eventSchema = new mongoose.Schema({
+    _id: String,
+    teams: [teamSchema]
+})
 
 
-const team = mongoose.model('team', teamSchema)
+const Event = mongoose.model('competition', eventSchema)
 
-export default team
+export default Event
 

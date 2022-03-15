@@ -12,7 +12,7 @@ try {
     mongoose.connect(
         process.env.SCOUT_DB_URI,
         { useNewUrlParser: true, useUnifiedTopology: true },
-        () => console.log(" Mongoose is connected")
+        () => console.log("Mongoose is connected")
     );
 
 } catch (e) {

@@ -1,7 +1,8 @@
 import {
+    Autocomplete,
     Button, FormGroup, Paper, TextField
 } from "@mui/material";
-import {useState} from "react";
+import React, {useEffect, useState} from "react";
 import TeamDataService from "../../services/team";
 
 
@@ -27,24 +28,56 @@ const PitForm = () => {
         setTeam2(0);
     }
 
+    const [allTeams, setAllTeams] = useState([]);
 
-    return (<form onSubmit={handelSubmit}>
-            <Paper sx={{ marginTop: 15 }}>
-                <FormGroup sx={{paddingTop:10, paddingLeft:10, marginRight:10}}>
-                    <TextField type={"number"} margin={"normal"} value={team1} onChange={(e) => setTeam1(e.target.value)}
-                               label={"alliance 1 Team Number"}/>
+
+    const updateTeams = () => {
+        TeamDataService.getAllTeams().then(res => res.data.map(team => team._id.toString())).then(res => {
+            setAllTeams(res)
+        }).catch(e => console.log(e));
+    }
+
+    useEffect(() => {
+        updateTeams();
+    }, [])
+
+    return (<form>
+            <Paper sx={{}}>
+                <FormGroup sx={{marginLeft:'5%', marginRight:'5%' , paddingTop:5}}>
+
+                    <Autocomplete 
+                        disablePortal
+                        options={allTeams}
+                        sx={{ width: 300 }}
+                        value={team1}
+                        onChange={(event, value) => setTeam1(parseInt(value))}
+                        renderInput={(params) => <TextField {...params} label="alliance 1 Team Number" />}
+                    />
+
+
+
                     <TextField type={"text"} margin={"normal"}
                                multiline
                                maxRows={4} value={team1Notes} onChange={(e) => setTeam1Notes(e.target.value)}
                                label={"alliance 1 Notes"}/>
-                    <TextField type={"text"} margin={"normal"} value={team2} onChange={(e) => setTeam2(e.target.value)}
-                               label={"alliance 2 Team Number"}/>
+
+
+                    <Autocomplete
+                    disablePortal
+                    options={allTeams}
+                    sx={{ width: 300 }}
+                    value={team2}
+                    onChange={(event, value) => setTeam2(parseInt(value))}
+                    renderInput={(params) => <TextField {...params} label="alliance 2 Team Number" />}
+                    />
+
+
                     <TextField type={"number"} margin={"normal"}
                                multiline
                                maxRows={4} value={team2Notes} onChange={(e) => setTeam2Notes(e.target.value)}
                                label={"alliance 2 Notes"}/>
                 </FormGroup>
-                <Button type={"submit"} color="primary" variant="contained" sx={{m: 5}}>Submit</Button>
+                <Button color="primary" variant="contained" sx={{m: 5, cursor:'pointer'}} onClick={handelSubmit} >Submit</Button>
             </Paper>
         </form>
 
