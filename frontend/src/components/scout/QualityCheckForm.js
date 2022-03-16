@@ -39,8 +39,8 @@ const QualityCheckForm = () => {
     const handelSubmit = () => {
 
         if(team !== ""){
-            //TeamDataService.addQualityCheck(team, teamQualityCheck);
-            console.log(teamQualityCheck)
+            TeamDataService.addQualityCheck(team, teamQualityCheck);
+            //console.log(teamQualityCheck)
         }
         setTeam(0)
         setTeamQualityCheck({

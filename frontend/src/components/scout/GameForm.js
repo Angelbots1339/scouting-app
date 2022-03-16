@@ -75,16 +75,7 @@ const GameForm = () => {
         </Grid>);
     }
 
-<<<<<<< HEAD
-    const formatTime = (Time) => {
-        const getMiliSeconds = ("0" + ((Time / 10) % 100)).slice(-2);
-        const getSeconds = ("0" + Math.floor((Time / 1000) % 60)).slice(-2);
-        const getMinutes = ("0" + Math.floor((Time / 60000) % 60)).slice(-2);
-        return `${getMinutes}:${getSeconds}:${getMiliSeconds}`
-    }
 
-=======
->>>>>>> main
 
     //const [teams, setTeams] = useState([]);
 
