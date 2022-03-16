@@ -14,6 +14,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import {CssBaseline} from '@mui/material'
 import DriveTeamForm from "./components/scout/DriveTeamForm";
 import DataTable from "./components/superScout/DataTable";
+import QualityCheckForm from "./components/scout/QualityCheckForm";
 
 
 
@@ -28,6 +29,7 @@ ReactDOM.render(
                 <Route path="pitform" element={<PitForm/>}/>
                 <Route path="gameform" element={<GameForm/>}/>
                 <Route path="driveteamform" element={<DriveTeamForm/>}/>
+                <Route path="qualitycheckform" element={<QualityCheckForm/>}/>
             </Route>
             <Route path="superscout" element={<SuperScoutPage />}>
                 <Route path={":teamNumber"} element={<TeamPage/>}/>

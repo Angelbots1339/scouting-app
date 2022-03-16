@@ -28,6 +28,9 @@ class TeamDataService {
     addNote(teamNumber, note){
         return http.post(`/team/${teamNumber}/notes`, {note: note})
     }
+    addQualityCheck(teamNumber, qualityCheck){
+        return http.post(`/team/${teamNumber}/qualityCheck`, qualityCheck)
+    }
 
 
     // addTeam(teamNumber){

@@ -50,7 +50,9 @@ const PitForm = () => {
                         options={allTeams}
                         sx={{ width: 300 }}
                         value={team1}
-                        onChange={(event, value) => setTeam1(parseInt(value))}
+
+                        getOptionLabel={(option => `${option}`)}
+                        onChange={(event, value) => setTeam1(value)}
                         renderInput={(params) => <TextField {...params} label="alliance 1 Team Number" />}
                     />
 
@@ -67,7 +69,9 @@ const PitForm = () => {
                     options={allTeams}
                     sx={{ width: 300 }}
                     value={team2}
-                    onChange={(event, value) => setTeam2(parseInt(value))}
+
+                    getOptionLabel={(option => `${option}`)}
+                    onChange={(event, value) => setTeam2(value)}
                     renderInput={(params) => <TextField {...params} label="alliance 2 Team Number" />}
                     />
 

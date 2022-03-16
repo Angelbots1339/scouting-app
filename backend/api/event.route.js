@@ -222,6 +222,14 @@ router.route("/event/:event/team/:team/note").post(((req, res, next) => {
     }).catch(next)
 }))
 
+router.route("/event/:event/team/:team/qualityCheck").post(((req, res, next) => {
+    Event.findById({_id: req.params.id}).then((event) => {
+        event.teams.id(req.params.team).qualityCheck = req.body;
+        event.save()
+        res.send(event.teams.id(req.params.team))
+    }).catch(next)
+}))
+
 router.route("/event/:event").put((req, res, next) =>
     Event.findByIdAndUpdate({_id: req.params.event}, req.body, {runValidators: true})
         .then((event) => {
