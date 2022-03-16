@@ -9,7 +9,7 @@ export default function ScoutPage() {
             <div style={{ width: "auto", alignItems: "center" }}>
                 <AppBar position="sticky" style={{ display: "flex", alignItems: "center", width: "100" }}>
 
-
+                    
                     <ButtonGroup variant="contained" sx={{ m: 2 }}>
 
                     <Button sx={{ cursor: 'pointer' }} component={Link} to={'/'}>
@@ -19,6 +19,7 @@ export default function ScoutPage() {
                         <Button sx={{ cursor: 'pointer' }} component={Link} to={'/scout/pitform'}>Pit Scout</Button>
                         <Button sx={{ cursor: 'pointer' }} component={Link} to={'/scout/gameform'}>Game Scout</Button>
                         <Button sx={{ cursor: 'pointer' }} component={Link} to={'/scout/driveteamform'}>Drive Team Form</Button>
+                        <Button sx={{cursor:'pointer'}} component={Link} to={'/scout/qualitycheckform'}>Quality Check Form</Button>
                         
 
                     </ButtonGroup>

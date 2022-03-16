@@ -7,14 +7,13 @@ import {
     Grid,
     IconButton, Paper,
     Typography,
-    TextField, MenuItem, Select, FormHelperText, FormControl, Autocomplete
+    TextField, MenuItem, Select, FormHelperText, FormControl, Autocomplete, Rating
 } from "@mui/material";
 import React from "react";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
 import TeamDataService from "../../services/team";
-
 
 
 const GameForm = () => {
@@ -28,7 +27,7 @@ const GameForm = () => {
         ...state,
         ...(typeof action === 'function' ? action(state) : action),
     });
-    const [auto, setAuto] = useReducer(stateReducer, { cargoHigh: 0, cargoLow: 0, offLine: false })
+    const [auto, setAuto] = useReducer(stateReducer, {cargoHigh: 0, cargoLow: 0, offLine: false})
     const [climb, setClimb] = useState(-1);
     const [notes, setNotes] = useState("");
     const [brokeDown, setBrokeDown] = useState(false);
@@ -36,126 +35,13 @@ const GameForm = () => {
     const [matchNumber, setMatchNumber] = useState(0);
     const [matchCode, setMatchCode] = useState("qm");
 
-    const [cycleList, setCycleList] = useState([])
-
-
-    const addCycleTime = () => {
-        setCycleList([...cycleList, {
-            cycleTime: cycleTime,
-            HighGoal: false,
-            cargoShot: 1,
-            cargoScored: 1
-        }])
-        setCargoShotLow(cargoShotLow + 1);
-        setCargoScoredLow(cargoScoredLow + 1);
-    }
-
-    const updateCycleTime = (index, newList) => {
-        let previousCycle = cycleList[index];
-        let currentCycle = newList[index];
-        if (currentCycle.HighGoal) {
-            if (!previousCycle.HighGoal) {
-                setCargoShotLow(cargoShotLow - previousCycle.cargoShot);
-                setCargoScoredLow(cargoScoredLow - previousCycle.cargoScored);
-
-                setCargoShotHigh(cargoShotHigh + previousCycle.cargoShot);
-                setCargoScoredHigh(cargoScoredHigh + previousCycle.cargoScored);
-            } else {
-                setCargoShotHigh(cargoShotHigh + (currentCycle.cargoShot - previousCycle.cargoShot));
-                setCargoScoredHigh(cargoScoredHigh + (currentCycle.cargoScored - previousCycle.cargoScored));
-            }
-        } else {
-            if (previousCycle.HighGoal) {
-                setCargoShotHigh(cargoShotHigh - previousCycle.cargoShot);
-                setCargoScoredHigh(cargoScoredHigh - previousCycle.cargoScored);
-
-                setCargoShotLow(cargoShotLow + previousCycle.cargoShot);
-                setCargoScoredLow(cargoScoredLow + previousCycle.cargoScored);
-            } else {
-                setCargoShotLow(cargoShotLow + (currentCycle.cargoShot - previousCycle.cargoShot));
-                setCargoScoredLow(cargoScoredLow + (currentCycle.cargoScored - previousCycle.cargoScored));
-            }
-        }
-        setCycleList(newList);
-    }
-
-    const onChangeCycleHighGoal = index => event => {
-
-        let cycleTimes = JSON.parse(JSON.stringify(cycleList));
-        cycleTimes[index].HighGoal = event.target.checked;
-        updateCycleTime(index, cycleTimes);
-    }
-
-    const onChangeCycleCargoShot = index => event => {
-
-
-        let cycleTimes = JSON.parse(JSON.stringify(cycleList));
-        cycleTimes[index].cargoShot = event.target.checked ? 2 : 1;
-        updateCycleTime(index, cycleTimes);
-    }
-    const onChangeCycleCargoScored = index => event => {
-
-        let cycleTimes = JSON.parse(JSON.stringify(cycleList));
-        cycleTimes[index].cargoScored = event.target.checked ? 2 : 1;
-        updateCycleTime(index, cycleTimes);
-    }
-    const onRemoveCycle = index => () => {
-
-        let cycleTimes = JSON.parse(JSON.stringify(cycleList));
-        cycleTimes[index].cargoScored = 0;
-        cycleTimes[index].cargoShot = 0;
-        updateCycleTime(index, cycleTimes);
-        setCycleList(cycleList.filter((item, i) => i !== index))
-    }
-
-
-    const cycleComponent = (datum, index) => {
-        return (
-
-            <Paper sx={{ p: 0.5, m: 0.5 }} key={index}>
-                <Grid>
-                    <FormControlLabel control={<Checkbox onClick={onChangeCycleCargoShot(index)} onTouchStart={onChangeCycleCargoShot(index)} />} label={"Two Shot"} checked={datum.cargoShot === 2} sx={{ cursor:'pointer' }}/>
-
-                    <FormControlLabel control={<Checkbox onClick ={onChangeCycleCargoScored(index)} onTouchStart={onChangeCycleCargoScored(index)} />} disabled={datum.cargoShot !== 2} label={"Two Made"}
-                        checked={datum.cargoScored === 2} sx={{ cursor:'pointer' }}/>
-
-                    <FormControlLabel control={<Checkbox onClick={onChangeCycleHighGoal(index)} onTouchStart={onChangeCycleHighGoal(index)} />} label={"Upper"}  checked={datum.HighGoal} sx={{ cursor:'pointer' }} />
-
-                    <Typography display={"inline"}>
-                        Time: {formatTime(datum.cycleTime)}
-                    </Typography>
-
-                    <IconButton  onClick={onRemoveCycle(index)}>
-                        <RemoveIcon />
-                    </IconButton>
-                </Grid>
-            </Paper>
-        )
-    }
-
 
     // ---------Timer-----------
-    const [cycleTime, setCycleTime] = useState(0);
-    const [isTimerStart, setIsTimerStart] = useState(false);
 
-    React.useEffect(() => {
-        let interval = null;
-        if (isTimerStart) {
-            interval = setInterval(() => {
-                setCycleTime(time => time + 10)
-            }, 10);
-        } else {
-            clearInterval(interval);
-        }
-
-        return () => clearInterval(interval)
-    },
-        [isTimerStart])
 
     const ScoreCounter = (props) => {
 
-        const onAdd = (e) => {
-            e.preventDefault()
+        const onAdd = () => {
             if (!props.maxValue) {
                 props.setScore(props.value + 1);
             } else {
@@ -165,9 +51,8 @@ const GameForm = () => {
             }
 
         }
-        const onMinus = (e) => {
-            e.preventDefault()
-            if (props.value > props.cycleValue) {
+        const onMinus = () => {
+            if (props.value > 0) {
                 props.setScore(props.value - 1);
             }
         }
@@ -179,17 +64,18 @@ const GameForm = () => {
             }}>
                 <Typography display={"inline"} variant={"subtitle1"}>{`${props.name}: ${props.value}`}</Typography>
                 <Grid container>
-                    <IconButton onTouchStart={onAdd} sx={{cursor:'pointer'}}>
-                        <AddIcon />
+                    <IconButton onTouchStart={onAdd} sx={{cursor: 'pointer'}}>
+                        <AddIcon/>
                     </IconButton>
-                    <IconButton onTouchStart={onMinus} sx={{cursor:'pointer'}}>
-                        <RemoveIcon />
+                    <IconButton onTouchStart={onMinus} sx={{cursor: 'pointer'}}>
+                        <RemoveIcon/>
                     </IconButton>
                 </Grid>
             </Paper>
         </Grid>);
     }
 
+<<<<<<< HEAD
     const formatTime = (Time) => {
         const getMiliSeconds = ("0" + ((Time / 10) % 100)).slice(-2);
         const getSeconds = ("0" + Math.floor((Time / 1000) % 60)).slice(-2);
@@ -197,46 +83,41 @@ const GameForm = () => {
         return `${getMinutes}:${getSeconds}:${getMiliSeconds}`
     }
 
+=======
+>>>>>>> main
 
     //const [teams, setTeams] = useState([]);
-    const onClickStart = (e) => {
-        e.preventDefault();
-        if (isTimerStart) {
-            addCycleTime();
-            setCycleTime(0);
-        } else {
-            setIsTimerStart(true)
-        }
-    }
+
     //------Form------
-    // const [isDefultClimb, setIsDefultClimb] = useState(true);
+    //const [isDefultClimb, setIsDefultClimb] = useState(true);
     const handleSubmit = () => {
 
 
         const values =
-        {
-            _id: `${matchCode}${matchNumber}`,
-            cycles: [...cycleList],
-            cargoShotLow,
-            cargoShotHigh,
-            cargoScoredLow,
-            cargoScoredHigh,
-            notes,
-            brokeDown,
-            auto,
-            climb
+            {
+                _id: `${matchCode}${matchNumber}`,
+                cargoShotLow,
+                cargoShotHigh,
+                cargoScoredLow,
+                cargoScoredHigh,
+                notes,
+                brokeDown,
+                auto,
+                climb,
+                playedDefence,
+                herdingBallsRating,
+                botDefenceRating,
+                defenceNotes,
+            }
+
+        if (!playedDefence) {
+            delete values.botDefenceRating
+            delete values.herdingBallsRating
+            delete values.defenceNotes
         }
 
 
-        // TeamDataService.getAllTeams().then(res => {
-        //     setTeams(res.data.map((team) => team._id))
-        // })
-        //
-        // if (!teams.includes(teamNumber)) {
-        //     TeamDataService.addTeam(teamNumber);
-        // }
         TeamDataService.addGame(teamNumber, values).then((data) => console.log(data));
-
 
 
         setMatchNumber(parseInt(matchNumber) + 1)
@@ -245,12 +126,14 @@ const GameForm = () => {
         setCargoScoredLow(0)
         setCargoShotHigh(0)
         setCargoShotLow(0)
-        setAuto({ cargoHigh: 0, cargoLow: 0, offLine: false })
+        setAuto({cargoHigh: 0, cargoLow: 0, offLine: false})
         setClimb(0)
         setNotes("")
-        setCycleList([])
-        setIsTimerStart(false)
         setBrokeDown(false)
+        setPlayedDefence(false)
+        setHerdingBallsRating(0)
+        setBotDefenceRating(0)
+        setDefenceNotes("")
 
     }
     //------Team Picker-------
@@ -268,22 +151,30 @@ const GameForm = () => {
     }, [])
 
 
+    //-------Defence------
+    const [playedDefence, setPlayedDefence] = useState(false);
+    const [herdingBallsRating, setHerdingBallsRating] = useState(0);
+    const [botDefenceRating, setBotDefenceRating] = useState(0);
+    const [defenceNotes, setDefenceNotes] = useState("");
+
+
     //-----JSX-----
     return (
-        <Paper sx={{}}>
+        <Paper sx={{marginTop: 22}}>
             <div>
-                <Paper sx={{p: 1}}>
+                <Paper sx={{m: 1, p: 1}}>
                     <form>
-                        <FormGroup sx={{marginTop:5, marginLeft:'5%', marginRight:'5%' }}>
+                        <FormGroup sx={{marginTop: 5, marginLeft: '5%', marginRight: '5%'}}>
                             <div>
 
                                 <Autocomplete
                                     disablePortal
                                     options={allTeams}
-                                    sx={{ width: 300 }}
+                                    sx={{width: 300}}
+                                    getOptionLabel={(option => `${option}`)}
                                     value={teamNumber}
-                                    onChange={(event, value) => setTeamNumber(parseInt(value))}
-                                    renderInput={(params) => <TextField {...params} label="Team Number" />}
+                                    onChange={(event, value) => setTeamNumber(value)}
+                                    renderInput={(params) => <TextField {...params} label="Team Number"/>}
                                 />
 
                                 <Grid>
@@ -295,39 +186,39 @@ const GameForm = () => {
                                                onChange={e => setMatchCode(e.target.value)}
                                     />
 
-                                <TextField name={`matchNumber`} type="number"
-                                    label="Match Number"
-                                    margin={"normal"}
-                                    inputProps={{ min: 0, max: 99 }}
-                                    value={matchNumber}
-                                    onChange={e => setMatchNumber(e.target.value)}
-                                />
+                                    <TextField name={`matchNumber`} type="number"
+                                               label="Match Number"
+                                               margin={"normal"}
+                                               inputProps={{min: 0, max: 99}}
+                                               value={matchNumber}
+                                               onChange={e => setMatchNumber(e.target.value)}
+                                    />
                                 </Grid>
 
                                 <div>
-                                    <hr style={{ width: 'auto', height: 1, borderWidth: 5 }} color="grey" />
+                                    <hr style={{width: 'auto', height: 1, borderWidth: 5}} color="grey"/>
                                 </div>
-                                <Typography variant={"h6"} sx={{ marginTop: 5 }}> Auto</Typography>
+                                <Typography variant={"h6"} sx={{marginTop: 5}}> Auto</Typography>
 
                                 <FormGroup>
                                     <TextField name={`cargoLow`} type="number"
-                                        label="Cargo Low"
-                                        margin={"normal"}
-                                        inputProps={{ min: 0, max: 5 }}
-                                        value={auto.cargoLow}
-                                        onChange={e => setAuto({ cargoLow: e.target.value })}
+                                               label="Cargo Low"
+                                               margin={"normal"}
+                                               inputProps={{min: 0, max: 5}}
+                                               value={auto.cargoLow}
+                                               onChange={e => setAuto({cargoLow: e.target.value})}
                                     />
 
                                     <TextField name={`cargoHigh`} type="number"
-                                        label="Cargo High"
-                                        margin={"normal"}
-                                        inputProps={{ min: 0, max: 5 }}
-                                        value={auto.cargoHigh}
-                                        onChange={e => setAuto({ cargoHigh: e.target.value })} />
+                                               label="Cargo High"
+                                               margin={"normal"}
+                                               inputProps={{min: 0, max: 5}}
+                                               value={auto.cargoHigh}
+                                               onChange={e => setAuto({cargoHigh: e.target.value})}/>
                                     <FormControlLabel
                                         control={
                                             <Checkbox type="checkbox" name={`offLine`} value={auto.offLine}
-                                                onChange={e => setAuto({ offLine: e.target.checked })} />
+                                                      onChange={e => setAuto({offLine: e.target.checked})}/>
                                         }
                                         label="Off Start Line"
                                     />
@@ -336,61 +227,71 @@ const GameForm = () => {
 
 
                                 <div>
-                                    <hr style={{ width: 'auto', height: 1, borderWidth: 5 }} color="grey" />
+                                    <hr style={{width: 'auto', height: 1, borderWidth: 5}} color="grey"/>
                                 </div>
 
-                                <Typography variant={"h6"} sx={{ paddingTop: 2, paddingBottom: 2 }}> Cycles</Typography>
-                                <Paper elevation={4} sx={{ p: 1 }}>
-                                    {cycleList.map(cycleComponent)}
 
-                                </Paper>
-                                <Typography sx={{ marginTop: 5 }}>Time: {formatTime(cycleTime)}</Typography>
-                                <Button onTouchStart={onClickStart} onMouseDown={onClickStart} variant={"contained"} sx={{ marginTop: 1, cursor:'pointer' }}>
-                                    {isTimerStart ? "Add" : "Start"}
-                                </Button>
-                                <Button sx={{ marginTop: 1, cursor:'pointer' }}  variant={"contained"} onTouchStart={(e) => {
-                                    e.preventDefault()
-                                    setCycleTime(0);
-                                    setIsTimerStart(false);
-                                }}  onMouseDown={(e) => {
-                                    e.preventDefault()
-                                    setCycleTime(0);
-                                    setIsTimerStart(false);
-                                }}>Reset</Button>
                             </div>
                         </FormGroup>
 
-                        <Grid container sx={{ paddingLeft: 10, paddingTop: 2, paddingBottom: 2, marginRight:10 }}>
-                            <ScoreCounter name={"Shot High"} value={cargoShotHigh} setScore={setCargoShotHigh}
-                                cycleValue={cycleList.length ? cycleList.reduce(function (acc, current) {
-                                    return acc + (current.HighGoal ? current.cargoShot : 0);
-                                }, 0) : 0} />
+                        <Grid container sx={{paddingLeft: 10, paddingTop: 2, paddingBottom: 2, marginRight: 10}}>
+                            <ScoreCounter name={"Shot High"} value={cargoShotHigh} setScore={setCargoShotHigh}/>
                             <ScoreCounter maxValue={cargoShotHigh} name={"Scored High"} value={cargoScoredHigh}
-                                setScore={setCargoScoredHigh}
-                                cycleValue={cycleList.length ? cycleList.reduce(function (acc, current) {
-                                    return acc + (current.HighGoal ? current.cargoScored : 0);
-                                }, 0) : 0} />
-                            <ScoreCounter name={"Shot low"} value={cargoShotLow} setScore={setCargoShotLow}
-                                cycleValue={cycleList.length ? cycleList.reduce(function (acc, current) {
-                                    return acc + (!current.HighGoal ? current.cargoShot : 0);
-                                }, 0) : 0} />
+                                          setScore={setCargoScoredHigh}/>
+                            <ScoreCounter name={"Shot low"} value={cargoShotLow} setScore={setCargoShotLow}/>
                             <ScoreCounter maxValue={cargoShotLow} name={"Scored low"} value={cargoScoredLow}
-                                setScore={setCargoScoredLow}
-                                cycleValue={cycleList.length ? cycleList.reduce(function (acc, current) {
-                                    return acc + (!current.HighGoal ? current.cargoScored : 0);
-                                }, 0) : 0} />
+                                          setScore={setCargoScoredLow}/>
                         </Grid>
-                        <FormGroup sx={{ paddingLeft: 10 , marginRight:10}}>
+                        <FormGroup sx={{paddingLeft: 10, marginRight: 10}}>
+                            <div>
+                                <hr style={{width: 'auto', height: 1, borderWidth: 5}} color="grey"/>
+                            </div>
+                            <Typography variant={"h6"} sx={{marginTop: 5}}>Defence</Typography>
+                            <FormControlLabel
+                                control={<Checkbox checked={playedDefence}
+                                                   onChange={e => setPlayedDefence(e.target.checked)}/>}
+                                label={"Played Defence"}/>
+                            {playedDefence &&
+                                <FormGroup>
+                                    <FormControlLabel
+                                        control={
+                                            <Rating
+                                                name="herdingBallsRating"
+                                                value={herdingBallsRating}
+                                                precision={0.5}
+                                                onChange={(event, newValue) => {
+                                                    setHerdingBallsRating(newValue);
+                                                }}/>}
+                                        label={"Herding Balls Rating"}/>
+                                    <FormControlLabel
+                                        control={
+                                            <Rating
+                                                name="botDefenceRating"
+                                                value={botDefenceRating}
+                                                precision={0.5}
+                                                onChange={(event, newValue) => {
+                                                    setBotDefenceRating(newValue);
+                                                }}/>}
+                                        label={"Bot Defence Rating"}/>
+                                    <TextField
+                                        name="defenceNotes"
+                                        type="text"
+                                        label="Defence Notes"
+                                        margin={"normal"}
+                                        value={defenceNotes}
+                                        onChange={e => setDefenceNotes(e.target.value)}
+                                        multiline
+                                        maxRows={4}
+                                    />
+                                </FormGroup>}
 
 
                             <div>
-                                <hr style={{ width: 'auto', height: 1, borderWidth: 5 }} color="grey" />
+                                <hr style={{width: 'auto', height: 1, borderWidth: 5}} color="grey"/>
                             </div>
-                            <Typography variant={"h6"} sx={{ marginTop: 5 }}> Climb</Typography>
+                            <Typography variant={"h6"} sx={{marginTop: 5}}> Climb</Typography>
 
-                            {/*<FormControlLabel control={<Checkbox  checked={isDefultClimb}/>} label={"Climbed: Loading..."} onChange={onChangeIsDefaultClimb}/>*/}
-
-                            <FormControl variant={"standard"} sx={{ marginTop: 1 }}>
+                            <FormControl variant={"standard"} sx={{marginTop: 1}}>
                                 <Select
                                     labelId="climb-label"
                                     id="Climb"
@@ -411,11 +312,10 @@ const GameForm = () => {
                             </FormControl>
 
 
-
                             <div>
-                                <hr style={{ width: 'auto', height: 1, borderWidth: 5 }} color="grey"/>
+                                <hr style={{width: 'auto', height: 1, borderWidth: 5}} color="grey"/>
                             </div>
-                            <Typography variant={"h6"} sx={{ marginTop: 5 }}> Extra</Typography>
+                            <Typography variant={"h6"} sx={{marginTop: 5}}> Extra</Typography>
 
                             <TextField
                                 name="notes"
@@ -427,12 +327,14 @@ const GameForm = () => {
                                 multiline
                                 maxRows={4}
                             />
-                            <FormControlLabel control={<Checkbox checked={brokeDown} onChange={e => setBrokeDown(e.target.checked)} />} label={"BrokeDown"} />
-
+                            <FormControlLabel
+                                control={<Checkbox checked={brokeDown} onChange={e => setBrokeDown(e.target.checked)}/>}
+                                label={"BrokeDown"}/>
 
 
                         </FormGroup>
-                        <Button variant={"contained"} color="primary" onMouseDown={handleSubmit} onTouchStart={handleSubmit} sx={{ m: 5, cursor:'pointer'}} >Ready</Button>
+                        <Button variant={"contained"} color="primary" onMouseDown={handleSubmit}
+                                onTouchStart={handleSubmit} sx={{m: 5, cursor: 'pointer'}}>Ready</Button>
                     </form>
 
                 </Paper>

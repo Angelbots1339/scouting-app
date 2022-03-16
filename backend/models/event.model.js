@@ -60,12 +60,28 @@ const gameScout = new mongoose.Schema({
     cargoShotHigh: Number,
     cargoScoredLow: Number,
     cargoScoredHigh: Number,
+    playedDefence: Boolean,
+    herdingBallsRating: Number,
+    botDefenceRating: Number,
+    defenceNotes: String,
     notes: String,
     brokeDown: Number,
     auto: autoRoutine,
-    climb: Number,
-    cycles: [cycle]
+    climb: Number
 
+})
+const qualityCheck = new mongoose.Schema({
+    timeStamp: Number,
+    driveBaseRating: Number,
+    superStructureRating: Number,
+    bumperRating: Number,
+    mechanicalNotes: String,
+    electricalRating: Number,
+    electricalNotes: String,
+    dnp: {
+        type: Boolean,
+        default: false
+    }
 })
 gameScout.virtual('cargoScore').get(function() {
     return this.cargoScoredHigh * 2 + this.cargoScoredLow;
@@ -110,6 +126,7 @@ const teamSchema = new mongoose.Schema({
         default: false
     },
     pitScout: pitScout,
+    qualityCheck: qualityCheck,
     games: [gameScout],
     driveTeamNotes: [String]
 });
