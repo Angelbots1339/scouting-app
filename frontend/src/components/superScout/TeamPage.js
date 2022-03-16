@@ -1,6 +1,6 @@
 import TeamDataService from "../../services/team";
 import { useEffect, useState } from "react";
-import { styled, Grid, Paper, Typography} from "@mui/material";
+import { styled, Grid, Paper, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { mainTheme } from "../../theme";
 
@@ -14,9 +14,11 @@ function TeamPage() {
 
 
     const [team, setTeam] = useState([]);
-    const [rawData, setRawData] = useState([]); 
+    const [rawData, setRawData] = useState([]);
 
-   
+    const [autoRoutines, setAutoRoutines] = useState([]);
+
+
 
 
     const getTeam = (id) => {
@@ -33,9 +35,17 @@ function TeamPage() {
 
     }
 
+    const getAutoRoutines = (id) => {
+        TeamDataService.getTeam(id).then(response => {
+            setAutoRoutines(response.data.pitScout.autoRoutines)
+        }).catch(e => console.log(e));
+
+    }
+
     useEffect(() => {
         getTeam(teamNumber)
         getRawData(teamNumber)
+        getAutoRoutines(teamNumber)
 
     }, [teamNumber]);
 
@@ -50,7 +60,7 @@ function TeamPage() {
 
         <div>
             <div style={{ marginTop: 150 }}>
-                <Grid container spacing={2} sx={{width:'90%', marginLeft:'5%', marginRight:'5%'}}>
+                <Grid container spacing={2} sx={{ width: '90%', marginLeft: '5%', marginRight: '5%' }}>
                     <Grid item xs={10} sx={{ mx: "auto", textAlign: "center" }}>
                         <Item>
                             <Typography variant="h3" sx={{ mx: 1, alignSelf: "center" }} color="primary"> Team {teamNumber}</Typography>
@@ -77,18 +87,12 @@ function TeamPage() {
 
                             <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Bumper Quality: ${team?.bumperQuality || "loading..."}`}</Typography>
 
-                            {team?.adultOnDriveTeam && <Typography sx={{ p: 1 }} variant="h5" color="red">{`Adult On Drive Team`}</Typography>}
-                            {!team?.adultOnDriveTeam && <Typography sx={{ p: 1 }} variant="h5" color="lightGreen">{`Adult On Drive Team`}</Typography>}
+
                         </Item>
                     </Grid>
                     <Grid item xs={4} sx={{ mx: "auto", textAlign: "center" }}>
                         <Item sx={{ height: 300 }}>
                             <Typography sx={{ marginTop: 5, p: 1 }} variant="h5" color="secondary">{`DriveTrain: ${team?.driveTrainType || "loading..."}`}</Typography>
-
-                            <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Robot Length: ${team?.robotLength || "loading..."}`}</Typography>
-                            <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Robot Width: ${team?.robotWidth || "loading..."}`}</Typography>
-                            <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Robot Height: ${team?.robotHeight || "loading..."}`}</Typography>
-
 
                             <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Motor Type: ${team?.motorType || "loading..."}`}</Typography>
 
@@ -104,9 +108,6 @@ function TeamPage() {
                     <Grid item xs={4} sx={{ mx: "auto", textAlign: "center" }}>
                         <Item sx={{ height: 300 }}>
 
-                            {/* This line breaks the page for some reason. If I comment it out it works, and when I uncomment it it's fine until I reload the page. 
-                            React updates the page when I uncomment it and it gets data fine, but claims autoRoutines doesn't exist. */}
-                            {/* <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Auto Routine Count: ${team?.autoRoutines.length || "Loading..."}`}</Typography> */}
 
 
                         </Item>
@@ -134,22 +135,20 @@ function TeamPage() {
                             <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Climb Height: ${team?.climbHeight || "loading..."}`}</Typography>
                             <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Climb Confidence: ${team?.climbConfidence || "loading..."}`}</Typography>
 
-                            <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Pit System: ${team?.pitSystem || "loading..."}`}</Typography>
-
                         </Item>
                     </Grid>
 
-                    {/* team?.autoRoutines just breaks the code. Great.  */}
-                    {/* {
-                        team?.autoRoutines.map((number) => 
-                    
-                        <Grid item xs={4} sx={{ mx: "auto", textAlign: "center" }}>
-                            <Item sx={{ height: 300 }}>
-                                {number}
-                            </Item>
-                        </Grid>
+
+                    {
+                        autoRoutines.map((number) =>
+
+                            <Grid item xs={4} sx={{ mx: "auto", textAlign: "center" }}>
+                                <Item sx={{ height: 300 }}>
+                                    {number}
+                                </Item>
+                            </Grid>
                         ) || "Loading..."
-                    } */}
+                    }
 
 
 

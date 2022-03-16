@@ -56,14 +56,10 @@ const PitForm = () => {
             motorType: "",
             shootPositions: "",
             areFalconsLoctited: false,
-            adultOnDriveTeam: false,
-            robotLength: 0,
-            robotWidth: 0,
             experienceInYears: 0,
             wiringOrganization: 0,
             batteryCount: 0,
             motorCount: 0,
-            pitPeople: 0,
 
             cargoHold: 0,
             groundPickUp: false,
@@ -77,7 +73,6 @@ const PitForm = () => {
             climbHeight: 'none',
             climbConfidence: 0,
 
-            pitSystem: "",
             hasRedFlags: false,
             redFlags: "",
 
@@ -110,7 +105,8 @@ const PitForm = () => {
                 /* and other goodies */
             }) => (
                 <form onSubmit={handleSubmit}>
-                    <Paper sx={{ marginTop: 22, p: 1}}>
+
+                    <Paper sx={{p: 1}}>
                         <FormGroup sx={{ marginLeft:'5%', marginRight:'5%' , marginTop:5}}>
                             <Field
                                 name={"team"}
@@ -188,22 +184,7 @@ const PitForm = () => {
                                 margin={"normal"}
                                 inputProps={{ min: 0, max: 99 }}
                             />
-                            <Field
-                                component={TextField}
-                                name="robotLength"
-                                type="number"
-                                label="Robot Length in Inches"
-                                margin={"normal"}
-                                inputProps={{ min: 0, max: 99, step: 0.1 }}
-                            />
-                            <Field
-                                component={TextField}
-                                name="robotWidth"
-                                type="number"
-                                label="Robot Width in Inches"
-                                margin={"normal"}
-                                inputProps={{ min: 0, max: 99, step: 0.1 }}
-                            />
+                           
 
                             <Field
                                 component={TextField}
@@ -233,44 +214,6 @@ const PitForm = () => {
                                 <MenuItem value={"good"}>Good</MenuItem>
                             </Field>
 
-
-                            {/*---------Team----------*/}
-                            <div>
-                                <hr style={{ width: 'auto', height: 1, borderWidth: 5 }} color="grey"/>
-                            </div>
-
-
-                            <Typography variant={"h6"} sx={{ marginTop: 5 }}>Team</Typography>
-
-
-                            <FormControlLabel
-                                control={<Field component={Checkbox} type="checkbox" name="adultOnDriveTeam" />}
-                                label="Adult On Drive Team"
-                                disabled={isSubmitting}
-                            />
-
-                            <Field
-                                component={TextField}
-                                name="pitPeople"
-                                type="number"
-                                label="People In Pit"
-                                margin={"normal"}
-                                inputProps={{ min: 0, max: 99 }}
-                            /> 
-
-
-                            <Field
-                                component={TextField}
-                                name="pitSystem"
-                                type="text"
-                                label="Pit System (Checklist, Part Replacement, etc.)"
-                                margin={"normal"}
-                                multiline
-                                maxRows={4}
-                                disabled={isSubmitting}
-                                color="secondary"
-
-                            />
 
 
                             {/*---------Shooter----------*/}
@@ -309,7 +252,7 @@ const PitForm = () => {
                                 <MenuItem value={"fender"}>Fender</MenuItem>
                                 <MenuItem value={"anywhere"}>Anywhere</MenuItem>
                                 <MenuItem value={"launchpad"}>Launchpad</MenuItem>
-                                <MenuItem value={"specific"}>Specific Locations</MenuItem>
+                                <MenuItem value={"tarmac"}>Tarmac</MenuItem>
                                 <MenuItem value={"other"}>Other</MenuItem>
                             </Field>
                             {/*-------Auto------*/}
