@@ -150,9 +150,9 @@ const GameForm = () => {
 
     //-----JSX-----
     return (
-        <Paper sx={{marginTop: 22}}>
+        <Paper>
             <div>
-                <Paper sx={{m: 1, p: 1}}>
+                <Paper sx={{p: 1}}>
                     <form>
                         <FormGroup sx={{marginTop: 5, marginLeft: '5%', marginRight: '5%'}}>
                             <div>
@@ -224,7 +224,7 @@ const GameForm = () => {
                             </div>
                         </FormGroup>
 
-                        <Grid container sx={{paddingLeft: 10, paddingTop: 2, paddingBottom: 2, marginRight: 10}}>
+                        <Grid container sx={{marginTop: 5, marginLeft: '5%', marginRight: '5%'}}>
                             <ScoreCounter name={"Shot High"} value={cargoShotHigh} setScore={setCargoShotHigh}/>
                             <ScoreCounter maxValue={cargoShotHigh} name={"Scored High"} value={cargoScoredHigh}
                                           setScore={setCargoScoredHigh}/>
@@ -232,7 +232,7 @@ const GameForm = () => {
                             <ScoreCounter maxValue={cargoShotLow} name={"Scored low"} value={cargoScoredLow}
                                           setScore={setCargoScoredLow}/>
                         </Grid>
-                        <FormGroup sx={{paddingLeft: 10, marginRight: 10}}>
+                        <FormGroup sx={{marginTop: 5, marginLeft: '5%', marginRight: '5%'}}>
                             <div>
                                 <hr style={{width: 'auto', height: 1, borderWidth: 5}} color="grey"/>
                             </div>

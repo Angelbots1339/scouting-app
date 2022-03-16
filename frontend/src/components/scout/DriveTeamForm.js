@@ -50,6 +50,7 @@ const PitForm = () => {
                         options={allTeams}
                         sx={{ width: 300 }}
                         value={team1}
+                        margin={"normal"}
 
                         getOptionLabel={(option => `${option}`)}
                         onChange={(event, value) => setTeam1(value)}
@@ -69,6 +70,7 @@ const PitForm = () => {
                     options={allTeams}
                     sx={{ width: 300 }}
                     value={team2}
+                    margin={"normal"}
 
                     getOptionLabel={(option => `${option}`)}
                     onChange={(event, value) => setTeam2(value)}

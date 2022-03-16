@@ -68,7 +68,7 @@ const QualityCheckForm = () => {
 
 
     return (<form>
-            <Paper sx={{ marginTop: 22 }}>
+            <Paper>
                 <FormGroup sx={{marginLeft:'5%', marginRight:'5%' , paddingTop:5}}>
 
                     <Autocomplete
