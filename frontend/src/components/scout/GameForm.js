@@ -5,9 +5,19 @@ import {
     FormControlLabel,
     FormGroup,
     Grid,
-    IconButton, Paper,
+    IconButton,
+    Paper,
     Typography,
-    TextField, MenuItem, Select, FormHelperText, FormControl, Autocomplete, Rating
+    TextField,
+    MenuItem,
+    Select,
+    FormHelperText,
+    FormControl,
+    Autocomplete,
+    Rating,
+    DialogActions,
+    DialogContent,
+    DialogTitle, DialogContentText, Dialog
 } from "@mui/material";
 import React from "react";
 import AddIcon from '@mui/icons-material/Add';
@@ -18,6 +28,7 @@ import TeamDataService from "../../services/team";
 
 const GameForm = () => {
     //-----Cycles------
+
     const [cargoShotHigh, setCargoShotHigh] = useState(0);
     const [cargoShotLow, setCargoShotLow] = useState(0);
     const [cargoScoredHigh, setCargoScoredHigh] = useState(0);
@@ -28,9 +39,11 @@ const GameForm = () => {
         ...(typeof action === 'function' ? action(state) : action),
     });
     const [auto, setAuto] = useReducer(stateReducer, {cargoHigh: 0, cargoLow: 0, offLine: false})
-    const [climb, setClimb] = useState(-1);
+    const [climb, setClimb] = useState(0);
     const [notes, setNotes] = useState("");
-    const [brokeDown, setBrokeDown] = useState(false);
+    const [broke, setBroke] = useState(false);
+    const [brokeNotes, setBrokeNotes] = useState("");
+    const [completeBrakeDown, setCompleteBrakeDown] = useState(false);
     const [teamNumber, setTeamNumber] = useState(0);
     const [matchNumber, setMatchNumber] = useState(0);
     const [matchCode, setMatchCode] = useState("qm");
@@ -82,7 +95,6 @@ const GameForm = () => {
     //const [isDefultClimb, setIsDefultClimb] = useState(true);
     const handleSubmit = () => {
 
-
         const values =
             {
                 _id: `${matchCode}${matchNumber}`,
@@ -91,7 +103,9 @@ const GameForm = () => {
                 cargoScoredLow,
                 cargoScoredHigh,
                 notes,
-                brokeDown,
+                broke,
+                brokeNotes,
+                completeBrakeDown,
                 auto,
                 climb,
                 playedDefence,
@@ -110,6 +124,7 @@ const GameForm = () => {
         TeamDataService.addGame(teamNumber, values).then((data) => console.log(data));
 
 
+        setConfirmOpen(false);
         setMatchNumber(parseInt(matchNumber) + 1)
         setTeamNumber(0)
         setCargoScoredHigh(0)
@@ -119,11 +134,13 @@ const GameForm = () => {
         setAuto({cargoHigh: 0, cargoLow: 0, offLine: false})
         setClimb(0)
         setNotes("")
-        setBrokeDown(false)
         setPlayedDefence(false)
         setHerdingBallsRating(0)
         setBotDefenceRating(0)
         setDefenceNotes("")
+        setBroke(false)
+        setBrokeNotes("")
+        setCompleteBrakeDown(false)
 
     }
     //------Team Picker-------
@@ -146,6 +163,8 @@ const GameForm = () => {
     const [herdingBallsRating, setHerdingBallsRating] = useState(0);
     const [botDefenceRating, setBotDefenceRating] = useState(0);
     const [defenceNotes, setDefenceNotes] = useState("");
+
+    const [confirmOpen, setConfirmOpen] = React.useState(false);
 
 
     //-----JSX-----
@@ -318,16 +337,50 @@ const GameForm = () => {
                                 maxRows={4}
                             />
                             <FormControlLabel
-                                control={<Checkbox checked={brokeDown} onChange={e => setBrokeDown(e.target.checked)}/>}
-                                label={"BrokeDown"}/>
+                                control={<Checkbox checked={broke} onChange={e => setBroke(e.target.checked)}/>}
+                                label={"Robot Broke Temporarily"}/>
+                            {broke &&
+                                <>
+                                <TextField
+                                    name="brokeNotes"
+                                    type="text"
+                                    label="Notes On What Broke"
+                                    margin={"normal"}
+                                    value={brokeNotes}
+                                    onChange={e => setBrokeNotes(e.target.value)}
+                                    multiline
+                                    maxRows={4}
+                                />
+                                <FormControlLabel
+                                    control={<Checkbox checked={completeBrakeDown} onChange={e => setCompleteBrakeDown(e.target.checked)}/>}
+                                    label={"Complete Robot Break Down"}/>
+                                </>
+                            }
 
 
                         </FormGroup>
-                        <Button variant={"contained"} color="primary" onMouseDown={handleSubmit}
-                                onTouchStart={handleSubmit} sx={{m: 5, cursor: 'pointer'}}>Ready</Button>
+                        <Button variant={"contained"} color="primary" onMouseDown={() => setConfirmOpen(true)}
+                                onTouchStart={() => {setConfirmOpen(true)}} sx={{m: 5, cursor: 'pointer'}}>Ready</Button>
                     </form>
 
                 </Paper>
+                <Dialog
+                    open={confirmOpen}
+                    keepMounted
+
+                    aria-describedby="alert-dialog-slide-description"
+                >
+                    <DialogTitle>{"Are you sure you want to submit the form?"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-slide-description">
+                            Make sure you filled out all the fields correctly. Thank You!
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button variant={"contained"} onClick={() => {setConfirmOpen(false)}}>Cancel</Button>
+                        <Button variant={"contained"} onClick={handleSubmit}>Submit</Button>
+                    </DialogActions>
+                </Dialog>
             </div>
         </Paper>
     )

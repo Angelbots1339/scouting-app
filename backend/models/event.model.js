@@ -65,7 +65,9 @@ const gameScout = new mongoose.Schema({
     botDefenceRating: Number,
     defenceNotes: String,
     notes: String,
-    brokeDown: Number,
+    broke: Boolean,
+    brokeNotes: String,
+    completeBreakDown: Boolean,
     auto: autoRoutine,
     climb: Number
 
