@@ -37,11 +37,9 @@ const flattenTeam = (team) => {
         avgTotalHighShot: getAvg(data.totalHighShot),
         avgTotalHighScored: getAvg(data.totalHighScored),
         avgHighShotAccuracy: getSum(data.totalHighScored)/ getSum(data.totalHighShot),
-        avgHighCycleTimePerCargo: getAvg(data.highCycleTimePerCargo),
         avgTotalLowShot: getAvg(data.totalLowShot),
         avgTotalLowScored: getAvg(data.totalLowScored),
         avgLowShotAccuracy: getSum(data.totalLowScored)/ getSum(data.totalLowShot),
-        avgLowCycleTimePerCargo: getAvg(data.lowCycleTimePerCargo),
         percentShotHigh: getAvg(data.percentShotHigh),
         avgAutoCargoLow: getAvg(data.autoCargoLow),
         avgAutoCargoHigh: getAvg(data.autoCargoHigh),
@@ -76,11 +74,9 @@ const structTeam = (team) => {
         totalHighShot: team.games.map((game) => game.cargoShotHigh),
         totalHighScored: team.games.map((game) => game.cargoScoredHigh),
         highShotAccuracy: team.games.map((game) => game.percentScoredHigh),
-        avgHighCycleTimePerCargo: team.games.map((game) => game.cycles).map(cycles => getAvg(cycles.filter((cycle) => !cycle.HighGoal).map((cycle) => cycle.cycleTimePerBall))),
         totalLowShot: team.games.map((game) => game.cargoShotLow),
         totalLowScored: team.games.map((game) => game.cargoScoredLow),
         lowShotAccuracy: team.games.map((game) => game.percentScoredLow),
-        avgLowCycleTimePerCargo: team.games.map((game) => game.cycles).map(cycles => getAvg(cycles.filter((cycle) => cycle.HighGoal).map((cycle) => cycle.cycleTimePerBall))),
         percentShotHigh: team.games.map((game) => game.percentShotHigh),
         autoCargoLow: team.games.map((game) => game.auto.cargoLow),
         autoCargoHigh: team.games.map((game) => game.auto.cargoHigh),
@@ -89,8 +85,6 @@ const structTeam = (team) => {
         breakdowns: team.games.map((game) => game.brokeDown),
         gameNotes: team.games.map((game) => game.notes),
         driveTeamNotes: team.driveTeamNotes,
-        lowCycleTimePerCargo: team.games.map((game) => game.cycles).flat().filter((cycle) => !cycle.HighGoal).map((cycle) => cycle.cycleTimePerBall),
-        highCycleTimePerCargo: team.games.map((game) => game.cycles).flat().filter((cycle) => cycle.HighGoal).map((cycle) => cycle.cycleTimePerBall),
         possibleAutoRoutes: autoRoutes,
 
         ...teamScout
@@ -222,7 +216,7 @@ router.route("/event/:event/team/:team/note").post(((req, res, next) => {
     }).catch(next)
 }))
 
-router.route("/event/:event/team/:team/qualityCheck").post(((req, res, next) => {
+router.route("/event/:eventno").post(((req, res, next) => {
     Event.findById({_id: req.params.id}).then((event) => {
         event.teams.id(req.params.team).qualityCheck = req.body;
         event.save()

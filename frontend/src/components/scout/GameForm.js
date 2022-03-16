@@ -42,7 +42,7 @@ const GameForm = () => {
     const ScoreCounter = (props) => {
 
         const onAdd = () => {
-            if (!props.maxValue) {
+            if (!props.maxValue && props.maxValue !== 0) {
                 props.setScore(props.value + 1);
             } else {
                 if (props.value < props.maxValue) {
