@@ -5,6 +5,24 @@ const router = express.Router()
 const getAvg = (nums) => {
     return getSum(nums)/removeNull(nums).length;
 }
+const climbToScore = (level) => {
+    let climbPoints = 0;
+    switch (level){
+        case 1:
+            climbPoints = 4
+            break
+        case 2:
+            climbPoints = 6
+            break
+        case 3:
+            climbPoints = 10
+            break
+        case 4:
+            climbPoints = 15
+            break
+    }
+    return climbPoints;
+}
 const getSum = (nums) => {
     let filtered = removeNull(nums);
     return filtered.reduce((acc, a) => acc + a, 0)
@@ -32,24 +50,37 @@ const flattenTeam = (team) => {
     let data = structTeam(team);
     return {
         teamNumber: team._id,
-        avgContributedCargoScore: getAvg(data.contributedCargoScore),
         avgContributedScore: getAvg(data.contributedScore),
+        histContributedScore: data.contributedScore.join(","),
+        avgContributedCargoScore: getAvg(data.contributedCargoScore),
+        histContributedCargoScore: data.contributedCargoScore.join(","),
+        avgClimbScore:  getAvg(data.climbs.map(climb => climbToScore(climb))),
+        histClimbScore: data.climbs.map(climb => climbToScore(climb)).join(","),
+        avgAutoScore: getAvg(team.games.map(game => game.auto.score)),
+        histAutoScore: team.games.map(game => game.auto.score).join(", "),
         avgTotalHighShot: getAvg(data.totalHighShot),
         avgTotalHighScored: getAvg(data.totalHighScored),
         avgHighShotAccuracy: getSum(data.totalHighScored)/ getSum(data.totalHighShot),
-        avgHighCycleTimePerCargo: getAvg(data.highCycleTimePerCargo),
+        highCargoHist: data.totalHighScored.map((val, i) => `${val}/${data.totalHighShot[i]}`).join(","),
         avgTotalLowShot: getAvg(data.totalLowShot),
         avgTotalLowScored: getAvg(data.totalLowScored),
         avgLowShotAccuracy: getSum(data.totalLowScored)/ getSum(data.totalLowShot),
-        avgLowCycleTimePerCargo: getAvg(data.lowCycleTimePerCargo),
+        lowCargoHist: data.totalLowScored.map((val, i) => `${val}/${data.totalLowShot[i]}`).join(","),
+        percentOfGamesPlayedDefense: getAvg(data.playedDefence),
+        avgHerdingBallsRating: getAvg(team.games.filter(game => game.playedDefence).map(game => game.herdingBallsRating)),
+        avgBotDefenceRating: getAvg(team.games.filter(game => game.playedDefence).map(game => game.botDefenceRating)),
+        defenceHist: team.games.map(game => game.playedDefence? `herd:${game.herdingBallsRating} bot:${game.botDefenceRating} ${game.defenceNotes}`: "N/A"),
         percentShotHigh: getAvg(data.percentShotHigh),
         avgAutoCargoLow: getAvg(data.autoCargoLow),
         avgAutoCargoHigh: getAvg(data.autoCargoHigh),
         avgAutoOffline: getAvg(data.offLineAuto),
+        autoHist: team.games.map(game => game.auto.joinedNoPosition).join(", "),
         possibleAutoRoutes: data.possibleAutoRoutes.join(", "),
-        avgBreakdowns: getAvg(data.breakdowns),
-        climbs: getAvg(data.climbs),
-        gamesScouted: data.breakdowns.length,
+        climbs: data.climbs.join(","),
+        avgBroke: getAvg(data.broke),
+        avgCompleteBreakDown: getAvg(data.completeBreakDown),
+        breaks: team.games.map(game => game.broke? `${game.brokeNotes}${game.completeBreakDown? "> DIED" : ""}` : "N/A").join(', '),
+        gamesScouted: data.gameCodes.length,
         gameNotes: data.gameNotes? data.gameNotes.join(", ") : data.gameNotes,
         driveTeamNotes: team.driveTeamNotes.join(", "),
 
@@ -60,6 +91,7 @@ const structTeam = (team) => {
 
     let teamScout = {}
     let autoRoutes = [];
+    let qualityCheck = {};
     if(team.isPitScouted){
         teamScout = {...team?.pitScout._doc}
 
@@ -67,32 +99,44 @@ const structTeam = (team) => {
         delete teamScout.autoRoutines
         delete teamScout._id
     }
+    if(team.qualityCheck){
+        qualityCheck = {...team?.qualityCheck._doc}
+        let date = new Date(qualityCheck.timeStamp)
+        qualityCheck.timeStamp = date.getDate()+
+            "/"+(date.getMonth()+1);
+        delete qualityCheck._id
+    }
+
+
 
 
     return {
-        gameCodes: team.games.map((game) => game._id),
-        contributedCargoScore: team.games.map((game) => game.cargoScore),
-        contributedScore: team.games.map((game) => game.score),
-        totalHighShot: team.games.map((game) => game.cargoShotHigh),
-        totalHighScored: team.games.map((game) => game.cargoScoredHigh),
-        highShotAccuracy: team.games.map((game) => game.percentScoredHigh),
-        avgHighCycleTimePerCargo: team.games.map((game) => game.cycles).map(cycles => getAvg(cycles.filter((cycle) => !cycle.HighGoal).map((cycle) => cycle.cycleTimePerBall))),
-        totalLowShot: team.games.map((game) => game.cargoShotLow),
-        totalLowScored: team.games.map((game) => game.cargoScoredLow),
-        lowShotAccuracy: team.games.map((game) => game.percentScoredLow),
-        avgLowCycleTimePerCargo: team.games.map((game) => game.cycles).map(cycles => getAvg(cycles.filter((cycle) => cycle.HighGoal).map((cycle) => cycle.cycleTimePerBall))),
-        percentShotHigh: team.games.map((game) => game.percentShotHigh),
-        autoCargoLow: team.games.map((game) => game.auto.cargoLow),
-        autoCargoHigh: team.games.map((game) => game.auto.cargoHigh),
-        offLineAuto: team.games.map((game) => game.auto.offLine),
-        climbs: team.games.map((game) => game.climb),
-        breakdowns: team.games.map((game) => game.brokeDown),
+        gameCodes: team.games.map(game => game._id),
+        contributedCargoScore: team.games.map(game => game.cargoScore),
+        contributedScore: team.games.map(game => game.score),
+        totalHighShot: team.games.map(game => game.cargoShotHigh),
+        totalHighScored: team.games.map(game => game.cargoScoredHigh),
+        highShotAccuracy: team.games.map(game => game.percentScoredHigh),
+        totalLowShot: team.games.map(game => game.cargoShotLow),
+        totalLowScored: team.games.map(game => game.cargoScoredLow),
+        lowShotAccuracy: team.games.map(game => game.percentScoredLow),
+        percentShotHigh: team.games.map(game => game.percentShotHigh),
+        playedDefence: team.games.map(game => game.playedDefence),
+        herdingBallsRating: team.games.map(game => game.herdingBallsRating),
+        botDefenceRating: team.games.map(game => game.botDefenceRating),
+        autoCargoLow: team.games.map(game => game.auto.cargoLow),
+        autoCargoHigh: team.games.map(game => game.auto.cargoHigh),
+        offLineAuto: team.games.map(game => game.auto.offLine),
+        climbs: team.games.map(game => game.climb),
+        broke:team.games.map(game => game.broke),
+        completeBreakDown: team.games.map(game => game.completeBreakDown),
+        defenceNotes: team.games.map(game => game.defenceNotes),
+        brokeNotes: team.games.map(game => game.brokeNotes),
         gameNotes: team.games.map((game) => game.notes),
         driveTeamNotes: team.driveTeamNotes,
-        lowCycleTimePerCargo: team.games.map((game) => game.cycles).flat().filter((cycle) => !cycle.HighGoal).map((cycle) => cycle.cycleTimePerBall),
-        highCycleTimePerCargo: team.games.map((game) => game.cycles).flat().filter((cycle) => cycle.HighGoal).map((cycle) => cycle.cycleTimePerBall),
         possibleAutoRoutes: autoRoutes,
 
+        qualityCheck,
         ...teamScout
     }
 }
@@ -215,7 +259,7 @@ router.route("/event/:event/team/:team/game").post(((req, res, next) => {
 }))
 
 router.route("/event/:event/team/:team/note").post(((req, res, next) => {
-    Event.findById({_id: req.params.id}).then((event) => {
+    Event.findById({_id: req.params.event}).then((event) => {
         event.teams.id(req.params.team).driveTeamNotes.push(req.body.note)
         event.save()
         res.send(event.teams.id(req.params.team))
@@ -223,7 +267,7 @@ router.route("/event/:event/team/:team/note").post(((req, res, next) => {
 }))
 
 router.route("/event/:event/team/:team/qualityCheck").post(((req, res, next) => {
-    Event.findById({_id: req.params.id}).then((event) => {
+    Event.findById({_id: req.params.event}).then((event) => {
         event.teams.id(req.params.team).qualityCheck = req.body;
         event.save()
         res.send(event.teams.id(req.params.team))
@@ -238,28 +282,29 @@ router.route("/event/:event").put((req, res, next) =>
         .catch(next))
 
 router.route("/event/:event/team/:team").put((req, res, next) =>
-    Event.findById({_id: req.params.id})
+    Event.findById({_id: req.params.event})
         .then((event) => {
             event.teams.id(req.params.team).set(req.body)
             event.save()
             res.send(event.teams.id(req.params.team))
         })
         .catch(next))
-
-router.route("/event/:event").delete((req, res, next) =>
-    Event.findByIdAndDelete({_id: req.params.event})
-        .then((team) => {
-            res.send(team)
-        })
-        .catch(next)
-)
-router.route("/event/:event/team/:team").delete((req, res, next) =>
-    Event.findByIdAndDelete({_id: req.params.event})
-        .then((event) => {
-            event.teams.pull(req.params.team)
-        })
-        .catch(next)
-)
+//
+// router.route("/event/:event").delete((req, res, next) =>
+//     Event.findByIdAndDelete({_id: req.params.event})
+//         .then((team) => {
+//             res.send(team)
+//         })
+//         .catch(next)
+// )
+// router.route("/event/:event/team/:team").delete((req, res, next) =>
+//     Event.findByIdAndDelete({_id: req.params.event})
+//         .then((event) => {
+//             event.teams.pull(req.params.team)
+//             res.send(req.params.team)
+//         })
+//         .catch(next)
+// )
 
 
 export default router

@@ -10,6 +10,9 @@ autoRoutine.virtual('score').get(function() { return  (this.cargoLow * 2 + this.
 autoRoutine.virtual('joined').get(function() {
     return `Position:${this.position} ${this.cargoLow !== 0? `Low:${this.cargoLow} ` : ""}${this.cargoHigh !== 0? `High:${this.cargoHigh} ` : ""}${this.offLine? "Goes Off line" : ""}`;
 })
+autoRoutine.virtual('joinedNoPosition').get(function() {
+    return `${this.cargoLow !== 0? `Low:${this.cargoLow} ` : ""}${this.cargoHigh !== 0? `High:${this.cargoHigh} ` : ""}${this.offLine? "Goes Off line" : ""}`;
+})
 
 const pitScout = new mongoose.Schema({
     //-----GeneralRobotInfo------
@@ -63,7 +66,9 @@ const gameScout = new mongoose.Schema({
     botDefenceRating: Number,
     defenceNotes: String,
     notes: String,
-    brokeDown: Number,
+    broke: Boolean,
+    brokeNotes: String,
+    completeBreakDown: Boolean,
     auto: autoRoutine,
     climb: Number
 
@@ -88,7 +93,7 @@ gameScout.virtual('score').get(function() {
     let climbPoints = 0;
     switch (this.climb){
         case 1:
-            climbPoints = 0
+            climbPoints = 4
             break
         case 2:
             climbPoints = 6
@@ -98,6 +103,7 @@ gameScout.virtual('score').get(function() {
             break
         case 4:
             climbPoints = 15
+            break
     }
     return climbPoints + this.auto.score + this.cargoScore;
 })

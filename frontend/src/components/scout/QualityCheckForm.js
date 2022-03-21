@@ -40,7 +40,7 @@ const QualityCheckForm = () => {
 
         if(team !== ""){
             TeamDataService.addQualityCheck(team, teamQualityCheck);
-            //console.log(teamQualityCheck)
+
         }
         setTeam(0)
         setTeamQualityCheck({
@@ -106,7 +106,7 @@ const QualityCheckForm = () => {
                                label={"Electrical Notes"}/>
                     <FormControlLabel
                         control={
-                            <Checkbox type="checkbox" name={`offLine`} value={teamQualityCheck.dnp}
+                            <Checkbox type="checkbox" name={`offLine`}
                                       onChange={(e, value) => setTeamQualityCheck(prevValue =>({...prevValue, dnp: value}))}
                                       icon={<FavoriteIcon />}
                                       checkedIcon={<HeartBrokenIcon />}
@@ -114,6 +114,7 @@ const QualityCheckForm = () => {
                             />
                         }
                         label="DNP"
+                        value= {teamQualityCheck.dnp}
                     />
 
 
