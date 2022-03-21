@@ -30,7 +30,7 @@ function TeamGrid(){
     return (
        
         <div style={{ height: 400, width: "90%", marginLeft:'5%', marginRight:'5%'}}>
-            <DataGrid rows={data || []} columns={columns} getRowId={(row) => row._id} pageSize={15} sx={{marginTop:20}} style={{ direction: 'rtl'}}/>
+            <DataGrid rows={data || []} columns={columns} getRowId={(row) => row._id} pageSize={15} sx={{marginTop:20}}/>
         </div>
         
     );

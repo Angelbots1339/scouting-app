@@ -67,7 +67,7 @@ const PitForm = () => {
                     <Autocomplete
                     disablePortal
                     options={allTeams}
-                    sx={{ width: 300 }}
+                    sx={{ width: 300, marginTop:2 }}
                     value={team2}
 
                     getOptionLabel={(option => `${option}`)}

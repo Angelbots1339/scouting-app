@@ -68,7 +68,7 @@ const QualityCheckForm = () => {
 
 
     return (<form>
-            <Paper sx={{ marginTop: 22 }}>
+            <Paper>
                 <FormGroup sx={{marginLeft:'5%', marginRight:'5%' , paddingTop:5}}>
 
                     <Autocomplete
@@ -81,13 +81,13 @@ const QualityCheckForm = () => {
                         renderInput={(params) => <TextField {...params} label="alliance 1 Team Number" />}
                     />
 
-                    <Typography component="legend">Drive Base Rating</Typography>
+                    <Typography sx={{marginTop:2}} component="legend">Drive Base Rating</Typography>
                     <StyledRating  size="large" icon={<FavoriteIcon fontSize="inherit" />}
                              emptyIcon={<FavoriteBorderIcon fontSize="inherit" />} name="driveBaseRating" value={teamQualityCheck.driveBaseRating} defaultValue={0} precision={0.5} onChange={(e, newValue) => setTeamQualityCheck(prevValue =>({...prevValue, driveBaseRating: newValue}))}/>
-                    <Typography component="legend">Super Structure Rating</Typography>
+                    <Typography sx={{marginTop:2}} component="legend">Super Structure Rating</Typography>
                     <StyledRating icon={<FavoriteIcon fontSize="inherit" />}
                             emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}  size="large" name="superStructureRating" value={teamQualityCheck.superStructureRating} defaultValue={0} precision={0.5} onChange={(e, newValue) => setTeamQualityCheck(prevValue =>({...prevValue, superStructureRating: newValue}))}/>
-                    <Typography component="legend">BumperRating</Typography>
+                    <Typography sx={{marginTop:2}} component="legend">BumperRating</Typography>
                     <StyledRating icon={<FavoriteIcon fontSize="inherit" />}
                             emptyIcon={<FavoriteBorderIcon fontSize="inherit" />} size="large" name="bumperRating" value={teamQualityCheck.bumperRating} defaultValue={0} precision={0.5} onChange={(e, newValue) => setTeamQualityCheck(prevValue =>({...prevValue, bumperRating: newValue}))}/>
 
@@ -96,7 +96,7 @@ const QualityCheckForm = () => {
                                maxRows={4} value={teamQualityCheck.mechanicalNotes} onChange={(e) => setTeamQualityCheck(prevValue =>({...prevValue, mechanicalNotes: e.target.value}))}
                                label={"Mechanical Notes"}/>
 
-                    <Typography component="legend">Electrical Rating</Typography>
+                    <Typography sx={{marginTop:2}} component="legend">Electrical Rating</Typography>
                     <Rating icon={<BoltIcon fontSize="inherit" />}
                             emptyIcon={<BoltIcon fontSize="inherit" />} size="large"  name="electricalRating" value={teamQualityCheck.electricalRating} defaultValue={0} precision={0.5} onChange={(e, newValue) => setTeamQualityCheck(prevValue =>({...prevValue, electricalRating: newValue}))}/>
 

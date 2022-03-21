@@ -20,24 +20,6 @@ function TeamPage() {
 
 
 
-    const getGamesArray = (id) => {
-
-        TeamDataService.getTeam(id).then(
-            response => {
-                setGamesArray(response.data.games)
-            }).catch(e => console.log(e));
-
-    }
-
-    const getAutosArray = (id) => {
-
-        TeamDataService.getTeam(id).then(
-            response => {
-                setAutosArray(response.data.pitScout.autoRoutines)
-            }).catch(e => console.log(e));
-
-    }
-
     const getTeam = (id) => {
         TeamDataService.getTeam(id).then(response => {
             setTeam(response.data.pitScout)
@@ -84,7 +66,6 @@ function TeamPage() {
                             {rawData?.isPitScouted && <Typography variant="h5" sx={{ mx: 1 }} color="lightGreen">{"Has Been Scouted"}</Typography>}
                             {!rawData?.isPitScouted && <Typography variant="h5" sx={{ mx: 1 }} color="red">{"Has Been Scouted"}</Typography>}
 
-                            <Typography variant="h5" color="secondary">{`Games Scouted: ${gamesArray.length || "loading..."}`}</Typography>
 
 
                         </Item>
@@ -172,12 +153,12 @@ function TeamPage() {
                     }
 
                     {
-                        autosArray.map((number) =>
+                        autoRoutines.map((number) =>
 
                             <Grid item xs={4} sx={{ mx: "auto", textAlign: "center" }} key={number}>
                                 <Item sx={{ height: 300 }}>
 
-                                    <Typography sx={{ p: 1 }} variant="h4" color="secondary">{`Auto Routine: ${autosArray.indexOf(number) || "0"}`}</Typography>
+                                    <Typography sx={{ p: 1 }} variant="h4" color="secondary">{`Auto Routine: ${autoRoutines.indexOf(number) || "0"}`}</Typography>
                                     <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Position: ${number?.position || "0"}`}</Typography>
                                     <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Cargo Low: ${number?.cargoLow || "0"}`}</Typography>
                                     <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Cargo High: ${number?.cargoHigh || "0"}`}</Typography>

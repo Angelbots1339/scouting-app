@@ -151,9 +151,9 @@ const GameForm = () => {
 
     //-----JSX-----
     return (
-        <Paper sx={{marginTop: 22}}>
+        <Paper>
             <div>
-                <Paper sx={{m: 1, p: 1}}>
+                <Paper sx={{p: 1}}>
                     <form>
                         <FormGroup sx={{marginTop: 5, marginLeft: '5%', marginRight: '5%'}}>
                             <div>

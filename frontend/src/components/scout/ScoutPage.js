@@ -16,9 +16,9 @@ export default function ScoutPage() {
                             <img src="../../logo200.png" alt={"angleBoticsLogo"} style={{ width: 60, height: 60, borderRadius: 10, m: 5 }} />
                         </Button>
                         
-                        <Button sx={{ cursor: 'pointer' }} component={Link} to={'/scout/pitform'}>Pit Scout</Button>
                         <Button sx={{ cursor: 'pointer' }} component={Link} to={'/scout/gameform'}>Game Scout</Button>
                         <Button sx={{ cursor: 'pointer' }} component={Link} to={'/scout/driveteamform'}>Drive Team Form</Button>
+                        <Button sx={{ cursor: 'pointer' }} component={Link} to={'/scout/pitform'}>Pit Scout</Button>
                         <Button sx={{cursor:'pointer'}} component={Link} to={'/scout/qualitycheckform'}>Quality Check Form</Button>
                         
 
