@@ -20,7 +20,6 @@ function TeamPage() {
 
 
 
-
     const getTeam = (id) => {
         TeamDataService.getTeam(id).then(response => {
             setTeam(response.data.pitScout)
@@ -66,6 +65,9 @@ function TeamPage() {
                             <Typography variant="h3" sx={{ mx: 1, alignSelf: "center" }} color="primary"> Team {teamNumber}</Typography>
                             {rawData?.isPitScouted && <Typography variant="h5" sx={{ mx: 1 }} color="lightGreen">{"Has Been Scouted"}</Typography>}
                             {!rawData?.isPitScouted && <Typography variant="h5" sx={{ mx: 1 }} color="red">{"Has Been Scouted"}</Typography>}
+
+
+
                         </Item>
                     </Grid>
                     <Grid item xs={4} sx={{ mx: "auto", textAlign: "center" }}>
@@ -150,6 +152,24 @@ function TeamPage() {
                         ) || "Loading..."
                     }
 
+                    {
+                        autoRoutines.map((number) =>
+
+                            <Grid item xs={4} sx={{ mx: "auto", textAlign: "center" }} key={number}>
+                                <Item sx={{ height: 300 }}>
+
+                                    <Typography sx={{ p: 1 }} variant="h4" color="secondary">{`Auto Routine: ${autoRoutines.indexOf(number) || "0"}`}</Typography>
+                                    <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Position: ${number?.position || "0"}`}</Typography>
+                                    <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Cargo Low: ${number?.cargoLow || "0"}`}</Typography>
+                                    <Typography sx={{ p: 1 }} variant="h5" color="secondary">{`Cargo High: ${number?.cargoHigh || "0"}`}</Typography>
+
+                                    {number?.offLine && <Typography sx={{ p: 1 }} variant="h5" color="lightGreen">{`Moves Off Line`}</Typography>}
+                                    {!number?.offLine && <Typography sx={{ p: 1 }} variant="h5" color="red">{`Moves Off Line`}</Typography>}
+
+                                </Item>
+                            </Grid>
+                        )
+                    }
 
 
                 </Grid>

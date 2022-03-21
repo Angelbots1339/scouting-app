@@ -8,10 +8,10 @@ import TeamDataService from "../../services/team";
 const columns = [
     {field: '_id', headerName: 'Team', width: 150, renderCell: (params) => (<Button sx={{cursor:'pointer'}} component={Link} variant={"contained"}  to={`/superscout/${params.value}`}>{params.value}</Button>)},
     {field: 'isPitScouted', headerName: 'Pit Scouted', width:150,  type: 'boolean'},
-    {field: 'DriveBase', headerName: 'DriveBase', width: 150, valueGetter: (params) => params.row?.pitScout?.driveBaseType},
+    {field: 'gamesScouted', headerName: 'Games Scouted', width:150,  valueGetter: (params) => params.row?.games.length}, 
+    {field: 'DriveBase', headerName: 'DriveBase', width: 150, valueGetter: (params) => params.row?.pitScout?.driveTrainType},
     {field: 'redFlags', headerName: 'redFlags', width: 150, valueGetter: (params) => params.row?.pitScout?.redFlags},
     {field: 'Experience', headerName: 'Experience In Years', width: 150, valueGetter: (params) => params.row?.pitScout?.experienceInYears, type: Number},
-    {field: 'notes', headerName: 'Notes', width: 150},
 ]
 
 
@@ -30,7 +30,7 @@ function TeamGrid(){
     return (
        
         <div style={{ height: 400, width: "90%", marginLeft:'5%', marginRight:'5%'}}>
-            <DataGrid rows={data || []} columns={columns} getRowId={(row) => row._id} pageSize={15} sx={{marginTop:20}} style={{ direction: 'rtl'}}/>
+            <DataGrid rows={data || []} columns={columns} getRowId={(row) => row._id} pageSize={15} sx={{marginTop:20}}/>
         </div>
         
     );

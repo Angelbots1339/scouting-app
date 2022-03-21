@@ -19,8 +19,11 @@ import { TextField, Autocomplete, Checkbox } from 'formik-mui';
 
 const validationSchema = yup.object({
     team: yup.string().required("Team Number Required").nullable(),
-    climbHeight: yup.string().required("test Number Required")
-
+    motorType: yup.string().required("Motor Type Required"),
+    shootPositions: yup.string().required("Shooting Positions Required"),
+    batteryCount: yup.number().min(1, "Must be over 1"),
+    motorCount: yup.number().min(1, "Must be over 1"),
+    climbHeight: yup.string().required("Climb Height Required")
 })
 const PitForm = () => {
 
@@ -57,7 +60,6 @@ const PitForm = () => {
             shootPositions: "",
             areFalconsLoctited: false,
             experienceInYears: 0,
-            wiringOrganization: 0,
             batteryCount: 0,
             motorCount: 0,
 
@@ -73,11 +75,9 @@ const PitForm = () => {
             climbHeight: 'none',
             climbConfidence: 0,
 
-            hasRedFlags: false,
             redFlags: "",
 
-            notes: "",
-            flagTeam: false
+            notes: ""
         }}
 
 
@@ -194,9 +194,14 @@ const PitForm = () => {
                                 margin={"normal"}
                                 inputProps={{ min: 0, max: 99 }}
                             />
-                            <FormLabel disabled={isSubmitting}>Wiring Organization</FormLabel>
-                            <Rating name={"wiringOrganization"} value={values.wiringOrganization}
-                                onChange={handleChange} disabled={isSubmitting} />
+                            <Field
+                                component={TextField}
+                                name="experienceInYears"
+                                type="number"
+                                label="Experience In Years"
+                                margin={"normal"}
+                                inputProps={{ min: 0, max: 99 }}
+                            />
 
 
                             <Field
@@ -372,29 +377,21 @@ const PitForm = () => {
 
                             />
 
-                            <FormControlLabel control={<Field component={Checkbox} type="checkbox" name="hasRedFlags" />} label="Has Any Red Flags" disabled={isSubmitting} />
-
-
-                            {values.hasRedFlags &&
-                                <Field
-                                    component={TextField}
-                                    name="redFlags"
-                                    type="text"
-                                    label="RedFlags"
-                                    margin={"normal"}
-                                    multiline
-                                    maxRows={4}
-
-                                />}
-
-
-                            <FormControlLabel
-                                control={
-                                    <Field component={Checkbox} type="checkbox" name="flagTeam" color="secondary" />
-                                }
-                                label="Flag Team"
+                           <Field
+                                component={TextField}
+                                name="redFlags"
+                                type="text"
+                                label="RedFlags"
+                                margin={"normal"}
+                                multiline
+                                maxRows={4}
 
                             />
+
+
+
+
+
 
                         </FormGroup>
                         <Button type={"submit"} color="primary" variant="contained" sx={{ m: 5,cursor:'pointer' }}>Submit</Button>
