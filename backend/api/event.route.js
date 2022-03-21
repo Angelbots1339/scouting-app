@@ -5,6 +5,24 @@ const router = express.Router()
 const getAvg = (nums) => {
     return getSum(nums)/removeNull(nums).length;
 }
+const climbToScore = (level) => {
+    let climbPoints = 0;
+    switch (level){
+        case 1:
+            climbPoints = 4
+            break
+        case 2:
+            climbPoints = 6
+            break
+        case 3:
+            climbPoints = 10
+            break
+        case 4:
+            climbPoints = 15
+            break
+    }
+    return climbPoints;
+}
 const getSum = (nums) => {
     let filtered = removeNull(nums);
     return filtered.reduce((acc, a) => acc + a, 0)
@@ -32,10 +50,14 @@ const flattenTeam = (team) => {
     let data = structTeam(team);
     return {
         teamNumber: team._id,
-        avgContributedCargoScore: getAvg(data.contributedCargoScore),
-        histContributedCargoScore: data.contributedCargoScore.join(","),
         avgContributedScore: getAvg(data.contributedScore),
         histContributedScore: data.contributedScore.join(","),
+        avgContributedCargoScore: getAvg(data.contributedCargoScore),
+        histContributedCargoScore: data.contributedCargoScore.join(","),
+        avgClimbScore:  getAvg(data.climbs.map(climb => climbToScore(climb))),
+        histClimbScore: data.climbs.map(climb => climbToScore(climb)).join(","),
+        avgAutoScore: getAvg(team.games.map(game => game.auto.score)),
+        histAutoScore: team.games.map(game => game.auto.score).join(", "),
         avgTotalHighShot: getAvg(data.totalHighShot),
         avgTotalHighScored: getAvg(data.totalHighScored),
         avgHighShotAccuracy: getSum(data.totalHighScored)/ getSum(data.totalHighShot),
@@ -69,6 +91,7 @@ const structTeam = (team) => {
 
     let teamScout = {}
     let autoRoutes = [];
+    let qualityCheck = {};
     if(team.isPitScouted){
         teamScout = {...team?.pitScout._doc}
 
@@ -76,6 +99,15 @@ const structTeam = (team) => {
         delete teamScout.autoRoutines
         delete teamScout._id
     }
+    if(team.qualityCheck){
+        qualityCheck = {...team?.qualityCheck._doc}
+        let date = new Date(qualityCheck.timeStamp)
+        qualityCheck.timeStamp = date.getDate()+
+            "/"+(date.getMonth()+1);
+        delete qualityCheck._id
+    }
+
+
 
 
     return {
@@ -104,6 +136,7 @@ const structTeam = (team) => {
         driveTeamNotes: team.driveTeamNotes,
         possibleAutoRoutes: autoRoutes,
 
+        qualityCheck,
         ...teamScout
     }
 }
@@ -226,15 +259,15 @@ router.route("/event/:event/team/:team/game").post(((req, res, next) => {
 }))
 
 router.route("/event/:event/team/:team/note").post(((req, res, next) => {
-    Event.findById({_id: req.params.id}).then((event) => {
+    Event.findById({_id: req.params.event}).then((event) => {
         event.teams.id(req.params.team).driveTeamNotes.push(req.body.note)
         event.save()
         res.send(event.teams.id(req.params.team))
     }).catch(next)
 }))
 
-router.route("/event/:eventno").post(((req, res, next) => {
-    Event.findById({_id: req.params.id}).then((event) => {
+router.route("/event/:event/team/:team/qualityCheck").post(((req, res, next) => {
+    Event.findById({_id: req.params.event}).then((event) => {
         event.teams.id(req.params.team).qualityCheck = req.body;
         event.save()
         res.send(event.teams.id(req.params.team))
@@ -249,28 +282,29 @@ router.route("/event/:event").put((req, res, next) =>
         .catch(next))
 
 router.route("/event/:event/team/:team").put((req, res, next) =>
-    Event.findById({_id: req.params.id})
+    Event.findById({_id: req.params.event})
         .then((event) => {
             event.teams.id(req.params.team).set(req.body)
             event.save()
             res.send(event.teams.id(req.params.team))
         })
         .catch(next))
-
-router.route("/event/:event").delete((req, res, next) =>
-    Event.findByIdAndDelete({_id: req.params.event})
-        .then((team) => {
-            res.send(team)
-        })
-        .catch(next)
-)
-router.route("/event/:event/team/:team").delete((req, res, next) =>
-    Event.findByIdAndDelete({_id: req.params.event})
-        .then((event) => {
-            event.teams.pull(req.params.team)
-        })
-        .catch(next)
-)
+//
+// router.route("/event/:event").delete((req, res, next) =>
+//     Event.findByIdAndDelete({_id: req.params.event})
+//         .then((team) => {
+//             res.send(team)
+//         })
+//         .catch(next)
+// )
+// router.route("/event/:event/team/:team").delete((req, res, next) =>
+//     Event.findByIdAndDelete({_id: req.params.event})
+//         .then((event) => {
+//             event.teams.pull(req.params.team)
+//             res.send(req.params.team)
+//         })
+//         .catch(next)
+// )
 
 
 export default router

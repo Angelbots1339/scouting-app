@@ -95,7 +95,7 @@ gameScout.virtual('score').get(function() {
     let climbPoints = 0;
     switch (this.climb){
         case 1:
-            climbPoints = 0
+            climbPoints = 4
             break
         case 2:
             climbPoints = 6
@@ -105,6 +105,7 @@ gameScout.virtual('score').get(function() {
             break
         case 4:
             climbPoints = 15
+            break
     }
     return climbPoints + this.auto.score + this.cargoScore;
 })
