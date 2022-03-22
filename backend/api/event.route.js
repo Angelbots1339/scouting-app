@@ -39,12 +39,21 @@ const removeNull = (nums) => {
 const flattenTeam = (team) => {
 
     let teamScout = {}
+    let qualityCheck = {};
 
     if (team.isPitScouted) {
         teamScout = {...team?.pitScout._doc}
         delete teamScout.autoRoutines
         delete teamScout._id
     }
+    if(team.qualityCheck){
+        qualityCheck = {...team?.qualityCheck._doc}
+        let date = new Date(qualityCheck.timeStamp)
+        qualityCheck.timeStamp = date.getDate()+
+            "/"+(date.getMonth()+1);
+        delete qualityCheck._id
+    }
+
 
 
     let data = structTeam(team);
@@ -62,29 +71,34 @@ const flattenTeam = (team) => {
         avgTotalHighScored: getAvg(data.totalHighScored),
         avgHighShotAccuracy: getSum(data.totalHighScored)/ getSum(data.totalHighShot),
         highCargoHist: data.totalHighScored.map((val, i) => `${val}/${data.totalHighShot[i]}`).join(","),
+        highestCargoHigh: Math.max(...data.totalHighScored),
         avgTotalLowShot: getAvg(data.totalLowShot),
         avgTotalLowScored: getAvg(data.totalLowScored),
         avgLowShotAccuracy: getSum(data.totalLowScored)/ getSum(data.totalLowShot),
         lowCargoHist: data.totalLowScored.map((val, i) => `${val}/${data.totalLowShot[i]}`).join(","),
+        highestCargoLow: Math.max(...data.totalLowScored),
         percentOfGamesPlayedDefense: getAvg(data.playedDefence),
         avgHerdingBallsRating: getAvg(team.games.filter(game => game.playedDefence).map(game => game.herdingBallsRating)),
         avgBotDefenceRating: getAvg(team.games.filter(game => game.playedDefence).map(game => game.botDefenceRating)),
-        defenceHist: team.games.map(game => game.playedDefence? `herd:${game.herdingBallsRating} bot:${game.botDefenceRating} ${game.defenceNotes}`: "N/A"),
+        defenceHist: team.games.map(game => game.playedDefence? `herd:${game.herdingBallsRating} bot:${game.botDefenceRating} ${game.defenceNotes}`: ""),
         percentShotHigh: getAvg(data.percentShotHigh),
         avgAutoCargoLow: getAvg(data.autoCargoLow),
         avgAutoCargoHigh: getAvg(data.autoCargoHigh),
+        highestAutoCargoLow: Math.max(...data.autoCargoLow),
+        highestAutoCargoHigh:  Math.max(...data.autoCargoHigh),
         avgAutoOffline: getAvg(data.offLineAuto),
         autoHist: team.games.map(game => game.auto.joinedNoPosition).join(", "),
         possibleAutoRoutes: data.possibleAutoRoutes.join(", "),
-        climbs: data.climbs.join(","),
+        climbLevels: data.climbs.join(","),
+        highestClimbScore: Math.max(...data.climbs.map(climb => climbToScore(climb))),
         avgBroke: getAvg(data.broke),
         avgCompleteBreakDown: getAvg(data.completeBreakDown),
-        breaks: team.games.map(game => game.broke? `${game.brokeNotes}${game.completeBreakDown? "> DIED" : ""}` : "N/A").join(', '),
+        breaks: team.games.map(game => game.broke? `${game.brokeNotes}${game.completeBreakDown? "> DIED" : ""}` : "").join(', '),
         gamesScouted: data.gameCodes.length,
         gameNotes: data.gameNotes? data.gameNotes.join(", ") : data.gameNotes,
         driveTeamNotes: team.driveTeamNotes.join(", "),
-
-        ...teamScout
+        ...qualityCheck,
+        ...teamScout,
     }
 }
 const structTeam = (team) => {
@@ -107,6 +121,7 @@ const structTeam = (team) => {
         delete qualityCheck._id
     }
 
+    //team.games.sort((a, b) => a.match(/\d+$/) - b.match(/\d+$/));
 
 
 
