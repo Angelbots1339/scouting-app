@@ -149,10 +149,10 @@ const structTeam = (team) => {
         completeBreakDown: team.games.map(game => game.completeBreakDown),
         defenceNotes: team.games.map(game => game.defenceNotes),
         brokeNotes: team.games.map(game => game.brokeNotes),
+        driverQuality: team.driverQuality,
         gameNotes: team.games.map((game) => game.notes),
         driveTeamNotes: team.driveTeamNotes,
         possibleAutoRoutes: autoRoutes,
-        driverQuality: team.driverQuality,
         qualityCheck,
         ...teamScout
     }
