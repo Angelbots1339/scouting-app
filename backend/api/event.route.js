@@ -219,7 +219,7 @@ router.route("/event/:event/teams").get((req, res, next) => {
 router.route("/event/:event/teams/pitScouted").get((req, res, next) => {
     Event.findById(req.params.event)
         .then((event) => {
-            res.send(event.teams.filter(team => team.isPitScouted))
+            res.send(event.teams.filter(team => !team.isPitScouted))
         })
         .catch(next)
 })
