@@ -19,7 +19,7 @@ class TeamDataService {
         return http.delete(`/team/${teamNumber}`)
     }
     getScoutNeededTeams(){
-        return http.get('/teams/scoutNeeded');
+        return http.get('/teams/pitscouted');
     }
 
     addGame(teamNumber, data){
