@@ -28,7 +28,7 @@ const pitScout = new mongoose.Schema({
 
     experienceInYears: Number,
     groundPickUp: Boolean,
-    terminalPickUp: Boolean,
+    canIntakeRetract: Boolean,
     canShootInLow: Boolean,
     canShootInHigh: Boolean,
     autoRoutines:[autoRoutine],
@@ -62,7 +62,7 @@ const gameScout = new mongoose.Schema({
     cargoScoredLow: Number,
     cargoScoredHigh: Number,
     playedDefence: Boolean,
-    herdingBallsRating: Number,
+    intakeRating: Number,
     botDefenceRating: Number,
     defenceNotes: String,
     notes: String,

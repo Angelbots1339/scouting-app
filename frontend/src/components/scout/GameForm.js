@@ -110,14 +110,13 @@ const GameForm = () => {
                 auto,
                 climb,
                 playedDefence,
-                herdingBallsRating,
+                intakeRating,
                 botDefenceRating,
                 defenceNotes,
             }
 
         if (!playedDefence) {
             delete values.botDefenceRating
-            delete values.herdingBallsRating
             delete values.defenceNotes
         }
 
@@ -136,7 +135,7 @@ const GameForm = () => {
         setClimb(0)
         setNotes("")
         setPlayedDefence(false)
-        setHerdingBallsRating(0)
+        setIntakeRating(0)
         setBotDefenceRating(0)
         setDefenceNotes("")
         setBroke(false)
@@ -161,7 +160,7 @@ const GameForm = () => {
 
     //-------Defence------
     const [playedDefence, setPlayedDefence] = useState(false);
-    const [herdingBallsRating, setHerdingBallsRating] = useState(0);
+    const [intakeRating, setIntakeRating] = useState(0);
     const [botDefenceRating, setBotDefenceRating] = useState(0);
     const [defenceNotes, setDefenceNotes] = useState("");
 
@@ -256,6 +255,15 @@ const GameForm = () => {
                             <div>
                                 <hr style={{width: 'auto', height: 1, borderWidth: 5}} color="grey"/>
                             </div>
+                                    <FormControlLabel
+                                        control={
+                                            <Rating
+                                                value={intakeRating}
+                                                precision={0.5}
+                                                onChange={(event, newValue) => {
+                                                    setIntakeRating(newValue);
+                                                }}/>}
+                                        label={"Intake Rating"}/>
                             <Typography variant={"h6"} sx={{marginTop: 5}}>Defence</Typography>
                             <FormControlLabel
                                 control={<Checkbox checked={playedDefence}
@@ -263,16 +271,6 @@ const GameForm = () => {
                                 label={"Played Defence"}/>
                             {playedDefence &&
                                 <FormGroup>
-                                    <FormControlLabel
-                                        control={
-                                            <Rating
-                                                name="herdingBallsRating"
-                                                value={herdingBallsRating}
-                                                precision={0.5}
-                                                onChange={(event, newValue) => {
-                                                    setHerdingBallsRating(newValue);
-                                                }}/>}
-                                        label={"Herding Balls Rating"}/>
                                     <FormControlLabel
                                         control={
                                             <Rating
