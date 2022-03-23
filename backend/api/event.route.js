@@ -95,10 +95,12 @@ const flattenTeam = (team) => {
         avgCompleteBreakDown: getAvg(data.completeBreakDown),
         breaks: team.games.map(game => game.broke? `${game.brokeNotes}${game.completeBreakDown? "> DIED" : ""}` : "").join(', '),
         gamesScouted: data.gameCodes.length,
-        gameNotes: data.gameNotes? data.gameNotes.join(", ") : data.gameNotes,
-        driveTeamNotes: team.driveTeamNotes.join(", "),
+        avgDriverQuality: getAvg(data.driverQuality),
+        histDriverQuality: data.driverQuality.join(","),
         ...qualityCheck,
         ...teamScout,
+        gameNotes: data.gameNotes? data.gameNotes.join(", ") : data.gameNotes,
+        driveTeamNotes: team.driveTeamNotes.join(", "),
     }
 }
 const structTeam = (team) => {
@@ -150,7 +152,7 @@ const structTeam = (team) => {
         gameNotes: team.games.map((game) => game.notes),
         driveTeamNotes: team.driveTeamNotes,
         possibleAutoRoutes: autoRoutes,
-
+        driverQuality: team.driverQuality,
         qualityCheck,
         ...teamScout
     }
@@ -280,8 +282,15 @@ router.route("/event/:event/team/:team/note").post(((req, res, next) => {
         res.send(event.teams.id(req.params.team))
     }).catch(next)
 }))
+router.route("/event/:event/team/:team/drive").post(((req, res, next) => {
+    Event.findById({_id: req.params.event}).then((event) => {
+        event.teams.id(req.params.team).driverQuality.push(req.body.driverQuality)
+        event.save()
+        res.send(event.teams.id(req.params.team))
+    }).catch(next)
+}))
 
-router.route("/event/:event/team/:team/qualityCheck").post(((req, res, next) => {
+router.route("/event/:event/team/:team/qualitycheck").post(((req, res, next) => {
     Event.findById({_id: req.params.event}).then((event) => {
         event.teams.id(req.params.team).qualityCheck = req.body;
         event.save()

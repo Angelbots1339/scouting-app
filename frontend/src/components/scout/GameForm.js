@@ -361,7 +361,7 @@ const GameForm = () => {
 
                         </FormGroup>
                         <Button variant={"contained"} color="primary" onMouseDown={() => setConfirmOpen(true)}
-                                onTouchStart={() => {setConfirmOpen(true)}} sx={{m: 5, cursor: 'pointer'}}>Ready</Button>
+                                onTouchStart={() => {setConfirmOpen(true)}} sx={{m: 5}}>Submit</Button>
                     </form>
 
                 </Paper>

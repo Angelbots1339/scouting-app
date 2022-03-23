@@ -132,7 +132,8 @@ const teamSchema = new mongoose.Schema({
     pitScout: pitScout,
     qualityCheck: qualityCheck,
     games: [gameScout],
-    driveTeamNotes: [String]
+    driveTeamNotes: [String],
+    driverQuality: [Number]
 });
 const eventSchema = new mongoose.Schema({
     _id: String,

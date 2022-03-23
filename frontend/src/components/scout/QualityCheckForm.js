@@ -1,6 +1,17 @@
 import {
     Autocomplete,
-    Button, Checkbox, FormControlLabel, FormGroup, Paper, Rating, styled, TextField, Typography
+    Button,
+    Checkbox,
+    Dialog, DialogActions,
+    DialogContent, DialogContentText,
+    DialogTitle,
+    FormControlLabel,
+    FormGroup,
+    Paper,
+    Rating,
+    styled,
+    TextField,
+    Typography
 } from "@mui/material";
 import React, {useEffect, useState} from "react";
 import TeamDataService from "../../services/team";
@@ -38,7 +49,7 @@ const QualityCheckForm = () => {
 
     const handelSubmit = () => {
 
-        if(team !== ""){
+        if (team !== "") {
             TeamDataService.addQualityCheck(team, teamQualityCheck);
 
         }
@@ -53,6 +64,8 @@ const QualityCheckForm = () => {
             electricalNotes: "",
             dnp: false
         })
+        setConfirmOpen(false);
+
     }
 
     const updateTeams = () => {
@@ -64,64 +77,113 @@ const QualityCheckForm = () => {
         updateTeams();
     }, [])
 
-
+    const [confirmOpen, setConfirmOpen] = React.useState(false);
 
 
     return (<form>
             <Paper>
-                <FormGroup sx={{marginLeft:'5%', marginRight:'5%' , paddingTop:5}}>
+                <FormGroup sx={{marginLeft: '5%', marginRight: '5%', paddingTop: 5}}>
 
                     <Autocomplete
                         disablePortal
                         options={allTeams}
-                        sx={{ width: 300 }}
+                        sx={{width: 300}}
                         getOptionLabel={(option => `${option}`)}
                         value={team}
                         onChange={(event, value) => setTeam(value)}
-                        renderInput={(params) => <TextField {...params} label="alliance 1 Team Number" />}
+                        renderInput={(params) => <TextField {...params} label="alliance 1 Team Number"/>}
                     />
 
-                    <Typography sx={{marginTop:2}} component="legend">Drive Base Rating</Typography>
-                    <StyledRating  size="large" icon={<FavoriteIcon fontSize="inherit" />}
-                             emptyIcon={<FavoriteBorderIcon fontSize="inherit" />} name="driveBaseRating" value={teamQualityCheck.driveBaseRating} defaultValue={0} precision={0.5} onChange={(e, newValue) => setTeamQualityCheck(prevValue =>({...prevValue, driveBaseRating: newValue}))}/>
-                    <Typography sx={{marginTop:2}} component="legend">Super Structure Rating</Typography>
-                    <StyledRating icon={<FavoriteIcon fontSize="inherit" />}
-                            emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}  size="large" name="superStructureRating" value={teamQualityCheck.superStructureRating} defaultValue={0} precision={0.5} onChange={(e, newValue) => setTeamQualityCheck(prevValue =>({...prevValue, superStructureRating: newValue}))}/>
-                    <Typography sx={{marginTop:2}} component="legend">BumperRating</Typography>
-                    <StyledRating icon={<FavoriteIcon fontSize="inherit" />}
-                            emptyIcon={<FavoriteBorderIcon fontSize="inherit" />} size="large" name="bumperRating" value={teamQualityCheck.bumperRating} defaultValue={0} precision={0.5} onChange={(e, newValue) => setTeamQualityCheck(prevValue =>({...prevValue, bumperRating: newValue}))}/>
+                    <Typography sx={{marginTop: 2}} component="legend">Drive Base Rating</Typography>
+                    <StyledRating size="large" icon={<FavoriteIcon fontSize="inherit"/>}
+                                  emptyIcon={<FavoriteBorderIcon fontSize="inherit"/>} name="driveBaseRating"
+                                  value={teamQualityCheck.driveBaseRating} defaultValue={0} precision={0.5}
+                                  onChange={(e, newValue) => setTeamQualityCheck(prevValue => ({
+                                      ...prevValue,
+                                      driveBaseRating: newValue
+                                  }))}/>
+                    <Typography sx={{marginTop: 2}} component="legend">Super Structure Rating</Typography>
+                    <StyledRating icon={<FavoriteIcon fontSize="inherit"/>}
+                                  emptyIcon={<FavoriteBorderIcon fontSize="inherit"/>} size="large"
+                                  name="superStructureRating" value={teamQualityCheck.superStructureRating}
+                                  defaultValue={0} precision={0.5}
+                                  onChange={(e, newValue) => setTeamQualityCheck(prevValue => ({
+                                      ...prevValue,
+                                      superStructureRating: newValue
+                                  }))}/>
+                    <Typography sx={{marginTop: 2}} component="legend">BumperRating</Typography>
+                    <StyledRating icon={<FavoriteIcon fontSize="inherit"/>}
+                                  emptyIcon={<FavoriteBorderIcon fontSize="inherit"/>} size="large" name="bumperRating"
+                                  value={teamQualityCheck.bumperRating} defaultValue={0} precision={0.5}
+                                  onChange={(e, newValue) => setTeamQualityCheck(prevValue => ({
+                                      ...prevValue,
+                                      bumperRating: newValue
+                                  }))}/>
 
                     <TextField type={"mechanicalNotes"} margin={"normal"}
                                multiline
-                               maxRows={4} value={teamQualityCheck.mechanicalNotes} onChange={(e) => setTeamQualityCheck(prevValue =>({...prevValue, mechanicalNotes: e.target.value}))}
+                               maxRows={4} value={teamQualityCheck.mechanicalNotes}
+                               onChange={(e) => setTeamQualityCheck(prevValue => ({
+                                   ...prevValue,
+                                   mechanicalNotes: e.target.value
+                               }))}
                                label={"Mechanical Notes"}/>
 
-                    <Typography sx={{marginTop:2}} component="legend">Electrical Rating</Typography>
-                    <Rating icon={<BoltIcon fontSize="inherit" />}
-                            emptyIcon={<BoltIcon fontSize="inherit" />} size="large"  name="electricalRating" value={teamQualityCheck.electricalRating} defaultValue={0} precision={0.5} onChange={(e, newValue) => setTeamQualityCheck(prevValue =>({...prevValue, electricalRating: newValue}))}/>
+                    <Typography sx={{marginTop: 2}} component="legend">Electrical Rating</Typography>
+                    <Rating icon={<BoltIcon fontSize="inherit"/>}
+                            emptyIcon={<BoltIcon fontSize="inherit"/>} size="large" name="electricalRating"
+                            value={teamQualityCheck.electricalRating} defaultValue={0} precision={0.5}
+                            onChange={(e, newValue) => setTeamQualityCheck(prevValue => ({
+                                ...prevValue,
+                                electricalRating: newValue
+                            }))}/>
 
                     <TextField type={"electricalNotes"} margin={"normal"}
                                multiline
-                               maxRows={4} value={teamQualityCheck.electricalNotes} onChange={(e) => setTeamQualityCheck(prevValue =>({...prevValue, electricalNotes: e.target.value}))}
+                               maxRows={4} value={teamQualityCheck.electricalNotes}
+                               onChange={(e) => setTeamQualityCheck(prevValue => ({
+                                   ...prevValue,
+                                   electricalNotes: e.target.value
+                               }))}
                                label={"Electrical Notes"}/>
                     <FormControlLabel
                         control={
                             <Checkbox type="checkbox" name={`offLine`}
-                                      onChange={(e, value) => setTeamQualityCheck(prevValue =>({...prevValue, dnp: value}))}
-                                      icon={<FavoriteIcon />}
-                                      checkedIcon={<HeartBrokenIcon />}
+                                      onChange={(e, value) => setTeamQualityCheck(prevValue => ({
+                                          ...prevValue,
+                                          dnp: value
+                                      }))}
+                                      icon={<FavoriteIcon/>}
+                                      checkedIcon={<HeartBrokenIcon/>}
                                       size={"large"}
                             />
                         }
                         label="DNP"
-                        value= {teamQualityCheck.dnp}
+                        value={teamQualityCheck.dnp}
                     />
 
 
-
-
                 </FormGroup>
-                <Button color="primary" variant="contained" sx={{m: 5, cursor:'pointer'}} onClick={handelSubmit} >Submit</Button>
+                <Button variant={"contained"} color="primary" onClick={() => setConfirmOpen(true)}
+                        sx={{m: 5}}>Submit</Button>
+                <Dialog
+                    open={confirmOpen}
+                    keepMounted
+                    aria-describedby="alert-dialog-slide-description"
+                >
+                    <DialogTitle>{"Are you sure you want to submit the form?"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-slide-description">
+                            Make sure you filled out all the fields correctly. Thank You!
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button variant={"contained"} onClick={() => {
+                            setConfirmOpen(false)
+                        }}>Cancel</Button>
+                        <Button variant={"contained"} onClick={handelSubmit}>Submit</Button>
+                    </DialogActions>
+                </Dialog>
             </Paper>
         </form>
 

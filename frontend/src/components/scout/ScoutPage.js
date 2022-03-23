@@ -17,10 +17,11 @@ export default function ScoutPage() {
                         </Button>
                         
                         <Button sx={{ cursor: 'pointer' }} component={Link} to={'/scout/gameform'}>Game Scout</Button>
-                        <Button sx={{ cursor: 'pointer' }} component={Link} to={'/scout/driveteamform'}>Drive Team Form</Button>
+                        <Button sx={{ cursor: 'pointer' }} component={Link} to={'/scout/driveteamform'}>Drive Team</Button>
                         <Button sx={{ cursor: 'pointer' }} component={Link} to={'/scout/pitform'}>Pit Scout</Button>
-                        <Button sx={{cursor:'pointer'}} component={Link} to={'/scout/qualitycheckform'}>Quality Check Form</Button>
-                        
+                        <Button sx={{cursor:'pointer'}} component={Link} to={'/scout/qualitycheckform'}>Quality Check</Button>
+                        <Button sx={{cursor:'pointer'}} component={Link} to={'/scout/drivequalityform'}>Drive Quality</Button>
+
 
                     </ButtonGroup>
                 </AppBar>

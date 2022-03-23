@@ -28,6 +28,9 @@ class TeamDataService {
     addNote(teamNumber, note){
         return http.post(`/team/${teamNumber}/notes`, {note: note})
     }
+    addDriveQuality(teamNumber, driverQuality){
+        return http.post(`/team/${teamNumber}/drive`, {driverQuality: driverQuality})
+    }
     addQualityCheck(teamNumber, qualityCheck){
         return http.post(`/team/${teamNumber}/qualitycheck`, qualityCheck)
     }
