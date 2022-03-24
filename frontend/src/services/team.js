@@ -26,7 +26,7 @@ class TeamDataService {
         return http.post(`/team/${teamNumber}/game`, data)
     }
     addNote(teamNumber, note){
-        return http.post(`/team/${teamNumber}/notes`, {note: note})
+        return http.post(`/team/${teamNumber}/note`, {note: note})
     }
     addDriveQuality(teamNumber, driverQuality){
         return http.post(`/team/${teamNumber}/drive`, {driverQuality: driverQuality})
