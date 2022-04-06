@@ -9,18 +9,20 @@ import {
     ListItemButton
 } from "@mui/material";
 import * as React from 'react';
-import { useState} from "react";
+import {useEffect, useState} from "react";
 import DensitySmallIcon from '@mui/icons-material/DensitySmall';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import DriveEtaIcon from '@mui/icons-material/DriveEta';
 import BuildIcon from '@mui/icons-material/Build';
+import HomeIcon from '@mui/icons-material/Home';
 
 
 export default function ScoutPage() {
 
 
     const [drawerState, setDrawerState] = useState(false);
+    const [currentPage, setCurrentPage] = useState("/scout/gameform");
 
 
     // This code can be used for variable size on mobile vs desktop
@@ -30,15 +32,14 @@ export default function ScoutPage() {
     // const [isScreenBig, setScreenBig] = useState(false);
     //
     //
-    // useEffect(() => {
-    //
-    //     if (hasWindow) {
-    //         setScreenBig(window.innerWidth > 100 ? true : false);
-    //     }
-    //
-    //
-    //
-    // });
+    useEffect(() => {
+
+        // if (hasWindow) {
+        //     setScreenBig(window.innerWidth > 100 ? true : false);
+        // }
+        setCurrentPage(window.location.pathname);
+
+    });
 
 
 
@@ -65,28 +66,27 @@ export default function ScoutPage() {
                     <List sx={{marginX: '20'}}>
                         <ListItem>
                             <ListItemButton sx={{cursor: 'pointer'}} component={Link} to={'/'}>
-                                <img src="../../logo200.png" alt={"angleBoticsLogo"}
-                                     style={{width: 60, height: 60, borderRadius: 10, m: 5}}/>
+                                <HomeIcon fontSize='large'/>
                                 <Typography variant={"h4"} sx={{m: 1}}>Home</Typography>
                             </ListItemButton>
                         </ListItem>
-                        <ListItem>
+                        <ListItem sx={{backgroundColor: currentPage === "/scout/gameform" ? 'darkRed' : ''}}>
                             <SmartToyIcon/>
                             <ListItemButton sx={{cursor: 'pointer'}} component={Link}
                                             to={'/scout/gameform'}>Game Scout</ListItemButton>
                         </ListItem>
-                        <ListItem>
+                        <ListItem sx={{backgroundColor: currentPage === "/scout/driveteamform" ? 'darkRed' : ''}}>
                             <DriveEtaIcon/>
-                            <ListItemButton sx={{cursor: 'pointer'}} component={Link} to={'/scout/driveteamform'}>Drive
+                            <ListItemButton sx={{cursor: 'pointer'}} component={Link} to={'/scout/driveteamform'} >Drive
                                 Team
                                 Form</ListItemButton>
                         </ListItem>
-                        <ListItem>
+                        <ListItem sx={{backgroundColor: currentPage === "/scout/pitform" ? 'darkRed' : ''}}>
                             <LocalHospitalIcon/>
-                            <ListItemButton sx={{cursor: 'pointer'}} component={Link} to={'/scout/pitform'}>Pit
+                            <ListItemButton sx={{cursor: 'pointer'}} component={Link} to={'/scout/pitform'} >Pit
                                 Scout</ListItemButton>
                         </ListItem>
-                        <ListItem>
+                        <ListItem sx={{backgroundColor: currentPage === "/scout/qualitycheckform" ? 'darkRed' : ''}}>
                             <BuildIcon/>
                             <ListItemButton sx={{cursor: 'pointer'}} component={Link} to={'/scout/qualitycheckform'}>Quality
                                 Check
