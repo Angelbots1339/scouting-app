@@ -4,12 +4,15 @@ import {AppBar, Button, Drawer, List, ListItem, ListItemButton, Typography} from
 import DensitySmallIcon from "@mui/icons-material/DensitySmall";
 import BlurOnIcon from '@mui/icons-material/BlurOn';
 import * as React from "react";
-import { useState} from "react";
+import {useEffect, useState} from "react";
+import HomeIcon from "@mui/icons-material/Home";
 
 
 export default function SuperScoutPage() {
 
     const [drawerState, setDrawerState] = useState(false);
+    const [currentPage, setCurrentPage] = useState("/superScout/teamGrid");
+
 
     // This code can be used for variable size on mobile vs desktop
     //
@@ -18,15 +21,14 @@ export default function SuperScoutPage() {
     // const [isScreenBig, setScreenBig] = useState(false);
     //
     //
-    // useEffect(() => {
-    //
-    //     if (hasWindow) {
-    //         setScreenBig(window.innerWidth > 100 ? true : false);
-    //     }
-    //
-    //
-    //
-    // });
+    useEffect(() => {
+
+        // if (hasWindow) {
+        //     setScreenBig(window.innerWidth > 100 ? true : false);
+        // }
+        setCurrentPage(window.location.pathname);
+
+    });
 
 
     return (
@@ -53,13 +55,12 @@ export default function SuperScoutPage() {
                     <List sx={{marginX: '20'}}>
                         <ListItem>
                             <ListItemButton sx={{cursor: 'pointer'}} component={Link} to={'/'}>
-                                <img src="../../logo200.png" alt={"angleBoticsLogo"}
-                                     style={{width: 60, height: 60, borderRadius: 10, m: 5}}/>
+                                <HomeIcon fontSize='large'/>
                                 <Typography variant={"h4"} sx={{m: 1}}>Home</Typography>
                             </ListItemButton>
                         </ListItem>
 
-                        <ListItem>
+                        <ListItem sx={{backgroundColor: currentPage === "/superScout/teamGrid" ? 'darkRed' : ''}}>
                             <BlurOnIcon/>
                             <ListItemButton sx={{cursor: 'pointer'}} component={Link} to={'/superScout/teamGrid'}>Team Grid</ListItemButton>
                         </ListItem>
