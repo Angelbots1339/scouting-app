@@ -65,7 +65,7 @@ const PitForm = () => {
 
             cargoHold: 0,
             groundPickUp: false,
-            terminalPickUp: false,
+            canIntakeRetract: false,
             canShootInLow: false,
             canShootInHigh: false,
 
@@ -242,7 +242,7 @@ const PitForm = () => {
                             <FormControlLabel control={<Field component={Checkbox} type="checkbox" name="canShootInLow" />} label="Can put cargo In Low" disabled={isSubmitting} />
                             <FormControlLabel control={<Field component={Checkbox} type="checkbox" name="canShootInHigh" />} label="Can Shoot cargo to High" disabled={isSubmitting} />
                             <FormControlLabel control={<Field component={Checkbox} type="checkbox" name="groundPickUp" />} label="Can pick up from ground" disabled={isSubmitting} />
-                            <FormControlLabel control={<Field component={Checkbox} type="checkbox" name="terminalPickUp" />} label="Can pick up from terminal" disabled={isSubmitting} />
+                            <FormControlLabel control={<Field component={Checkbox} type="checkbox" name="canIntakeRetract" />} label="Can Intake Retract" disabled={isSubmitting} />
 
                             
                             <Field

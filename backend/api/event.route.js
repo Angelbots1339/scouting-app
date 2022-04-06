@@ -39,12 +39,21 @@ const removeNull = (nums) => {
 const flattenTeam = (team) => {
 
     let teamScout = {}
+    let qualityCheck = {};
 
     if (team.isPitScouted) {
         teamScout = {...team?.pitScout._doc}
         delete teamScout.autoRoutines
         delete teamScout._id
     }
+    if(team.qualityCheck){
+        qualityCheck = {...team?.qualityCheck._doc}
+        let date = new Date(qualityCheck.timeStamp)
+        qualityCheck.timeStamp = date.getDate()+
+            "/"+(date.getMonth()+1);
+        delete qualityCheck._id
+    }
+
 
 
     let data = structTeam(team);
@@ -66,25 +75,33 @@ const flattenTeam = (team) => {
         avgTotalLowScored: getAvg(data.totalLowScored),
         avgLowShotAccuracy: getSum(data.totalLowScored)/ getSum(data.totalLowShot),
         lowCargoHist: data.totalLowScored.map((val, i) => `${val}/${data.totalLowShot[i]}`).join(","),
+        highestTotalCargo: Math.max(...data.totalLowScored.map((low, i) => low + data.totalHighScored[i])),
+        avgTotalCargo: getAvg(data.totalLowScored.map((low, i) => low + data.totalHighScored[i])),
+        avgIntakeRating: getAvg(data.intakeRating),
+        intakeRatingHist: data.intakeRating.join(","),
         percentOfGamesPlayedDefense: getAvg(data.playedDefence),
-        avgHerdingBallsRating: getAvg(team.games.filter(game => game.playedDefence).map(game => game.herdingBallsRating)),
         avgBotDefenceRating: getAvg(team.games.filter(game => game.playedDefence).map(game => game.botDefenceRating)),
-        defenceHist: team.games.map(game => game.playedDefence? `herd:${game.herdingBallsRating} bot:${game.botDefenceRating} ${game.defenceNotes}`: "N/A"),
+        defenceHist: team.games.map(game => game.playedDefence? `${game.botDefenceRating} : ${game.defenceNotes}`: ""),
         percentShotHigh: getAvg(data.percentShotHigh),
         avgAutoCargoLow: getAvg(data.autoCargoLow),
         avgAutoCargoHigh: getAvg(data.autoCargoHigh),
+        highestAutoTotalCargo: Math.max(...data.autoCargoLow.map((low, i) => low + data.autoCargoHigh[i])),
+        avgAutoTotalCargo: getAvg(data.autoCargoLow.map((low, i) => low + data.autoCargoHigh[i])),
         avgAutoOffline: getAvg(data.offLineAuto),
         autoHist: team.games.map(game => game.auto.joinedNoPosition).join(", "),
         possibleAutoRoutes: data.possibleAutoRoutes.join(", "),
-        climbs: data.climbs.join(","),
+        climbLevels: data.climbs.join(","),
+        highestClimbScore: Math.max(...data.climbs.map(climb => climbToScore(climb))),
         avgBroke: getAvg(data.broke),
         avgCompleteBreakDown: getAvg(data.completeBreakDown),
-        breaks: team.games.map(game => game.broke? `${game.brokeNotes}${game.completeBreakDown? "> DIED" : ""}` : "N/A").join(', '),
+        breaks: team.games.map(game => game.broke? `${game.brokeNotes}${game.completeBreakDown? "> DIED" : ""}` : "").join(', '),
         gamesScouted: data.gameCodes.length,
+        avgDriverQuality: getAvg(data.driverQuality),
+        histDriverQuality: data.driverQuality.join(","),
+        ...qualityCheck,
+        ...teamScout,
         gameNotes: data.gameNotes? data.gameNotes.join(", ") : data.gameNotes,
         driveTeamNotes: team.driveTeamNotes.join(", "),
-
-        ...teamScout
     }
 }
 const structTeam = (team) => {
@@ -107,6 +124,7 @@ const structTeam = (team) => {
         delete qualityCheck._id
     }
 
+    //team.games.sort((a, b) => a.match(/\d+$/) - b.match(/\d+$/));
 
 
 
@@ -121,8 +139,8 @@ const structTeam = (team) => {
         totalLowScored: team.games.map(game => game.cargoScoredLow),
         lowShotAccuracy: team.games.map(game => game.percentScoredLow),
         percentShotHigh: team.games.map(game => game.percentShotHigh),
+        intakeRating: team.games.map(game => game.intakeRating),
         playedDefence: team.games.map(game => game.playedDefence),
-        herdingBallsRating: team.games.map(game => game.herdingBallsRating),
         botDefenceRating: team.games.map(game => game.botDefenceRating),
         autoCargoLow: team.games.map(game => game.auto.cargoLow),
         autoCargoHigh: team.games.map(game => game.auto.cargoHigh),
@@ -132,10 +150,10 @@ const structTeam = (team) => {
         completeBreakDown: team.games.map(game => game.completeBreakDown),
         defenceNotes: team.games.map(game => game.defenceNotes),
         brokeNotes: team.games.map(game => game.brokeNotes),
+        driverQuality: team.driverQuality,
         gameNotes: team.games.map((game) => game.notes),
         driveTeamNotes: team.driveTeamNotes,
         possibleAutoRoutes: autoRoutes,
-
         qualityCheck,
         ...teamScout
     }
@@ -201,7 +219,7 @@ router.route("/event/:event/teams").get((req, res, next) => {
 router.route("/event/:event/teams/pitScouted").get((req, res, next) => {
     Event.findById(req.params.event)
         .then((event) => {
-            res.send(event.teams.find({isPitScouted: false}))
+            res.send(event.teams.filter(team => !team.isPitScouted))
         })
         .catch(next)
 })
@@ -265,8 +283,15 @@ router.route("/event/:event/team/:team/note").post(((req, res, next) => {
         res.send(event.teams.id(req.params.team))
     }).catch(next)
 }))
+router.route("/event/:event/team/:team/drive").post(((req, res, next) => {
+    Event.findById({_id: req.params.event}).then((event) => {
+        event.teams.id(req.params.team).driverQuality.push(req.body.driverQuality)
+        event.save()
+        res.send(event.teams.id(req.params.team))
+    }).catch(next)
+}))
 
-router.route("/event/:event/team/:team/qualityCheck").post(((req, res, next) => {
+router.route("/event/:event/team/:team/qualitycheck").post(((req, res, next) => {
     Event.findById({_id: req.params.event}).then((event) => {
         event.teams.id(req.params.team).qualityCheck = req.body;
         event.save()
