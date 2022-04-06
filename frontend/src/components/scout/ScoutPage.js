@@ -1,19 +1,15 @@
 import {Outlet, Link} from "react-router-dom";
 import {
     Button,
-    ButtonGroup,
     AppBar,
-    Box,
-    Divider,
     Drawer,
     List,
     ListItem,
-    IconButton,
-    Toolbar,
-    Typography, SwipeableDrawer, ListItemButton, Chip
+    Typography,
+    ListItemButton
 } from "@mui/material";
 import * as React from 'react';
-import {useEffect, useState} from "react";
+import { useState} from "react";
 import DensitySmallIcon from '@mui/icons-material/DensitySmall';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
@@ -23,20 +19,26 @@ import BuildIcon from '@mui/icons-material/Build';
 
 export default function ScoutPage() {
 
-    const hasWindow = typeof window !== 'undefined';
 
     const [drawerState, setDrawerState] = useState(false);
-    const [isScreenBig, setScreenBig] = useState(false);
 
 
-    useEffect(() => {
-
-        if (hasWindow) {
-            setScreenBig(window.innerWidth > 100 ? true : false);
-        }
-
-
-    })
+    // This code can be used for variable size on mobile vs desktop
+    //
+    //
+    // const hasWindow = typeof window !== 'undefined';
+    // const [isScreenBig, setScreenBig] = useState(false);
+    //
+    //
+    // useEffect(() => {
+    //
+    //     if (hasWindow) {
+    //         setScreenBig(window.innerWidth > 100 ? true : false);
+    //     }
+    //
+    //
+    //
+    // });
 
     return (
 
@@ -46,9 +48,8 @@ export default function ScoutPage() {
 
 
                     <Button size={"small"} variant={"contained"} sx={{cursor: 'pointer', width: 10, m: 2}}
-                            onClick={() => setDrawerState(drawerState ? false : true)}>
+                            onClick={() => setDrawerState(!drawerState)}>
                         <DensitySmallIcon/>
-                        {console.log(drawerState)}
                     </Button>
 
                 </AppBar>
@@ -59,7 +60,6 @@ export default function ScoutPage() {
                     onClose={() => setDrawerState(false)}
                 >
 
-                    {/*<ButtonGroup size={"large"} variant="contained" orientation="vertical" sx={{m: 2, mr: 6, ml: 6}}>*/}
                     <List sx={{marginX: '20'}}>
                         <ListItem>
                             <ListItemButton sx={{cursor: 'pointer'}} component={Link} to={'/'}>
@@ -92,7 +92,6 @@ export default function ScoutPage() {
                         </ListItem>
 
                     </List>
-                    {/*</ButtonGroup>*/}
                 </Drawer>
             </div>
             <Outlet/>
