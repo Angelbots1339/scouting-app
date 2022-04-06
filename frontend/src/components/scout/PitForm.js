@@ -1,7 +1,7 @@
 import {
     Button,
      FormControlLabel, FormGroup, FormLabel,
-    Grid, Paper, Typography, AutocompleteRenderInputParams, MenuItem, Rating, IconButton
+    Grid, Paper, Typography, AutocompleteRenderInputParams, MenuItem, Rating, IconButton, Divider
 } from "@mui/material";
 import MuiTextField from '@mui/material/TextField';
 import * as yup from "yup";
@@ -106,7 +106,7 @@ const PitForm = () => {
             }) => (
                 <form onSubmit={handleSubmit}>
 
-                    <Paper sx={{p: 1}}>
+                    <Paper sx={{p: 1, marginBottom:10}}>
                         <FormGroup sx={{ marginLeft:'5%', marginRight:'5%' , marginTop:5}}>
                             <Field
                                 name={"team"}
@@ -135,8 +135,9 @@ const PitForm = () => {
                             />
 
                             {/*--------General Robot Info---------*/}
+                            <Divider>
                             <Typography variant={"h6"} sx={{ marginTop: 5 }}>General Robot Info</Typography>
-
+                            </Divider>
 
 
                             <Field
@@ -222,15 +223,14 @@ const PitForm = () => {
 
 
                             {/*---------Shooter----------*/}
-                            <div>
-                                <hr style={{ width: 'auto', height: 1, borderWidth: 5 }} color="grey"/>
-                            </div>
 
 
 
 
 
+                        <Divider>
                             <Typography variant={"h6"} sx={{ marginTop: 5 }}>Cargo Manipulation and Shooting</Typography>
+                        </Divider>
                             <Field
                                 component={TextField}
                                 name="cargoHold"
@@ -262,12 +262,11 @@ const PitForm = () => {
                             </Field>
                             {/*-------Auto------*/}
 
-                            <div>
-                                <hr style={{ width: 'auto', height: 1, borderWidth: 5 }} color="grey"/>
-                            </div>
 
 
+                        <Divider>
                             <Typography variant={"h6"} sx={{ marginTop: 5 }}>Auto</Typography>
+                        </Divider>
                             <FieldArray name={"autoRoutines"} render={
                                 arrayHelpers => (
                                     <div>
@@ -314,12 +313,11 @@ const PitForm = () => {
 
                             {/*------Climb---------*/}
 
-                            <div>
-                                <hr style={{ width: 'auto', height: 1, borderWidth: 5 }} color="grey"/>
-                            </div>
 
 
+                        <Divider>
                             <Typography variant={"h6"} sx={{ marginTop: 5 }}>Climb</Typography>
+                        </Divider>
                             <Field
                                 component={TextField}
                                 type="text"
@@ -353,14 +351,12 @@ const PitForm = () => {
 
                             {/*------Extra------*/}
 
-                            <div>
-                                <hr style={{ width: 'auto', height: 1, borderWidth: 5 }} color="grey"/>
-                            </div>
 
 
 
+                        <Divider>
                             <Typography variant={"h6"} sx={{ marginTop: 5 }}>Misc</Typography>
-
+                        </Divider>
 
 
 

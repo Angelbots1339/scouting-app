@@ -17,7 +17,7 @@ import {
     Rating,
     DialogActions,
     DialogContent,
-    DialogTitle, DialogContentText, Dialog
+    DialogTitle, DialogContentText, Dialog, Divider
 } from "@mui/material";
 import React from "react";
 import AddIcon from '@mui/icons-material/Add';
@@ -169,7 +169,7 @@ const GameForm = () => {
 
     //-----JSX-----
     return (
-        <Paper>
+        <Paper sx={{marginBottom:10}}>
             <div>
                 <Paper sx={{p: 1}}>
                     <form>
@@ -204,10 +204,9 @@ const GameForm = () => {
                                     />
                                 </Grid>
 
-                                <div>
-                                    <hr style={{width: 'auto', height: 1, borderWidth: 5}} color="grey"/>
-                                </div>
+                            <Divider>
                                 <Typography variant={"h6"} sx={{marginTop: 5}}> Auto</Typography>
+                            </Divider>
 
                                 <FormGroup>
                                     <TextField name={`cargoLow`} type="number"
@@ -234,10 +233,10 @@ const GameForm = () => {
 
                                 </FormGroup>
 
+                                <Divider>
+                                    <Typography variant={"h6"} sx={{marginTop: 5}}> Scoring</Typography>
+                                </Divider>
 
-                                <div>
-                                    <hr style={{width: 'auto', height: 1, borderWidth: 5}} color="grey"/>
-                                </div>
 
 
                             </div>
@@ -252,9 +251,9 @@ const GameForm = () => {
                                           setScore={setCargoScoredLow}/>
                         </Grid>
                         <FormGroup sx={{marginTop: 5, marginLeft: '5%', marginRight: '5%'}}>
-                            <div>
-                                <hr style={{width: 'auto', height: 1, borderWidth: 5}} color="grey"/>
-                            </div>
+
+                        <Divider>
+                     
                                     <FormControlLabel
                                         control={
                                             <Rating
@@ -265,6 +264,9 @@ const GameForm = () => {
                                                 }}/>}
                                         label={"Intake Rating"}/>
                             <Typography variant={"h6"} sx={{marginTop: 5}}>Defence</Typography>
+                        </Divider>
+
+
                             <FormControlLabel
                                 control={<Checkbox checked={playedDefence}
                                                    onChange={e => setPlayedDefence(e.target.checked)}/>}
@@ -294,10 +296,9 @@ const GameForm = () => {
                                 </FormGroup>}
 
 
-                            <div>
-                                <hr style={{width: 'auto', height: 1, borderWidth: 5}} color="grey"/>
-                            </div>
+                        <Divider>
                             <Typography variant={"h6"} sx={{marginTop: 5}}> Climb</Typography>
+                        </Divider>
 
                             <FormControl variant={"standard"} sx={{marginTop: 1}}>
                                 <Select
@@ -320,10 +321,9 @@ const GameForm = () => {
                             </FormControl>
 
 
-                            <div>
-                                <hr style={{width: 'auto', height: 1, borderWidth: 5}} color="grey"/>
-                            </div>
+                        <Divider>
                             <Typography variant={"h6"} sx={{marginTop: 5}}> Extra</Typography>
+                        </Divider>
 
                             <TextField
                                 name="notes"
