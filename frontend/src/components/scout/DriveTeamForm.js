@@ -1,6 +1,6 @@
 import {
     Autocomplete,
-    Button, FormGroup, Paper, TextField
+    Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormGroup, Paper, TextField
 } from "@mui/material";
 import React, {useEffect, useState} from "react";
 import TeamDataService from "../../services/team";
@@ -26,6 +26,8 @@ const PitForm = () => {
         setTeam1Notes("");
         setTeam2Notes("");
         setTeam2(0);
+        setConfirmOpen(false);
+
     }
 
     const [allTeams, setAllTeams] = useState([]);
@@ -40,6 +42,8 @@ const PitForm = () => {
     useEffect(() => {
         updateTeams();
     }, [])
+    const [confirmOpen, setConfirmOpen] = React.useState(false);
+
 
     return (<form>
             <Paper sx={{}}>
@@ -83,7 +87,24 @@ const PitForm = () => {
                                maxRows={4} value={team2Notes} onChange={(e) => setTeam2Notes(e.target.value)}
                                label={"alliance 2 Notes"}/>
                 </FormGroup>
-                <Button color="primary" variant="contained" sx={{m: 5, cursor:'pointer'}} onClick={handelSubmit} >Submit</Button>
+
+                <Button variant={"contained"} color="primary" onClick={() => setConfirmOpen(true)} sx={{m: 5}}>Submit</Button>
+                <Dialog
+                    open={confirmOpen}
+                    keepMounted
+                    aria-describedby="alert-dialog-slide-description"
+                >
+                    <DialogTitle>{"Are you sure you want to submit the form?"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-slide-description">
+                            Make sure you filled out all the fields correctly. Thank You!
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button variant={"contained"} onClick={() => {setConfirmOpen(false)}}>Cancel</Button>
+                        <Button variant={"contained"} onClick={handelSubmit}>Submit</Button>
+                    </DialogActions>
+                </Dialog>
             </Paper>
         </form>
 

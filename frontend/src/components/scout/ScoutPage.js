@@ -41,7 +41,9 @@ export default function ScoutPage() {
 
     });
 
-    return (
+
+
+       return (
 
         <div>
             <div style={{width: "auto", alignItems: "center"}}>
