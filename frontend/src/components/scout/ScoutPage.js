@@ -40,7 +40,7 @@ export default function ScoutPage() {
     //
     // });
 
-    return (
+
 
        return (
 
