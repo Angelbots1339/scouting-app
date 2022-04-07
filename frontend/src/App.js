@@ -15,7 +15,7 @@ function App() {
                     <AppBar  style={{display: "flex", alignItems:"center", width:"100"}}>
 
                         <ButtonGroup variant={"contained"} sx={{ m: 2 }}>
-                            <Button component={Link} to={'/scout/gameForm'}>Scout</Button>
+                            <Button component={Link} to={'/scout/gameform'}>Scout</Button>
                             <Button component={Link} to={'/superScout/teamGrid'}>SuperScout</Button>
                         </ButtonGroup>
                     </AppBar>

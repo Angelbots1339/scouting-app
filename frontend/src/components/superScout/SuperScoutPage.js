@@ -65,7 +65,9 @@ export default function SuperScoutPage() {
 
                         <ListItem sx={{backgroundColor: currentPage === "/superScout/teamGrid" ? 'darkRed' : ''}}>
                             <BlurOnIcon/>
-                            <ListItemButton sx={{cursor: 'pointer'}} component={Link} to={'/superScout/teamGrid'}>Team Grid</ListItemButton>
+                            <ListItemButton sx={{cursor: 'pointer'}} component={Link} to={'/superScout/teamGrid'}>
+                                <Typography variant={"h5"} sx={{m: 1}}>Team Grid</Typography>
+                            </ListItemButton>
                         </ListItem>
 
                     </List>

@@ -16,7 +16,7 @@ export default function ScoutPage() {
 
 
     const [drawerState, setDrawerState] = useState(false);
-    const [currentPage, setCurrentPage] = useState("/scout/gameForm");
+    const [currentPage, setCurrentPage] = useState("/scout/gameform");
 
 
     // This code can be used for variable size on mobile vs desktop
@@ -66,7 +66,7 @@ export default function ScoutPage() {
                                 <Typography variant={"h4"} sx={{m: 1}}>Home</Typography>
                             </ListItemButton>
                         </ListItem>
-                        <ListItem sx={{backgroundColor: currentPage === "/scout/gameForm" ? 'darkRed' : ''}}>
+                        <ListItem sx={{backgroundColor: currentPage === "/scout/gameform" ? 'darkRed' : ''}}>
                             <SmartToyIcon/>
                             <ListItemButton sx={{cursor: 'pointer'}} component={Link} to={'/scout/gameform'}>
                                 <Typography variant={"h5"} sx={{m: 1}}>Game Scout</Typography>
@@ -75,7 +75,7 @@ export default function ScoutPage() {
                         <ListItem sx={{backgroundColor: currentPage === "/scout/driveteamform" ? 'darkRed' : ''}}>
                             <DriveEtaIcon/>
                             <ListItemButton sx={{cursor: 'pointer'}} component={Link} to={'/scout/driveteamform'}>
-                                <Typography variant={"h5"} sx={{m: 1}}>Team Form</Typography>
+                                <Typography variant={"h5"} sx={{m: 1}}>Drive Team Form</Typography>
                             </ListItemButton>
                         </ListItem>
                         <ListItem sx={{backgroundColor: currentPage === "/scout/pitform" ? 'darkRed' : ''}}>
