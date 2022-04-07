@@ -141,16 +141,6 @@ function TeamPage() {
                     </Grid>
 
 
-                    {
-                        autoRoutines.map((number) =>
-
-                            <Grid item xs={4} sx={{ mx: "auto", textAlign: "center" }}>
-                                <Item sx={{ height: 300 }}>
-                                    {number}
-                                </Item>
-                            </Grid>
-                        ) || "Loading..."
-                    }
 
                     {
                         autoRoutines.map((number) =>

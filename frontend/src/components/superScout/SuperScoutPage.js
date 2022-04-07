@@ -40,7 +40,10 @@ export default function SuperScoutPage() {
 
 
                     <Button size={"small"} variant={"contained"} sx={{cursor: 'pointer', width: 10, m: 2}}
-                            onClick={() => setDrawerState(!drawerState)}>
+                            onClick={() => {
+                                setDrawerState(!drawerState);
+                                setCurrentPage(window.location.pathname);
+                            }}>
                         <DensitySmallIcon/>
                     </Button>
 
