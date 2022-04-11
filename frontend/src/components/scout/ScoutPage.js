@@ -1,12 +1,6 @@
 import {Outlet, Link} from "react-router-dom";
 import {
-    Button,
-    AppBar,
-    Drawer,
-    List,
-    ListItem,
-    Typography,
-    ListItemButton
+    Button, AppBar, Drawer, List, ListItem, Typography, ListItemButton
 } from "@mui/material";
 import * as React from 'react';
 import {useEffect, useState} from "react";
@@ -42,8 +36,7 @@ export default function ScoutPage() {
     }, []);
 
 
-
-       return (
+    return (
 
         <div>
             <div style={{width: "auto", alignItems: "center"}}>
@@ -51,7 +44,10 @@ export default function ScoutPage() {
 
 
                     <Button size={"small"} variant={"contained"} sx={{cursor: 'pointer', width: 10, m: 2}}
-                            onClick={() => setDrawerState(!drawerState)}>
+                            onClick={() => {
+                                setDrawerState(!drawerState);
+                                setCurrentPage(window.location.pathname);
+                            }}>
                         <DensitySmallIcon/>
                     </Button>
 
@@ -72,32 +68,33 @@ export default function ScoutPage() {
                         </ListItem>
                         <ListItem sx={{backgroundColor: currentPage === "/scout/gameform" ? 'darkRed' : ''}}>
                             <SmartToyIcon/>
-                            <ListItemButton sx={{cursor: 'pointer'}} component={Link}
-                                            to={'/scout/gameform'}>Game Scout</ListItemButton>
+                            <ListItemButton sx={{cursor: 'pointer'}} component={Link} to={'/scout/gameform'}>
+                                <Typography variant={"h5"} sx={{m: 1}}>Game Scout</Typography>
+                            </ListItemButton>
                         </ListItem>
                         <ListItem sx={{backgroundColor: currentPage === "/scout/driveteamform" ? 'darkRed' : ''}}>
                             <DriveEtaIcon/>
-                            <ListItemButton sx={{cursor: 'pointer'}} component={Link} to={'/scout/driveteamform'} >Drive
-                                Team
-                                Form</ListItemButton>
+                            <ListItemButton sx={{cursor: 'pointer'}} component={Link} to={'/scout/driveteamform'}>
+                                <Typography variant={"h5"} sx={{m: 1}}>Drive Team Form</Typography>
+                            </ListItemButton>
                         </ListItem>
                         <ListItem sx={{backgroundColor: currentPage === "/scout/pitform" ? 'darkRed' : ''}}>
                             <LocalHospitalIcon/>
-                            <ListItemButton sx={{cursor: 'pointer'}} component={Link} to={'/scout/pitform'} >Pit
-                                Scout</ListItemButton>
+                            <ListItemButton sx={{cursor: 'pointer'}} component={Link} to={'/scout/pitform'}>
+                                <Typography variant={"h5"} sx={{m: 1}}>Pit Scout</Typography>
+                            </ListItemButton>
                         </ListItem>
                         <ListItem sx={{backgroundColor: currentPage === "/scout/qualitycheckform" ? 'darkRed' : ''}}>
                             <BuildIcon/>
-                            <ListItemButton sx={{cursor: 'pointer'}} component={Link} to={'/scout/qualitycheckform'}>Quality
-                                Check
-                                Form</ListItemButton>
+                            <ListItemButton sx={{cursor: 'pointer'}} component={Link} to={'/scout/qualitycheckform'}>
+                                <Typography variant={"h5"} sx={{m: 1}}>Quality Check Form</Typography>
+                            </ListItemButton>
                         </ListItem>
 
                     </List>
                 </Drawer>
             </div>
             <Outlet/>
-        </div>
-    );
+        </div>);
 
 }
