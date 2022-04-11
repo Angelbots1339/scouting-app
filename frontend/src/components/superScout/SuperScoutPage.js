@@ -28,7 +28,7 @@ export default function SuperScoutPage() {
         // }
         setCurrentPage(window.location.pathname);
 
-    });
+    }, []);
 
 
     return (

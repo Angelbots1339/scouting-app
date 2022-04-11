@@ -33,7 +33,7 @@ export default function ScoutPage() {
         // }
         setCurrentPage(window.location.pathname);
 
-    });
+    }, []);
 
 
     return (
