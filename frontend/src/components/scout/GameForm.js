@@ -47,6 +47,8 @@ const GameForm = () => {
     const [teamNumber, setTeamNumber] = useState(0);
     const [matchNumber, setMatchNumber] = useState(0);
     const [matchCode, setMatchCode] = useState("qm");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
 
 
     // ---------Timer-----------
@@ -99,6 +101,7 @@ const GameForm = () => {
         const values =
             {
                 _id: `${matchCode}${matchNumber}`,
+                scoutName: `${firstName} ${lastName}`,
                 cargoShotLow,
                 cargoShotHigh,
                 cargoScoredLow,
@@ -175,6 +178,22 @@ const GameForm = () => {
                     <form>
                         <FormGroup sx={{marginTop: 5, marginLeft: '5%', marginRight: '5%'}}>
                             <div>
+                                <Grid>
+
+                                    <TextField name={`firstName`}
+                                               label="First Name"
+                                               margin={"normal"}
+                                               value={firstName}
+                                               onChange={e => setFirstName(e.target.value)}
+                                    />
+
+                                    <TextField name={`lastName`}
+                                               label="Last Name"
+                                               margin={"normal"}
+                                               value={lastName}
+                                               onChange={e => setLastName(e.target.value)}
+                                    />
+                                </Grid>
 
                                 <Autocomplete
                                     disablePortal

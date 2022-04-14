@@ -171,18 +171,18 @@ const flattenTeams = (teams) => {
 
 
 
-// router.route("/delete/all/match").delete((req, res, next) => {
-//     Competition.find()
-//         .then((teams) => {
-//             res.send(teams)
-//             for (let i = 0; i < teams.length; i++) {
-//                 teams[i].games = [];
-//                 teams[i].save();
-//             }
-//
-//         })
-//         .catch(next)
-// })
+router.route("/event/:event/delete/all/matches").delete((req, res, next) => {
+    Event.findById(req.params.event)
+        .then((event) => {
+            for (let i = 0; i < event.teams.length; i++) {
+                event.teams[i].games = [];
+                event.teams[i].save();
+            }
+            res.send(event.teams)
+            event.save();
+        })
+        .catch(next)
+})
 
 
 router.route("/events").get((req, res, next) => {
@@ -283,11 +283,14 @@ router.route("/event/:event/team/:team/note").post(((req, res, next) => {
         res.send(event.teams.id(req.params.team))
     }).catch(next)
 }))
-router.route("/event/:event/team/:team/drive").post(((req, res, next) => {
+router.route("/event/:event/team").post(((req, res, next) => {
     Event.findById({_id: req.params.event}).then((event) => {
-        event.teams.id(req.params.team).driverQuality.push(req.body.driverQuality)
+        for (let key of Object.keys(req.body))
+        {
+            event.teams.id(key).driverQuality.push(req.body[key])
+        }
         event.save()
-        res.send(event.teams.id(req.params.team))
+        res.send(event)
     }).catch(next)
 }))
 

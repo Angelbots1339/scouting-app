@@ -14,9 +14,15 @@ const DriveQualityForm = () => {
     const [teamRatings, setTeamRatings] = useState([0,0,0,0,0,0])
 
     const handelSubmit = () => {
+        const driverQuality = {};
         for (let i = 0; i < teams.length; i++) {
-            TeamDataService.addDriveQuality(teams[i], teamRatings[i])
+            if(teams[i] !== 0){
+
+            driverQuality[teams[i]] = teamRatings[i];
+            }
         }
+
+        TeamDataService.addDriveQuality(teamRatings)
         setTeams([0,0,0,0,0,0])
         setTeamRatings([0,0,0,0,0,0])
         setConfirmOpen(false);
