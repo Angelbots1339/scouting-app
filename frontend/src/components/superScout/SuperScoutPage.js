@@ -17,15 +17,13 @@ export default function SuperScoutPage() {
     // This code can be used for variable size on mobile vs desktop
 
 
-    const hasWindow = typeof window !== 'undefined';
     const [isScreenBig, setScreenBig] = useState(false);
 
 
     useEffect(() => {
 
-        if (hasWindow) {
             setScreenBig(window.innerWidth > 800);
-        }
+
         setCurrentPage(window.location.pathname);
 
     }, []);

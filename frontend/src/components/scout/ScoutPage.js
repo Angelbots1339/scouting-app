@@ -22,15 +22,13 @@ export default function ScoutPage() {
     // This code can be used for variable size on mobile vs desktop
     //
     //
-    const hasWindow = typeof window !== 'undefined';
     const [isScreenBig, setScreenBig] = useState(false);
 
 
     useEffect(() => {
 
-        if (hasWindow) {
-            setScreenBig(window.innerWidth > 800);
-        }
+
+        setScreenBig(window.innerWidth > 800);
         setCurrentPage(window.location.pathname);
 
     }, []);
@@ -46,7 +44,7 @@ export default function ScoutPage() {
 
 
                     {isScreenBig &&
-                        <ButtonGroup sx={{alignSelf:'center', m:2}}>
+                        <ButtonGroup sx={{alignSelf: 'center', m: 2}}>
                             <Button sx={{cursor: 'pointer'}} variant="contained" component={Link} to={'/'}>
                                 <HomeIcon fontSize='large'/>
                                 <Typography variant={"h6"} sx={{m: 1}}>Home</Typography>
