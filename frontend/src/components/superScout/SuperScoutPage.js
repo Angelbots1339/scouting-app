@@ -6,6 +6,7 @@ import BlurOnIcon from '@mui/icons-material/BlurOn';
 import * as React from "react";
 import {useEffect, useState} from "react";
 import HomeIcon from "@mui/icons-material/Home";
+import {BarChart} from "@mui/icons-material";
 
 
 export default function SuperScoutPage() {
@@ -63,6 +64,11 @@ export default function SuperScoutPage() {
                         <ListItem sx={{backgroundColor: currentPage === "/superScout/teamGrid" ? 'darkRed' : ''}}>
                             <BlurOnIcon/>
                             <ListItemButton sx={{cursor: 'pointer'}} component={Link} to={'/superScout/teamGrid'}>Team Grid</ListItemButton>
+                        </ListItem>
+
+                        <ListItem sx={{backgroundColor: currentPage === "/superScout/comData" ? 'darkRed' : ''}}>
+                            <BarChart/>
+                            <ListItemButton sx={{cursor: 'pointer'}} component={Link} to={'/superScout/compData'}>Data Analysis</ListItemButton>
                         </ListItem>
 
                     </List>

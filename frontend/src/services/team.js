@@ -3,6 +3,9 @@ class TeamDataService {
     getAllTeams(){
         return http.get('/teams');
     }
+    getAllTeamsData(){
+        return http.get('/stats');
+    }
     getAllTeamsFlattenedData(){
         return http.get('/stats');
     }

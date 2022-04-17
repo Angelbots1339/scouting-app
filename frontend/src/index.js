@@ -16,6 +16,7 @@ import DriveTeamForm from "./components/scout/DriveTeamForm";
 import DataTable from "./components/superScout/DataTable";
 import QualityCheckForm from "./components/scout/QualityCheckForm";
 import DriveQualityForm from "./components/scout/DriveQualityForm";
+import CompData from "./components/superScout/CompData";
 
 
 
@@ -36,6 +37,7 @@ ReactDOM.render(
             <Route path="superscout" element={<SuperScoutPage />}>
                 <Route path={":teamNumber"} element={<TeamPage/>}/>
                 <Route path={"teamGrid"} element={<TeamGrid/>}/>
+                <Route path={"compdata"} element={<CompData/>}/>
             </Route>
         </Routes>
     </BrowserRouter>
