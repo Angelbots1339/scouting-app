@@ -152,6 +152,7 @@ const structTeam = (team) => {
         brokeNotes: team.games.map(game => game.brokeNotes),
         driverQuality: team.driverQuality,
         gameNotes: team.games.map((game) => game.notes),
+        scouters: team.games.map((game) => game.scoutName),
         driveTeamNotes: team.driveTeamNotes,
         possibleAutoRoutes: autoRoutes,
         qualityCheck,
