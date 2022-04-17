@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import TeamDataService from "../../services/team";
 import {Bar} from '@nivo/bar'
 import {ScatterPlot} from "@nivo/scatterplot";
@@ -96,7 +96,7 @@ const CompData = () => {
 
 
 
-    const updateData = () => {
+    const updateData = useCallback(() => {
         TeamDataService.getAllTeamsData().then((res) => {
 
             res.data.sort((a, b) => a.avgContributedScore - b.avgContributedScore);
@@ -111,8 +111,8 @@ const CompData = () => {
 
 
         })
-    }
-    const updateScatterPlot = (data) => {
+    })
+    const updateScatterPlot = useCallback((data) => {
         let zValues = data.map(team => team[scatterZ]).filter(x => !isNaN(x) && x !== null);
 
         let min = Math.min(...zValues);
@@ -123,9 +123,9 @@ const CompData = () => {
         setScatterPlotData([{id: "Teams", data: data.map(x => ({x: x[scatterX], y: x[scatterY], z: (x[scatterZ] - min)/max}))}])
        // console.log(scatterPlotData[0].data.map(x => x.z))
 
-    }
+    }, [data])
 
-    const updateRadarPlot = (data) => {
+    const updateRadarPlot = useCallback((data) => {
         let tempData = JSON.parse(JSON.stringify(data));
         let newRadarData = [];
 
@@ -143,16 +143,18 @@ const CompData = () => {
             newRadarData.push(dataRank)
         }
         setRadarData(newRadarData)
-
-
-
-    }
+    }, [data])
+    const updateTeams = useCallback(() => {
+        TeamDataService.getAllTeams().then(res => res.data.map(team => team._id.toString())).then(res => {
+            setAllTeams(res)
+        }).catch(e => console.log(e));
+    })
 
 
     useEffect(() => {
         updateData();
         updateTeams()
-    }, [])
+    }, [updateData, updateTeams])
 
     useEffect(() => {
         updateScatterPlot(data)
@@ -165,11 +167,6 @@ const CompData = () => {
     }, [radarTeams, radarTerms, data])
 
 
-    const updateTeams = () => {
-        TeamDataService.getAllTeams().then(res => res.data.map(team => team._id.toString())).then(res => {
-            setAllTeams(res)
-        }).catch(e => console.log(e));
-    }
 
 
 
