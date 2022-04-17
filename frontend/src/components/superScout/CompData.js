@@ -151,13 +151,18 @@ const CompData = () => {
 
     useEffect(() => {
         updateData();
-    }, [updateData])
+        updateTeams()
+    }, [])
 
     useEffect(() => {
         updateScatterPlot(data)
     }, [scatterX, scatterY, scatterZ, data])
 
     const [allTeams, setAllTeams] = useState([]);
+
+    useEffect(() => {
+        updateRadarPlot(data)
+    }, [radarTeams, radarTerms, data])
 
 
     const updateTeams = () => {
@@ -166,13 +171,7 @@ const CompData = () => {
         }).catch(e => console.log(e));
     }
 
-    useEffect(() => {
-        updateTeams();
-    }, [])
 
-    useEffect(() => {
-        updateRadarPlot(data)
-    }, [radarTeams, radarTerms, data])
 
     return (
         <div>
