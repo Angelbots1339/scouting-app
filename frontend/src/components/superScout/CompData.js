@@ -10,7 +10,8 @@ import {
     MenuItem,
     Select,
     TextField,
-    Typography
+    Typography,
+    Paper
 } from "@mui/material";
 
 
@@ -94,16 +95,6 @@ const CompData = () => {
     ];
 
 
-
-
-
-
-
-
-
-
-
-
     useEffect(() => {
 
 
@@ -164,151 +155,182 @@ const CompData = () => {
     }, [radarTeams, radarTerms, data])
 
 
-
-
-
     return (
-        <div>
-            <Divider>
-                <Typography variant={"h6"} sx={{marginTop: 5}}> Bar</Typography>
-            </Divider>
-            <Bar
-                width={1000}
-                height={400}
-                margin={{top: 60, right: 190, bottom: 60, left: 100}}
-                data={data}
-                keys={["avgClimbScore", "avgAutoScore", "avgContributedCargoScore"]}
-                indexBy="teamNumber"
-                labelTextColor="inherit:darker(2.4)"
-                labelSkipWidth={12}
-                labelSkipHeight={12}
-                enableGridX={false}
-                axisBottom={axisBottom}
-                axisLeft={axisLeft}
-                theme={theme}
-                valueFormat={">(.0~d"}
-                legends={legends}
-                tooltip={function (props) {
-                    let team = data.find(team => team.teamNumber === props.indexValue);
-                    return (
-                        <div
-                            style={{
-                                padding: 12,
-                                background: '#222222',
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>
+            <Paper sx={{marginLeft: '5%', marginRight: '5%', marginTop: 5}}>
+                <div style={{
+                    marginLeft: '10%',
+                    marginRight: '10%',
+                    width: 'auto',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}>
+
+                    <Divider>
+
+                        <Typography variant={"h6"} sx={{marginTop: 5}}> Bar</Typography>
+                    </Divider>
+
+                    <Bar
+                        width={1000}
+                        height={400}
+                        margin={{top: 60, right: 190, bottom: 60, left: 100}}
+                        data={data}
+                        keys={["avgClimbScore", "avgAutoScore", "avgContributedCargoScore"]}
+                        indexBy="teamNumber"
+                        labelTextColor="inherit:darker(2.4)"
+                        labelSkipWidth={12}
+                        labelSkipHeight={12}
+                        enableGridX={false}
+                        axisBottom={axisBottom}
+                        axisLeft={axisLeft}
+                        theme={theme}
+                        valueFormat={">(.0~d"}
+                        legends={legends}
+                        tooltip={function (props) {
+                            let team = data.find(team => team.teamNumber === props.indexValue);
+                            return (
+                                <div
+                                    style={{
+                                        padding: 12,
+                                        background: '#222222',
+                                    }}
+                                >
+                                    <span>{props.indexValue}</span>
+                                    <br/>
+                                    <strong>
+                                        Contributed Score : {team.avgContributedScore.toFixed(2)}
+                                    </strong>
+                                    <br/>
+                                    <strong>
+                                        Auto Score : {team.avgAutoScore.toFixed(2)}
+                                    </strong>
+                                    <br/>
+                                    <strong>
+                                        Cargo Score : {team.avgContributedCargoScore.toFixed(2)}
+                                    </strong>
+                                    <br/>
+                                    <strong>
+                                        Climb Score : {team.avgClimbScore.toFixed(2)}
+                                    </strong>
+                                </div>
+                            )
+                        }}
+                    />
+                </div>
+
+            </Paper>
+            <Paper sx={{marginLeft: '5%', marginRight: '5%', marginTop: '5%', width: 'auto'}}
+                   style={{justifyContent: 'center', alignItems: 'center'}}>
+                <Divider>
+                    <Typography variant={"h6"} sx={{marginTop: 5}}> Scatter</Typography>
+                </Divider>
+                <div style={{
+                    marginLeft: '10%',
+                    marginRight: '10%',
+                    width: 'auto',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}>
+                    <ScatterPlot
+
+
+                        margin={{top: 60, right: 190, bottom: 60, left: 100}}
+                        data={scatterPlotData}
+                        width={1000}
+                        height={400}
+                        tooltip={({node}) => (
+                            <div
+                                style={{
+                                    color: node.color,
+                                    background: '#333',
+                                    padding: '12px 16px',
+                                }}
+                            >
+                                <strong>
+                                    {data[node.index].teamNumber}
+                                </strong>
+                                <br/>
+                                {`${scatterX}: ${node.formattedX}`}
+                                <br/>
+                                {`${scatterY}: ${node.formattedY}`}
+                                <br/>
+                                {`${scatterZ}: ${data[node.index][scatterZ]}`}
+                            </div>)}
+
+                        theme={theme}
+                        nodeSize={{key: 'data.z', values: [0, 1], sizes: [9, 32]}}
+                        axisBottom={{
+                            orient: 'bottom',
+                            tickSize: 5,
+                            tickPadding: 5,
+                            tickRotation: 0,
+                            legend: scatterX,
+                            legendPosition: 'middle',
+                            legendOffset: 46
+                        }}
+                        axisLeft={{
+                            orient: 'left',
+                            tickSize: 5,
+                            tickPadding: 5,
+                            tickRotation: 0,
+                            legend: scatterY,
+                            legendPosition: 'middle',
+                            legendOffset: -60
+                        }}
+                    />
+
+
+                    <FormControl sx={{marginBottom: 5}}>
+                        <InputLabel id="x-select-label">X</InputLabel>
+                        <Select
+                            id="Climb"
+                            labelId="x-select-label"
+                            value={scatterX}
+                            d="x-select" label={"X"}
+                            onChange={e => {
+                                setScatterX(e.target.value);
                             }}
                         >
-                            <span>{props.indexValue}</span>
-                            <br/>
-                            <strong>
-                                Contributed Score : {team.avgContributedScore.toFixed(2)}
-                            </strong>
-                            <br/>
-                            <strong>
-                                Auto Score : {team.avgAutoScore.toFixed(2)}
-                            </strong>
-                            <br/>
-                            <strong>
-                                Cargo Score : {team.avgContributedCargoScore.toFixed(2)}
-                            </strong>
-                            <br/>
-                            <strong>
-                                Climb Score : {team.avgClimbScore.toFixed(2)}
-                            </strong>
-                        </div>
-                    )
-                }}
-            />
-            <Divider>
-                <Typography variant={"h6"} sx={{marginTop: 5}}> Scatter</Typography>
-            </Divider>
-            <ScatterPlot
-                margin={{top: 60, right: 190, bottom: 60, left: 100}}
-                data={scatterPlotData}
-                width={1000}
-                height={400}
-                tooltip={({node}) => (
-                    <div
-                        style={{
-                            color: node.color,
-                            background: '#333',
-                            padding: '12px 16px',
-                        }}
-                    >
-                        <strong>
-                            {data[node.index].teamNumber}
-                        </strong>
-                        <br/>
-                        {`${scatterX}: ${node.formattedX}`}
-                        <br/>
-                        {`${scatterY}: ${node.formattedY}`}
-                        <br/>
-                        {`${scatterZ}: ${data[node.index][scatterZ]}`}
-                    </div>)}
+                            {possibleAxis.map((axis, index) => (<MenuItem key={index} value={axis}>{axis}</MenuItem>))}
+                        </Select>
+                    </FormControl>
 
-                theme={theme}
-                nodeSize={{ key: 'data.z', values: [0, 1], sizes: [9, 32] }}
-                axisBottom={{
-                    orient: 'bottom',
-                    tickSize: 5,
-                    tickPadding: 5,
-                    tickRotation: 0,
-                    legend: scatterX,
-                    legendPosition: 'middle',
-                    legendOffset: 46
-                }}
-                axisLeft={{
-                    orient: 'left',
-                    tickSize: 5,
-                    tickPadding: 5,
-                    tickRotation: 0,
-                    legend: scatterY,
-                    legendPosition: 'middle',
-                    legendOffset: -60
-                }}
-            />
+                    <FormControl>
+                        <InputLabel id="y-select-label">Y</InputLabel>
+                        <Select labelId="y-select-label" id="y-select" label={"Y"} margin={"dense"} value={scatterY}
+                                onChange={e => {
+                                    setScatterY(e.target.value);
+                                }}>
+                            {possibleAxis.map((axis, index) => (<MenuItem key={index} value={axis}>{axis}</MenuItem>))}
+                        </Select>
+                    </FormControl>
+                    <FormControl>
+                        <InputLabel id="z-select-label">Z</InputLabel>
+                        <Select
+                            id="Climb"
+                            labelId="z-select-label"
+                            value={scatterZ}
+                            d="z-select" label={"Z"}
+                            onChange={e => {
+                                setScatterZ(e.target.value);
+                            }}
+                        >
+                            <MenuItem key={"def"} value="">""</MenuItem>
+                            {possibleAxis.map((axis, index) => (<MenuItem key={index} value={axis}>{axis}</MenuItem>))}
+                        </Select>
+                    </FormControl>
+                </div>
 
-            <FormControl>
-            <InputLabel id="x-select-label">X</InputLabel>
-            <Select
-                id="Climb"
-                labelId="x-select-label"
-                value={scatterX}
-                d="x-select" label={"X"}
-                onChange={e => {
-                    setScatterX(e.target.value);
-                }}
-            >
-                {possibleAxis.map((axis, index) => (<MenuItem key={index} value={axis}>{axis}</MenuItem>))}
-            </Select>
-            </FormControl>
+            </Paper>
 
-            <FormControl>
-            <InputLabel id="y-select-label">Y</InputLabel>
-            <Select labelId="y-select-label" id="y-select" label={"Y"} margin={"dense"} value={scatterY} onChange={e => {
-                setScatterY(e.target.value);
-            }}>
-                {possibleAxis.map((axis, index) => (<MenuItem key={index} value={axis}>{axis}</MenuItem>))}
-            </Select>
-            </FormControl>
-            <FormControl>
-                <InputLabel id="z-select-label">Z</InputLabel>
-                <Select
-                    id="Climb"
-                    labelId="z-select-label"
-                    value={scatterZ}
-                    d="z-select" label={"Z"}
-                    onChange={e => {
-                        setScatterZ(e.target.value);
-                    }}
-                >
-                    <MenuItem key={"def"} value="">""</MenuItem>
-                    {possibleAxis.map((axis, index) => (<MenuItem key={index} value={axis}>{axis}</MenuItem>))}
-                </Select>
-            </FormControl>
+            <Paper sx={{marginLeft: '5%', marginRight: '5%', marginTop: '5%', marginBottom:10}}>
 
             <Divider>
                 <Typography variant={"h6"} sx={{marginTop: 5}}> Radar</Typography>
             </Divider>
+
+            <div style={{marginLeft:'10%', marginRight:'10%', width:'auto', justifyContent:'center', alignItems:'center'}}>
 
             <Autocomplete
                 multiple
@@ -363,10 +385,10 @@ const CompData = () => {
                                    <div style={{
                                        color: team.color
                                    }}>
-                                   <strong>
-                                       {team.id}: {data.find(x => x.teamNumber === parseInt(team.id))[props.index]}
-                                   </strong>
-                                   <br/>
+                                       <strong>
+                                           {team.id}: {data.find(x => x.teamNumber === parseInt(team.id))[props.index]}
+                                       </strong>
+                                       <br/>
                                    </div>
                                )}
 
@@ -396,7 +418,8 @@ const CompData = () => {
                        }
                    ]}
             />
-
+            </div>
+            </Paper>
 
 
         </div>)
