@@ -148,13 +148,14 @@ const CompData = () => {
             for (let term of radarTerms) {
                 // console.log(term)
 
-                tempData.sort((a, b) => a[term] - b[term]);
+                //tempData.sort((a, b) => a[term] - b[term]);
+                let max = Math.max(...tempData.map(x => x[term]))
                 // console.log(tempData)
                 // console.log(tempData.map(team => `${team.teamNumber}:${team[term]}`))
                 let dataRank = {rank: term}
                 for (let radarTeam of radarTeams) {
-                    //dataRank[radarTeam] = tempData.find(team => team.teamNumber === parseInt(radarTeam))[term]
-                    dataRank[radarTeam] = parseInt(tempData.indexOf(tempData.find(team => team.teamNumber === parseInt(radarTeam))) + 1);
+                    dataRank[radarTeam] = tempData.find(team => team.teamNumber === parseInt(radarTeam))[term]/max
+                    //dataRank[radarTeam] = parseInt(tempData.indexOf(tempData.find(team => team.teamNumber === parseInt(radarTeam))) + 1);
                 }
                 newRadarData.push(dataRank)
             }
