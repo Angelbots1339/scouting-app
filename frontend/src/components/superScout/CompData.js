@@ -96,77 +96,70 @@ const CompData = () => {
 
 
 
-    const updateData = () => {
-        TeamDataService.getAllTeamsData().then((res) => {
-
-            res.data.sort((a, b) => a.avgContributedScore - b.avgContributedScore);
 
 
-            setData(res.data)
-            updateScatterPlot(res.data)
-            updateRadarPlot(res.data)
 
 
-            setPossibleAxis(Object.keys(res.data[0]).filter((key) => !isNaN(res.data[0][key])));
 
 
-        })
-    }
-    const updateScatterPlot = (data) => {
-        let zValues = data.map(team => team[scatterZ]).filter(x => !isNaN(x) && x !== null);
-
-        let min = Math.min(...zValues);
-        let max = Math.max(...zValues) - min;
-        //console.log(max);
 
 
-        setScatterPlotData([{id: "Teams", data: data.map(x => ({x: x[scatterX], y: x[scatterY], z: (x[scatterZ] - min)/max}))}])
-       // console.log(scatterPlotData[0].data.map(x => x.z))
+    useEffect(() => {
 
-    }
 
-    const updateRadarPlot = (data) => {
-        let tempData = JSON.parse(JSON.stringify(data));
-        let newRadarData = [];
-
-        for (let term of radarTerms) {
-            // console.log(term)
-
-            tempData.sort((a, b) => a[term] - b[term]);
-            // console.log(tempData)
-            // console.log(tempData.map(team => `${team.teamNumber}:${team[term]}`))
-            let dataRank = {rank: term}
-            for (let radarTeam of radarTeams) {
-                //dataRank[radarTeam] = tempData.find(team => team.teamNumber === parseInt(radarTeam))[term]
-                dataRank[radarTeam] = parseInt(tempData.indexOf(tempData.find(team => team.teamNumber === parseInt(radarTeam))) + 1);
-            }
-            newRadarData.push(dataRank)
+        const updateTeams = () => {
+            TeamDataService.getAllTeams().then(res => res.data.map(team => team._id.toString())).then(res => {
+                setAllTeams(res)
+            }).catch(e => console.log(e));
         }
-        setRadarData(newRadarData)
-
-
-
-    }
-
-    const updateTeams = () => {
-        TeamDataService.getAllTeams().then(res => res.data.map(team => team._id.toString())).then(res => {
-            setAllTeams(res)
-        }).catch(e => console.log(e));
-    }
-
-
-    useEffect(() => {
+        const updateData = () => {
+            TeamDataService.getAllTeamsData().then((res) => {
+                res.data.sort((a, b) => a.avgContributedScore - b.avgContributedScore);
+                setData(res.data)
+                setPossibleAxis(Object.keys(res.data[0]).filter((key) => !isNaN(res.data[0][key])));
+            })
+        }
         updateData();
-        updateTeams()
-    }, [updateData, updateTeams])
+        updateTeams();
+    }, [])
 
     useEffect(() => {
+        const updateScatterPlot = (data) => {
+            let zValues = data.map(team => team[scatterZ]).filter(x => !isNaN(x) && x !== null);
+
+            let min = Math.min(...zValues);
+            let max = Math.max(...zValues) - min;
+            setScatterPlotData([{
+                id: "Teams", data: data.map(x => ({x: x[scatterX], y: x[scatterY], z: (x[scatterZ] - min) / max}))
+            }])
+            // console.log(scatterPlotData[0].data.map(x => x.z))
+        }
+
         updateScatterPlot(data)
     }, [scatterX, scatterY, scatterZ, data])
 
     const [allTeams, setAllTeams] = useState([]);
 
     useEffect(() => {
+        const updateRadarPlot = (data) => {
+            let tempData = JSON.parse(JSON.stringify(data));
+            let newRadarData = [];
+
+            for (let term of radarTerms) {
+                // console.log(term)
+
+                tempData.sort((a, b) => a[term] - b[term]);
+                // console.log(tempData)
+                // console.log(tempData.map(team => `${team.teamNumber}:${team[term]}`))
+                let dataRank = {rank: term}
+                for (let radarTeam of radarTeams) {
+                    //dataRank[radarTeam] = tempData.find(team => team.teamNumber === parseInt(radarTeam))[term]
+                    dataRank[radarTeam] = parseInt(tempData.indexOf(tempData.find(team => team.teamNumber === parseInt(radarTeam))) + 1);
+                }
+                newRadarData.push(dataRank)
+            }
+            setRadarData(newRadarData)
+        }
         updateRadarPlot(data)
     }, [radarTeams, radarTerms, data])
 
