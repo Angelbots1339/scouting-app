@@ -36,6 +36,24 @@ const removeNull = (nums) => {
     }
     return [];
 }
+const getStdDev = (nums) => {
+
+    let arr = removeNull(nums)
+    // Creating the mean with Array.reduce
+    let mean = getAvg(arr);
+
+    // Assigning (value - mean) ^ 2 to every array item
+    arr = arr.map((k)=>{
+        return (k - mean) ** 2
+    })
+
+    // Calculating the sum of updated array
+    let sum = arr.reduce((acc, curr)=> acc + curr, 0);
+
+
+    // Returning the Standered deviation
+    return Math.sqrt(sum / arr.length)
+}
 const flattenTeam = (team) => {
 
     let teamScout = {}
@@ -98,6 +116,10 @@ const flattenTeam = (team) => {
         gamesScouted: data.gameCodes.length,
         avgDriverQuality: getAvg(data.driverQuality),
         histDriverQuality: data.driverQuality.join(","),
+        stdDevContributedScore: getStdDev(data.contributedScore),
+        stdDevContributedCargoScore: getStdDev(data.contributedCargoScore),
+        stdDevClimbScore: getStdDev(data.climbs.map(climb => climbToScore(climb))),
+        stdDevAutoScore: getStdDev(team.games.map(game => game.auto.score)),
         ...qualityCheck,
         ...teamScout,
         gameNotes: data.gameNotes? data.gameNotes.join(", ") : data.gameNotes,
