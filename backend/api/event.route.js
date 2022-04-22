@@ -123,8 +123,8 @@ const flattenTeam = (team) => {
         stdDevContributedCargoScore: getStdDev(data.contributedCargoScore),
         stdDevClimbScore: getStdDev(data.climbs.map(climb => climbToScore(climb))),
         stdDevAutoScore: getStdDev(team.games.map(game => game.auto.score)),
-        firstPickScore: (getAvg(data.contributedCargoScore) + getAvg(team.games.map(game => game.auto.score))) + (getAvg(team.games.map(game => game.auto.score)) < 17.6? capAt(getAvg(team.games.map(game => game.auto.score)), 10): getAvg(team.games.map(game => game.auto.score))),
-        secondPickScore: (getAvg(data.contributedCargoScore) + getAvg(team.games.map(game => game.auto.score))) + ((getAvg(team.games.map(game => game.auto.score)) < 6) ? getAvg(team.games.map(game => game.auto.score)) : 6),
+        firstPickScore: (getAvg(data.contributedCargoScore) + getAvg(data.climbs.map(climb => climbToScore(climb)))) + (getAvg(team.games.map(game => game.auto.score)) < 17.6? capAt(getAvg(team.games.map(game => game.auto.score)), 10): getAvg(team.games.map(game => game.auto.score))),
+        secondPickScore: (getAvg(data.contributedCargoScore) + getAvg(data.climbs.map(climb => climbToScore(climb)))) + ((getAvg(team.games.map(game => game.auto.score)) < 6) ? getAvg(team.games.map(game => game.auto.score)) : 6),
 
         ...qualityCheck,
         ...teamScout,
