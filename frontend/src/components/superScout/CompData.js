@@ -177,7 +177,7 @@ const CompData = () => {
                         height={400}
                         margin={{top: 60, right: 190, bottom: 60, left: 100}}
                         data={data}
-                        keys={["avgClimbScore", "avgAutoScore", "avgContributedCargoScore"]}
+                        keys={["avgClimbScore", "avgContributedCargoScore"]}
                         indexBy="teamNumber"
                         labelTextColor="inherit:darker(2.4)"
                         labelSkipWidth={12}
@@ -260,7 +260,7 @@ const CompData = () => {
                             </div>)}
 
                         theme={theme}
-                        nodeSize={{key: 'data.z', values: [0, 1], sizes: [9, 32]}}
+                        // nodeSize={{key: 'data.z', values: [0, 1], sizes: [9, 32]}}
                         axisBottom={{
                             orient: 'bottom',
                             tickSize: 5,

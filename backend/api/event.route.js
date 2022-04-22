@@ -36,6 +36,9 @@ const removeNull = (nums) => {
     }
     return [];
 }
+const capAt = (num, max) =>{
+    return num < max? num : max
+}
 const getStdDev = (nums) => {
 
     let arr = removeNull(nums)
@@ -116,10 +119,13 @@ const flattenTeam = (team) => {
         gamesScouted: data.gameCodes.length,
         avgDriverQuality: getAvg(data.driverQuality),
         histDriverQuality: data.driverQuality.join(","),
-        stdDevContributedScore: getStdDev(data.contributedScore),
+        stdDevContributedScore: getStdDev(data.contributedScore ),
         stdDevContributedCargoScore: getStdDev(data.contributedCargoScore),
         stdDevClimbScore: getStdDev(data.climbs.map(climb => climbToScore(climb))),
         stdDevAutoScore: getStdDev(team.games.map(game => game.auto.score)),
+        firstPickScore: (getAvg(data.contributedCargoScore) + getAvg(team.games.map(game => game.auto.score))) + (getAvg(team.games.map(game => game.auto.score)) < 17.6? capAt(getAvg(team.games.map(game => game.auto.score)), 10): getAvg(team.games.map(game => game.auto.score))),
+        secondPickScore: (getAvg(data.contributedCargoScore) + getAvg(team.games.map(game => game.auto.score))) + ((getAvg(team.games.map(game => game.auto.score)) < 6) ? getAvg(team.games.map(game => game.auto.score)) : 6),
+
         ...qualityCheck,
         ...teamScout,
         gameNotes: data.gameNotes? data.gameNotes.join(", ") : data.gameNotes,
@@ -306,7 +312,7 @@ router.route("/event/:event/team/:team/note").post(((req, res, next) => {
         res.send(event.teams.id(req.params.team))
     }).catch(next)
 }))
-router.route("/event/:event/team").post(((req, res, next) => {
+router.route("/event/:event/drive").post(((req, res, next) => {
     Event.findById({_id: req.params.event}).then((event) => {
         for (let key of Object.keys(req.body))
         {
