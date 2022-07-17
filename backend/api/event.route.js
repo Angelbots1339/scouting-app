@@ -193,9 +193,34 @@ const flattenTeams = (teams) => {
     let data = [];
     for (let i = 0; i < teams.length; i++) {
         data.push(flattenTeam(teams[i]))
-
     }
     return data
+}
+const getBallsCounted = (data) => {
+    let highGoal = 0;
+    let lowGoal = 0;
+    let total = 0;
+    let time = 0;
+    let games = 0;
+    let totalPoints = 0;
+
+
+    for (let i = 0; i < data.length; i++) {
+        for (let j = 0; j < data[i]["teams"].length; j++) {
+            for (let k = 0; k < data[i]["teams"][j]["games"].length; k++) {
+                time+=2.5;
+                games++;
+                let game = data[i]["teams"][j]["games"][k];
+                totalPoints += game.score;
+                lowGoal+= game.cargoShotLow + game.auto.cargoLow ;
+                highGoal+= game.cargoShotHigh+ game.auto.cargoHigh;
+            }
+
+        }
+        total = highGoal +lowGoal;
+    }
+    return {total, highGoal, lowGoal, time, games, totalPoints};
+
 }
 
 
@@ -218,6 +243,13 @@ router.route("/events").get((req, res, next) => {
     Event.find()
         .then((events) => {
             res.send(events)
+        })
+        .catch(next)
+})
+router.route("/funStats").get((req, res, next) => {
+    Event.find()
+        .then((events) => {
+            res.send(getBallsCounted(events))
         })
         .catch(next)
 })
