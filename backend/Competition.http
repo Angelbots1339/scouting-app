@@ -1,0 +1,12 @@
+### Get event
+GET {{Remote}}/event/2022cokc
+
+### Add event
+POST {{Remote}}/event
+Content-Type: application/json
+
+{
+  "_id": "2022cokc"
+}
+
+
