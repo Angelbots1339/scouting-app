@@ -1,12 +1,20 @@
 ### Get event
 GET {{Remote}}/event/2022cokc
 
-### Add event
-POST {{Remote}}/event
+### Add team
+POST {{Remote}}/event/2022cokc/team
 Content-Type: application/json
 
 {
-  "_id": "2022cokc"
+  "_id": 9991
+}
+
+### Update event
+PUT {{Remote}}/event/2022cokc
+Content-Type: application/json
+
+{
+  "teams": [{"_id":1339},{"_id":1410},{"_id":1619},{"_id":1799},{"_id":1977},{"_id":2036},{"_id":2083},{"_id":2240},{"_id":2945},{"_id":2996},{"_id":3200},{"_id":3374},{"_id":3648},{"_id":3807},{"_id":4068},{"_id":4175},{"_id":4293},{"_id":4388},{"_id":4418},{"_id":4499},{"_id":4550},{"_id":4944},{"_id":5493},{"_id":7737}]
 }
 
 
